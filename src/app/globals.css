@@ -1,26 +1,255 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------
+   Semantic tokens — dark only. This is the site's one visual world.
+   --------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #05060a;
+  --surface: #090b12;
+  --surface-2: #0d0f19;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #f4f5f9;
+  --muted: #9396a8;
+  --brand: #8b7bff;
+  --brand-strong: #5b4fd6;
+  --brand-bright: #a78bfa;
+  --brand-tint: rgba(139, 123, 255, 0.12);
+  --cyan: #22d3ee;
+  --silver: #7b7e8f;
+  --on-brand: #f6f5ff;
+
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --glow-violet: rgba(139, 123, 255, 0.35);
+  --glow-cyan: rgba(34, 211, 238, 0.25);
 }
 
+/* ---------------------------------------------------------------
+   Expose tokens to Tailwind (bg-brand, text-muted, border-line …)
+   --------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-bright: var(--brand-bright);
+  --color-brand-tint: var(--brand-tint);
+  --color-cyan: var(--cyan);
+  --color-silver: var(--silver);
+  --color-on-brand: var(--on-brand);
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+
+  --font-display: var(--font-manrope), "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --spacing-section: clamp(5rem, 12vw, 9rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------------------------------------------------------------
+   Base
+   --------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+/* Defensive: no horizontal scroll from a stray decorative element on any
+   screen size, however a section is built. */
+html, body { overflow-x: hidden; max-width: 100vw; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+/* Set once, in JS, only for pointer:fine + motion-ok visitors */
+body.custom-cursor-active,
+body.custom-cursor-active a,
+body.custom-cursor-active button {
+  cursor: none;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+a { color: inherit; text-decoration: none; }
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--brand-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection { background: var(--brand-tint); color: var(--text); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* No-JS fallback: never leave motion-hidden content invisible */
+.no-js .reveal-item { opacity: 1 !important; transform: none !important; }
+
+/* Utility: fine-tuned tabular figures for spec rows */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* Thin, on-brand scrollbar for horizontally-scrollable strips (Firefox + WebKit) */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+.thin-scroll::-webkit-scrollbar { height: 5px; width: 5px; }
+.thin-scroll::-webkit-scrollbar-track { background: transparent; }
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+/* Scoped light scrollbar for the light-themed services-demo widget */
+.demo-panel { scrollbar-width: thin; scrollbar-color: #d8d3e5 transparent; }
+.demo-panel ::-webkit-scrollbar { width: 5px; height: 5px; }
+.demo-panel ::-webkit-scrollbar-track { background: transparent; }
+.demo-panel ::-webkit-scrollbar-thumb { background: #d8d3e5; border-radius: 999px; }
+.demo-panel ::-webkit-scrollbar-thumb:hover { background: #5b2c87; }
+.demo-panel ::selection { background: #ede7f8; color: #1b1424; }
+
+/* ---------------------------------------------------------------
+   Layer 2 — the almost-invisible background grid
+   --------------------------------------------------------------- */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* Gradient text — violet → indigo → cyan */
+.text-gradient {
+  background: linear-gradient(90deg, var(--brand-bright), var(--brand), var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Glass surface primitive */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Mouse-tracking radial glow on glass cards (desktop only, set via JS) */
+.glow-follow {
+  position: relative;
+}
+.glow-follow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    var(--glow-violet),
+    transparent 42%
+  );
+  pointer-events: none;
+}
+.glow-follow:hover::before { opacity: 1; }
+@media (hover: none), (pointer: coarse) {
+  .glow-follow::before { display: none; }
+}
+
+/* Marquee */
+@keyframes enaryx-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+.animate-marquee { animation: enaryx-marquee 34s linear infinite; }
+
+@keyframes enaryx-service-roll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-service-roll { animation: enaryx-service-roll 26s linear infinite; }
+
+/* Ticker caret */
+@keyframes enaryx-blink { 50% { opacity: 0; } }
+.enaryx-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background: var(--brand-bright);
+  vertical-align: -0.15em;
+  margin-left: 0.1em;
+  animation: enaryx-blink 1.1s step-end infinite;
+}
+
+/* Custom cursor — a single small gradient arrow, nothing else */
+.cursor-arrow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.15s ease;
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-arrow { display: none; }
+}
+
+/* Primary nav: keep the native cursor (custom ring is opted out via
+   data-cursor-skip) and swap hover feedback for a gradient underline. */
+.nav-native-cursor,
+.nav-native-cursor * {
+  cursor: auto !important;
+}
+.nav-underline {
+  background-image: linear-gradient(90deg, var(--brand-bright), var(--cyan));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.25s ease;
+  padding-bottom: 3px;
+}
+.nav-underline:hover,
+.nav-underline[data-active="true"] {
+  background-size: 100% 2px;
+}
+
+/* Big-statement word reveal */
+.word-reveal span {
+  display: inline-block;
+  will-change: transform, opacity;
 }

@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enaryx Labs</title>
+<meta name="description" content="Enaryx Labs is a product engineering studio. We turn ideas into intelligent, scalable products — web, mobile, and AI systems taken from first sketch to production.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#ffffff;
+  --surface:#f7f5fb;
+  --surface-2:#efeaf7;
+  --border:#e6e1ee;
+  --border-strong:#d6cde6;
+  --text:#1b1424;
+  --text-muted:#6e6880;
+  --brand:#5b2c87;
+  --brand-strong:#3a1a5c;
+  --brand-bright:#8b5cf6;
+  --brand-tint:#ede7f8;
+  --silver:#a9aab2;
+  --on-brand:#ffffff;
+
+  --font-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
+  --font-body:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,'Cascadia Code',Consolas,monospace;
+
+  --step-0:0.8125rem;
+  --step-1:1rem;
+  --step-2:1.1875rem;
+  --step-3:1.5rem;
+  --step-4:2rem;
+  --step-5:clamp(2.4rem,1.4rem + 4.5vw,4rem);
+  --step-6:clamp(3rem,1.6rem + 6vw,5.25rem);
+
+  --maxw:1180px;
+  --gutter:clamp(1.25rem,5vw,4rem);
+}
+
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#120e19;
+    --surface:#1a1524;
+    --surface-2:#231b33;
+    --border:#2e2740;
+    --border-strong:#3b3350;
+    --text:#f3effa;
+    --text-muted:#a79fb8;
+    --brand:#a78bfa;
+    --brand-strong:#2c1c44;
+    --brand-bright:#8b5cf6;
+    --brand-tint:#241b36;
+    --silver:#8f909b;
+    --on-brand:#f7f4ff;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#120e19;
+  --surface:#1a1524;
+  --surface-2:#231b33;
+  --border:#2e2740;
+  --border-strong:#3b3350;
+  --text:#f3effa;
+  --text-muted:#a79fb8;
+  --brand:#a78bfa;
+  --brand-strong:#2c1c44;
+  --brand-bright:#8b5cf6;
+  --brand-tint:#241b36;
+  --silver:#8f909b;
+  --on-brand:#f7f4ff;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:var(--step-1);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.06;margin:0;text-wrap:balance;letter-spacing:-0.02em}
+p{margin:0}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+
+.label{
+  font-family:var(--font-mono);
+  font-size:var(--step-0);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--text-muted);
+}
+
+/* buttons */
+.btn{
+  --_bg:var(--brand);--_fg:var(--on-brand);--_bd:var(--brand);
+  display:inline-flex;align-items:center;gap:0.55em;
+  font-family:var(--font-mono);font-size:var(--step-0);letter-spacing:0.04em;
+  padding:0.85em 1.35em;border:1px solid var(--_bd);
+  background:var(--_bg);color:var(--_fg);
+  text-decoration:none;cursor:pointer;border-radius:2px;
+  transition:transform .15s ease,background .15s ease,border-color .15s ease;
+}
+.btn:hover{background:var(--brand-strong);border-color:var(--brand-strong);transform:translateY(-1px)}
+:root[data-theme="dark"] .btn,
+:root:not([data-theme="light"]) .btn{color:#1a1024}
+:root[data-theme="dark"] .btn:hover,
+:root:not([data-theme="light"]) .btn:hover{background:var(--brand-strong);border-color:var(--brand-strong);color:var(--text)}
+.btn--ghost{--_bg:transparent;--_fg:var(--text);--_bd:var(--border-strong)}
+.btn--ghost:hover{background:var(--surface);border-color:var(--brand);color:var(--text);transform:translateY(-1px)}
+:root[data-theme="dark"] .btn--ghost,
+:root:not([data-theme="light"]) .btn--ghost{color:var(--text)}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--brand-bright);outline-offset:3px}
+
+/* header */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb,var(--bg) 86%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.site-header .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:1.5rem}
+.brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;flex-shrink:0}
+.logo-mark{width:30px;height:30px}
+.logo-mark circle{fill:var(--brand)}
+.logo-mark path{stroke:var(--bg);stroke-width:2.6;stroke-linecap:square;fill:none}
+.wordmark{font-family:var(--font-display);font-weight:700;font-size:1.02rem;letter-spacing:-0.01em}
+.wordmark span{font-family:var(--font-mono);font-weight:400;font-size:0.7rem;letter-spacing:0.22em;color:var(--text-muted);margin-left:0.15rem}
+.nav{display:flex;align-items:center;gap:1.75rem}
+.nav a{font-family:var(--font-mono);font-size:var(--step-0);letter-spacing:0.03em;text-decoration:none;color:var(--text-muted);transition:color .15s ease}
+.nav a:hover{color:var(--text)}
+.header-actions{display:flex;align-items:center;gap:0.9rem}
+.theme-toggle{
+  font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--border-strong);color:var(--text-muted);
+  padding:0.5em 0.7em;cursor:pointer;border-radius:2px;transition:border-color .15s ease,color .15s ease;
+}
+.theme-toggle:hover{border-color:var(--brand);color:var(--text)}
+.menu-btn{display:none}
+
+/* section scaffold */
+.section{border-top:1px solid var(--border)}
+.section .wrap{padding-block:clamp(3.5rem,8vw,7rem)}
+.section-head{display:flex;flex-direction:column;gap:0.9rem;margin-bottom:2.75rem;max-width:44ch}
+.section-head h2{font-size:var(--step-4)}
+.section-head p{color:var(--text-muted)}
+
+/* hero */
+.hero{position:relative;overflow:hidden}
+.hero .wrap{padding-top:clamp(3.5rem,9vw,6.5rem);padding-bottom:clamp(3rem,7vw,5rem)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:1.6rem}
+.hero-eyebrow::before{content:"";width:1.6rem;height:1px;background:var(--brand)}
+.hero h1{font-size:var(--step-6);max-width:16ch}
+.hero-lede{margin-top:1.6rem;max-width:52ch;font-size:var(--step-2);color:var(--text-muted)}
+.hero-cta{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:0.9rem}
+
+.terminal{
+  margin-top:3.25rem;border:1px solid var(--border-strong);border-radius:4px;
+  background:var(--surface);overflow:hidden;max-width:640px;
+}
+.terminal-bar{display:flex;align-items:center;gap:0.45rem;padding:0.7rem 0.9rem;border-bottom:1px solid var(--border)}
+.terminal-bar i{width:9px;height:9px;border-radius:50%;background:var(--silver);opacity:0.7}
+.terminal-bar span{margin-left:auto;font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted)}
+.terminal-body{padding:1.1rem 1.1rem 1.3rem;font-family:var(--font-mono);font-size:0.9rem;min-height:2.6em}
+.terminal-body .prompt{color:var(--brand)}
+.terminal-body .line{color:var(--text)}
+.cursor{display:inline-block;width:0.55em;height:1.05em;background:var(--brand-bright);vertical-align:-0.18em;margin-left:0.15em;animation:blink 1.1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:3.25rem}
+.trust div{background:var(--bg);padding:1.2rem 1.3rem}
+.trust dt{font-family:var(--font-display);font-weight:700;font-size:var(--step-2);letter-spacing:-0.01em}
+.trust dd{margin:0.3rem 0 0;font-family:var(--font-mono);font-size:var(--step-0);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em}
+
+/* services — spec-sheet rows */
+.spec-list{border-top:1px solid var(--border)}
+.spec-row{
+  display:grid;grid-template-columns:8.5rem 1fr;gap:0.55rem 2.5rem;
+  padding:1.7rem 0.5rem;border-bottom:1px solid var(--border);
+  transition:background .18s ease,padding .18s ease;
+}
+.spec-row:hover{background:var(--surface);padding-left:1rem}
+.spec-row .idx{grid-column:1;grid-row:1;font-family:var(--font-mono);font-size:var(--step-0);color:var(--brand);letter-spacing:0.05em}
+.spec-row .tag{grid-column:1;grid-row:2;align-self:start;font-family:var(--font-mono);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted)}
+.spec-row h3{grid-column:2;grid-row:1;font-size:var(--step-3);font-weight:600}
+.spec-row p{grid-column:2;grid-row:2;color:var(--text-muted);max-width:60ch}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.step{background:var(--bg);padding:2rem 1.6rem;display:flex;flex-direction:column;gap:0.8rem}
+.step .num{font-family:var(--font-display);font-weight:700;font-size:2.6rem;line-height:1;color:var(--brand-tint);-webkit-text-stroke:1px var(--brand);letter-spacing:-0.03em}
+:root[data-theme="dark"] .step .num,
+:root:not([data-theme="light"]) .step .num{color:transparent}
+.step h3{font-size:var(--step-2);font-weight:600}
+.step p{color:var(--text-muted);font-size:var(--step-0)}
+
+/* work */
+.case{display:grid;grid-template-columns:1.1fr 0.9fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+.case .label{margin-bottom:1rem;display:block}
+.case h3{font-size:var(--step-4);margin-bottom:1rem}
+.case p{color:var(--text-muted);max-width:46ch}
+.chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.6rem}
+.chip{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.04em;padding:0.4em 0.7em;border:1px solid var(--border-strong);border-radius:2px;color:var(--text-muted)}
+.stack{border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.stack-layer{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:1rem 1.15rem;border-bottom:1px solid var(--border);align-items:baseline}
+.stack-layer:last-child{border-bottom:0}
+.stack-layer:first-child{background:var(--brand-tint)}
+.stack-layer b{font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand)}
+.stack-layer span{font-size:var(--step-0);color:var(--text-muted)}
+.stack-layer:first-child span{color:var(--text)}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,4rem)}
+.about-grid p + p{margin-top:1.1rem}
+.about-grid .lead{font-family:var(--font-display);font-weight:600;font-size:var(--step-3);line-height:1.25;letter-spacing:-0.015em;color:var(--text)}
+.principles{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.principles li{padding:1rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1.4rem 1fr;gap:0.9rem;font-size:var(--step-0)}
+.principles li::before{content:"›";color:var(--brand);font-family:var(--font-mono)}
+.principles li:first-child{border-top:1px solid var(--border)}
+
+/* contact band */
+.contact{background:var(--brand);color:var(--on-brand);border-top:1px solid var(--brand)}
+:root:not([data-theme="light"]) .contact,
+:root[data-theme="dark"] .contact{background:var(--brand-strong);border-color:var(--brand-strong)}
+.contact .wrap{padding-block:clamp(3.5rem,8vw,6rem)}
+.contact .label{color:color-mix(in srgb,var(--on-brand) 70%,transparent)}
+.contact h2{font-size:var(--step-5);max-width:15ch;margin:1rem 0 1.25rem;color:var(--on-brand)}
+.contact p{max-width:52ch;color:color-mix(in srgb,var(--on-brand) 82%,transparent)}
+.contact-cta{margin-top:2rem;display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem}
+.contact .btn{--_bg:var(--on-brand);--_fg:var(--brand-strong);--_bd:var(--on-brand)}
+.contact .btn:hover{background:transparent;color:var(--on-brand);border-color:var(--on-brand)}
+:root:not([data-theme="light"]) .contact .btn:hover,
+:root[data-theme="dark"] .contact .btn:hover{background:transparent;color:var(--on-brand);border-color:var(--on-brand)}
+.contact-meta{font-family:var(--font-mono);font-size:var(--step-0);letter-spacing:0.03em;color:color-mix(in srgb,var(--on-brand) 78%,transparent)}
+.contact-meta a{text-decoration:none}
+.contact-meta a:hover{text-decoration:underline}
+
+/* footer */
+.site-footer{background:var(--brand-strong);color:#d9d2e6}
+:root:not([data-theme="light"]) .site-footer,
+:root[data-theme="dark"] .site-footer{background:#0d0a13;color:var(--text-muted)}
+.site-footer .wrap{padding-block:2.5rem;display:flex;flex-wrap:wrap;gap:1.5rem 3rem;align-items:center;justify-content:space-between}
+.site-footer .brand .logo-mark circle{fill:var(--silver)}
+.site-footer .brand .logo-mark path{stroke:var(--brand-strong)}
+:root:not([data-theme="light"]) .site-footer .brand .logo-mark path,
+:root[data-theme="dark"] .site-footer .brand .logo-mark path{stroke:#0d0a13}
+.site-footer .wordmark{color:#efe9f6}
+:root:not([data-theme="light"]) .site-footer .wordmark,
+:root[data-theme="dark"] .site-footer .wordmark{color:var(--text)}
+.site-footer .wordmark span{color:var(--silver)}
+.footer-nav{display:flex;gap:1.5rem;font-family:var(--font-mono);font-size:var(--step-0)}
+.footer-nav a{text-decoration:none;opacity:0.85}
+.footer-nav a:hover{opacity:1;text-decoration:underline}
+.footer-legal{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.04em;width:100%;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);padding-top:1.4rem;color:inherit;opacity:0.7}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* responsive */
+@media (max-width:900px){
+  .case{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .nav,.header-actions .btn{display:none}
+  .menu-btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:40px;height:40px;background:transparent;border:1px solid var(--border-strong);
+    border-radius:2px;cursor:pointer;color:var(--text);
+  }
+  .menu-btn svg{width:18px;height:18px}
+  .mobile-nav{
+    display:none;flex-direction:column;border-bottom:1px solid var(--border);background:var(--bg);
+  }
+  .mobile-nav.open{display:flex}
+  .mobile-nav a{
+    padding:1rem var(--gutter);border-top:1px solid var(--border);
+    font-family:var(--font-mono);font-size:var(--step-0);text-decoration:none;color:var(--text-muted);
+  }
+  .mobile-nav a:hover{color:var(--text)}
+  .trust{grid-template-columns:1fr}
+  .spec-row{grid-template-columns:1fr;gap:0.3rem}
+  .spec-row .idx,.spec-row .tag,.spec-row h3,.spec-row p{grid-column:1;grid-row:auto}
+  .spec-row h3{margin-top:0.2rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Enaryx Labs home">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19"></circle>
+        <path d="M13 13 H27 M13 20 H23 M13 27 H27 M13 13 V27"></path>
+      </svg>
+      <span class="wordmark">ENARYX<span>LABS</span></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" aria-label="Switch color theme">Theme</button>
+      <a class="btn" href="#contact">Start a project</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="hero">
+    <div class="wrap">
+      <span class="hero-eyebrow label">Product engineering studio</span>
+      <h1>Engineering digital possibilities.</h1>
+      <p class="hero-lede">Enaryx Labs turns ideas into intelligent, scalable products. We take web, mobile, and AI systems from first sketch to production — and stay until they hold up under real load.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#contact">Start a project</a>
+        <a class="btn btn--ghost" href="#work">See our work</a>
+      </div>
+
+      <div class="terminal reveal" aria-hidden="true">
+        <div class="terminal-bar"><i></i><i></i><i></i><span>enaryx.build</span></div>
+        <div class="terminal-body"><span class="prompt">›&nbsp;</span><span class="line" id="ticker">think() → build() → scale()</span><span class="cursor"></span></div>
+      </div>
+
+      <dl class="trust reveal">
+        <div><dt>Concept → production</dt><dd>one senior team</dd></div>
+        <div><dt>Weekly</dt><dd>release cadence</dd></div>
+        <div><dt>Staging URL</dt><dd>from week one</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="label">01 — Services</span>
+        <h2>What we build</h2>
+        <p>Five practices, one delivery team. Most engagements combine two or three.</p>
+      </div>
+      <div class="spec-list reveal">
+        <div class="spec-row">
+          <span class="idx">S-01</span><span class="tag">Web</span>
+          <h3>Web development</h3>
+          <p>Marketing sites, web apps, and internal tools on modern stacks — Next.js, TypeScript, and a component system your team can keep extending after we hand it over.</p>
+        </div>
+        <div class="spec-row">
+          <span class="idx">S-02</span><span class="tag">Mobile</span>
+          <h3>Mobile development</h3>
+          <p>Native-feeling iOS and Android apps from a single codebase, with offline support, push notifications, and store submission handled end to end.</p>
+        </div>
+        <div class="spec-row">
+          <span class="idx">S-03</span><span class="tag">AI</span>
+          <h3>AI solutions</h3>
+          <p>Retrieval pipelines, document extraction, and agent workflows wired into your product — evaluated against real data, guardrailed, and shipped with a fallback path.</p>
+        </div>
+        <div class="spec-row">
+          <span class="idx">S-04</span><span class="tag">SaaS</span>
+          <h3>SaaS products</h3>
+          <p>Multi-tenant platforms with authentication, billing, roles, and analytics. The unglamorous foundation, done right the first time so it doesn't get rebuilt later.</p>
+        </div>
+        <div class="spec-row">
+          <span class="idx">S-05</span><span class="tag">Automation</span>
+          <h3>Automation &amp; integration</h3>
+          <p>Connect the tools you already run. Data syncs, background jobs, and workflows that remove the manual steps between systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="label">02 — Process</span>
+        <h2>Think. Build. Scale.</h2>
+        <p>A sequence, not a menu. Each phase has a deliverable you can see before the next one starts.</p>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <span class="num">01</span>
+          <h3>Think</h3>
+          <p>Discovery, scope, and architecture. We pressure-test the idea, map the build, and agree on what "done" means before a line of production code is written.</p>
+        </div>
+        <div class="step">
+          <span class="num">02</span>
+          <h3>Build</h3>
+          <p>Design and engineering move together in weekly releases you can click. A staging URL exists from the first week, so progress is never a status report.</p>
+        </div>
+        <div class="step">
+          <span class="num">03</span>
+          <h3>Scale</h3>
+          <p>Deployment, monitoring, and handover. Your team gets the keys, the documentation, and a system instrumented to hold up as usage grows.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="label">03 — Work</span>
+        <h2>Selected work</h2>
+        <p>A recent build, front to back. More case studies available on request.</p>
+      </div>
+      <div class="case reveal">
+        <div>
+          <span class="label">Case 01 — Legal / healthcare</span>
+          <h3>Smart Med Records</h3>
+          <p>A multi-tenant platform for medical-legal records review: separate client, admin, reviewer, and billing portals; a guided case workflow mirroring the review SOP; consolidated invoicing with payment-gated deliverables; and an AI pipeline that extracts structured data from uploaded records.</p>
+          <div class="chips">
+            <span class="chip">Next.js</span>
+            <span class="chip">NestJS</span>
+            <span class="chip">PostgreSQL</span>
+            <span class="chip">Prisma</span>
+            <span class="chip">Role-based access</span>
+            <span class="chip">AI extraction</span>
+          </div>
+        </div>
+        <div class="stack" aria-label="System architecture, in layers">
+          <div class="stack-layer"><b>Interface</b><span>Client &amp; staff portals, role-scoped views</span></div>
+          <div class="stack-layer"><b>Services</b><span>REST API, authentication, RBAC, invoicing</span></div>
+          <div class="stack-layer"><b>Processing</b><span>Background jobs, document &amp; AI extraction</span></div>
+          <div class="stack-layer"><b>Data</b><span>PostgreSQL, document storage, audit log</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="label">04 — About</span>
+        <h2>Enaryx Labs</h2>
+      </div>
+      <div class="about-grid reveal">
+        <div>
+          <p class="lead">We're a small studio that works like an in-house team — senior people, shipping weekly, accountable through to production.</p>
+          <p>Enaryx Labs was built on a simple preference: fewer projects, done properly. We take on work where the problem is interesting and the path to shipping is real, then we commit a full team to it rather than spreading thin.</p>
+          <p>We're stack-opinionated but not dogmatic. TypeScript end to end, boring infrastructure, and AI where it earns its place — not because it's on the roadmap slide.</p>
+        </div>
+        <ul class="principles">
+          <li>Ship something clickable in week one, every time.</li>
+          <li>Write the code the client's team can read and extend.</li>
+          <li>Infrastructure should be boring and observable.</li>
+          <li>Say no to scope that won't survive contact with users.</li>
+          <li>Hand over docs, access, and a system — not a black box.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <span class="label">05 — Contact</span>
+      <h2>Have something to build?</h2>
+      <p>Tell us where you are — an idea on a napkin, a prototype that needs a real backend, or a product that has to move faster. We'll come back with scope, a timeline, and a straight answer on whether we're the right team.</p>
+      <div class="contact-cta">
+        <a class="btn" href="mailto:hello@enaryxlabs.com?subject=Project%20inquiry">Start a project</a>
+        <span class="contact-meta"><a href="mailto:hello@enaryxlabs.com">hello@enaryxlabs.com</a> &nbsp;·&nbsp; <a href="https://enaryxlabs.com">enaryxlabs.com</a></span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Enaryx Labs home">
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="19"></circle>
+        <path d="M13 13 H27 M13 20 H23 M13 27 H27 M13 13 V27"></path>
+      </svg>
+      <span class="wordmark">ENARYX<span>LABS</span></span>
+    </a>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <p class="footer-legal">© <span id="year">2026</span> Enaryx Labs — Think. Build. Scale. · enaryxlabs.com</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var STORE='enaryx-theme';
+  var toggle=document.querySelector('.theme-toggle');
+
+  function stored(){try{return localStorage.getItem(STORE)}catch(e){return null}}
+  function save(v){try{localStorage.setItem(STORE,v)}catch(e){}}
+
+  var initial=stored();
+  if(initial==='light'||initial==='dark'){root.setAttribute('data-theme',initial);}
+
+  function current(){
+    var t=root.getAttribute('data-theme');
+    if(t)return t;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  }
+  if(toggle){
+    toggle.addEventListener('click',function(){
+      var next=current()==='dark'?'light':'dark';
+      root.setAttribute('data-theme',next);
+      save(next);
+    });
+  }
+
+  // mobile nav
+  var menuBtn=document.querySelector('.menu-btn');
+  var mobileNav=document.getElementById('mobile-nav');
+  if(menuBtn&&mobileNav){
+    menuBtn.addEventListener('click',function(){
+      var open=mobileNav.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded',String(open));
+    });
+    mobileNav.addEventListener('click',function(e){
+      if(e.target.tagName==='A'){mobileNav.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+    });
+  }
+
+  // year
+  var y=document.getElementById('year');
+  if(y)y.textContent=new Date().getFullYear();
+
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // reveal
+  var items=document.querySelectorAll('.reveal');
+  if(reduce||!('IntersectionObserver'in window)){
+    items.forEach(function(el){el.classList.add('is-visible')});
+  }else{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){en.target.classList.add('is-visible');io.unobserve(en.target);}
+      });
+    },{rootMargin:'0px 0px -10% 0px'});
+    items.forEach(function(el){io.observe(el)});
+  }
+
+  // hero ticker
+  var ticker=document.getElementById('ticker');
+  if(ticker&&!reduce){
+    var lines=[
+      'think() → build() → scale()',
+      'strategy · design · engineering · deployment',
+      'enaryx.build(idea) → product',
+      'from first sketch to production'
+    ];
+    var i=0;
+    setInterval(function(){
+      i=(i+1)%lines.length;
+      ticker.style.opacity='0';
+      setTimeout(function(){ticker.textContent=lines[i];ticker.style.opacity='1';},260);
+    },3200);
+    ticker.style.transition='opacity .25s ease';
+  }
+})();
+</script>
+
+</body>
+</html>
