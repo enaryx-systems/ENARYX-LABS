@@ -23,10 +23,20 @@ function getEnabledSnapshot() {
  * entirely on touch/small screens and under reduced-motion: the glow orb
  * (plain CSS) still renders so the hero never looks empty.
  */
+function subscribeToTheme(onChange: () => void) {
+  const obs = new MutationObserver(onChange);
+  obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  return () => obs.disconnect();
+}
+function getThemeSnapshot() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
 export function HeroNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const enabled = useSyncExternalStore(subscribeToResize, getEnabledSnapshot, () => false);
+  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => "light");
 
   useEffect(() => {
     if (!enabled) return;
@@ -44,8 +54,10 @@ export function HeroNetwork() {
     const mouse = { x: -9999, y: -9999 };
 
     const styles = getComputedStyle(document.documentElement);
-    const lineColor = "244,245,249";
-    const nodeColor = styles.getPropertyValue("--brand-bright").trim() || "#a78bfa";
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    // Connecting lines: light ink on the light theme, light on dark.
+    const lineColor = isDark ? "244,245,249" : "60,45,110";
+    const nodeColor = styles.getPropertyValue("--brand-bright").trim() || "#7c3aed";
 
     function resize() {
       if (!canvas || !wrap) return;
@@ -109,7 +121,7 @@ export function HeroNetwork() {
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120) {
-            ctx!.strokeStyle = `rgba(${lineColor},${(1 - dist / 120) * 0.12})`;
+            ctx!.strokeStyle = `rgba(${lineColor},${(1 - dist / 120) * (isDark ? 0.12 : 0.16)})`;
             ctx!.lineWidth = 1;
             ctx!.beginPath();
             ctx!.moveTo(a.x, a.y);
@@ -145,7 +157,7 @@ export function HeroNetwork() {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerleave", onLeave);
     };
-  }, [enabled]);
+  }, [enabled, theme]);
 
   return (
     <div ref={wrapRef} className="relative aspect-square w-full max-w-[480px]">
@@ -153,7 +165,7 @@ export function HeroNetwork() {
         className="absolute left-1/2 top-1/2 h-[55%] w-[55%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[70px]"
         style={{
           background:
-            "radial-gradient(circle, var(--glow-violet), var(--glow-cyan) 60%, transparent 75%)",
+            "radial-gradient(circle, var(--glow-violet), transparent 72%)",
         }}
         aria-hidden
       />

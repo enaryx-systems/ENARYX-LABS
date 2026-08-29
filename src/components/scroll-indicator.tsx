@@ -13,7 +13,7 @@ export function ScrollIndicator() {
         </span>
         <div className="h-8 w-px overflow-hidden bg-line">
           <motion.div
-            className="h-full w-full bg-[linear-gradient(180deg,var(--brand-bright),var(--cyan))]"
+            className="h-full w-full bg-[linear-gradient(180deg,var(--brand-bright),var(--brand))]"
             initial={{ scaleY: 0.2, originY: 0 }}
             animate={
               reduced

@@ -1,28 +1,79 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------
-   Semantic tokens — dark only. This is the site's one visual world.
+   Semantic tokens.
+
+   The site is LIGHT-FIRST: bare :root is the light theme and the
+   primary experience. :root[data-theme="dark"] is the opt-in dark
+   theme, applied by a no-flash inline script in the root layout
+   (localStorage key: "enaryx-theme"). There is no prefers-color-scheme
+   auto-switch — the toggle is the single source of truth.
+
+   Brand identity: deep Enaryx purple + electric purple + black +
+   white + metallic silver. No cyan, no other hues.
    --------------------------------------------------------------- */
 :root {
-  --bg: #05060a;
-  --surface: #090b12;
-  --surface-2: #0d0f19;
+  --bg: #ffffff;
+  --bg-2: #f7f6fb;               /* very subtle lavender-white */
+  --surface: #ffffff;
+  --surface-2: #f4f2fb;
+  --ink: #0b0812;                /* near-black + purple undertone — dark contrast sections */
+  --ink-2: #120c20;
+
+  --line: rgba(18, 10, 40, 0.10);
+  --line-strong: rgba(18, 10, 40, 0.17);
+
+  --text: #14101f;              /* near-black on light */
+  --muted: #57516b;             /* ~7:1 on white */
+
+  --brand: #5b21b6;            /* deep Enaryx purple — primary */
+  --brand-strong: #3b0f73;
+  --brand-bright: #7c3aed;     /* electric / lighter purple — secondary */
+  --brand-tint: rgba(124, 58, 237, 0.08);
+  --silver: #8b8497;           /* metallic accent */
+  --on-brand: #ffffff;
+
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-strong: rgba(255, 255, 255, 0.8);
+  --glow-violet: rgba(124, 58, 237, 0.20);
+  --grid-line: rgba(18, 10, 40, 0.045);
+
+  --card-shadow: 0 1px 2px rgba(20, 14, 40, 0.04), 0 16px 40px -20px rgba(30, 20, 60, 0.16);
+  --card-shadow-hover: 0 2px 6px rgba(20, 14, 40, 0.06), 0 26px 60px -22px rgba(60, 30, 110, 0.24);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #070510;
+  --bg-2: #0a0714;
+  --surface: #0b0815;
+  --surface-2: #100b1d;
+  --ink: #050308;
+  --ink-2: #0a0713;
+
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.16);
+
   --text: #f4f5f9;
-  --muted: #9396a8;
+  --muted: #9c97ac;
+
   --brand: #8b7bff;
   --brand-strong: #5b4fd6;
   --brand-bright: #a78bfa;
-  --brand-tint: rgba(139, 123, 255, 0.12);
-  --cyan: #22d3ee;
-  --silver: #7b7e8f;
+  --brand-tint: rgba(139, 123, 255, 0.14);
+  --silver: #c6c9d6;           /* light metallic — logo / wordmark in dark */
   --on-brand: #f6f5ff;
 
   --glass: rgba(255, 255, 255, 0.04);
   --glass-strong: rgba(255, 255, 255, 0.07);
   --glow-violet: rgba(139, 123, 255, 0.35);
-  --glow-cyan: rgba(34, 211, 238, 0.25);
+  --grid-line: rgba(255, 255, 255, 0.035);
+
+  --card-shadow: none;
+  --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.25);
+
+  color-scheme: dark;
 }
 
 /* ---------------------------------------------------------------
@@ -30,8 +81,11 @@
    --------------------------------------------------------------- */
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-text: var(--text);
@@ -40,7 +94,6 @@
   --color-brand-strong: var(--brand-strong);
   --color-brand-bright: var(--brand-bright);
   --color-brand-tint: var(--brand-tint);
-  --color-cyan: var(--cyan);
   --color-silver: var(--silver);
   --color-on-brand: var(--on-brand);
   --color-glass: var(--glass);
@@ -58,13 +111,15 @@
    --------------------------------------------------------------- */
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-
-/* Defensive: no horizontal scroll from a stray decorative element on any
-   screen size, however a section is built. (html only, not body — setting
-   this on body too forces overflow-y to `auto` per spec, which can turn
-   body into a scroll container of its own and break position: sticky.) */
-html { overflow-x: hidden; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Defensive: no horizontal scroll from a stray decorative element on any
+     screen size. (html only, not body — setting this on body too forces
+     overflow-y:auto per spec, which can turn body into its own scroll
+     container and break position: sticky.) */
+  overflow-x: hidden;
+}
 
 body {
   background: var(--bg);
@@ -73,6 +128,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 /* Set once, in JS, only for pointer:fine + motion-ok visitors */
 body.custom-cursor-active,
@@ -127,12 +183,12 @@ a { color: inherit; text-decoration: none; }
 }
 .thin-scroll::-webkit-scrollbar-thumb:hover { background: var(--brand); }
 
-/* Scoped light scrollbar for the light-themed services-demo widget */
+/* Scoped light scrollbar for the always-light services-demo widget */
 .demo-panel { scrollbar-width: thin; scrollbar-color: #d8d3e5 transparent; }
 .demo-panel ::-webkit-scrollbar { width: 5px; height: 5px; }
 .demo-panel ::-webkit-scrollbar-track { background: transparent; }
 .demo-panel ::-webkit-scrollbar-thumb { background: #d8d3e5; border-radius: 999px; }
-.demo-panel ::-webkit-scrollbar-thumb:hover { background: #5b2c87; }
+.demo-panel ::-webkit-scrollbar-thumb:hover { background: #5b21b6; }
 .demo-panel ::selection { background: #ede7f8; color: #1b1424; }
 
 /* ---------------------------------------------------------------
@@ -144,16 +200,16 @@ a { color: inherit; text-decoration: none; }
   z-index: -10;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 64px 64px;
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
   mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
 }
 
-/* Gradient text — violet → indigo → cyan */
+/* Gradient text — electric purple → deep purple (monochrome, no cyan) */
 .text-gradient {
-  background: linear-gradient(90deg, var(--brand-bright), var(--brand), var(--cyan));
+  background: linear-gradient(90deg, var(--brand-bright), var(--brand));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -163,9 +219,11 @@ a { color: inherit; text-decoration: none; }
 .glass {
   background: var(--glass);
   border: 1px solid var(--line);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--card-shadow);
 }
+:root[data-theme="dark"] .glass { box-shadow: none; }
 
 /* Mouse-tracking radial glow on glass cards (desktop only, set via JS) */
 .glow-follow {
@@ -181,7 +239,7 @@ a { color: inherit; text-decoration: none; }
   background: radial-gradient(
     circle at var(--mx, 50%) var(--my, 50%),
     var(--glow-violet),
-    transparent 42%
+    transparent 45%
   );
   pointer-events: none;
 }
@@ -224,7 +282,7 @@ a { color: inherit; text-decoration: none; }
   height: 20px;
   pointer-events: none;
   z-index: 9999;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 5px rgba(20, 12, 40, 0.35));
   transition: opacity 0.15s ease;
 }
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
@@ -238,7 +296,7 @@ a { color: inherit; text-decoration: none; }
   cursor: auto !important;
 }
 .nav-underline {
-  background-image: linear-gradient(90deg, var(--brand-bright), var(--cyan));
+  background-image: linear-gradient(90deg, var(--brand-bright), var(--brand));
   background-repeat: no-repeat;
   background-position: 0 100%;
   background-size: 0% 2px;
@@ -255,3 +313,42 @@ a { color: inherit; text-decoration: none; }
   display: inline-block;
   will-change: transform, opacity;
 }
+
+/* ---------------------------------------------------------------
+   Dark contrast band on a light page. Redefines the semantic tokens
+   for its subtree so nested components (cards, muted text, glass,
+   borders) adapt automatically. On the dark theme it's a no-op-ish
+   band that stays consistent with the page.
+   --------------------------------------------------------------- */
+.section-dark {
+  --bg: #070510;
+  --bg-2: #0a0714;
+  --surface: #0b0815;
+  --surface-2: #100b1d;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+  --text: #f4f5f9;
+  --muted: #9c97ac;
+  --brand: #8b7bff;
+  --brand-strong: #5b4fd6;
+  --brand-bright: #a78bfa;
+  --brand-tint: rgba(139, 123, 255, 0.14);
+  --silver: #c6c9d6;
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --glow-violet: rgba(139, 123, 255, 0.32);
+  --grid-line: rgba(255, 255, 255, 0.04);
+  --card-shadow: none;
+  --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.3);
+  background: var(--bg);
+  color: var(--text);
+}
+.section-dark .glass { box-shadow: none; }
+
+/* ---------------------------------------------------------------
+   Theme-aware logo asset swap (no JS, no flash).
+   <Logo> renders both variants; CSS shows the right one.
+   --------------------------------------------------------------- */
+.logo-dark { display: none; }
+:root[data-theme="dark"] .logo-light { display: none; }
+:root[data-theme="dark"] .logo-dark { display: inline-flex; }

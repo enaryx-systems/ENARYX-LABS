@@ -64,6 +64,7 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+  category: "technology",
   manifest: "/manifest.json",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
@@ -77,13 +78,31 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060a",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#070510" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
 
-// Dark is the site's only theme — this just flips the no-js CSS fallback off.
-const noJsScript = `document.documentElement.classList.remove('no-js');`;
+// Runs synchronously during HTML parse, before first paint:
+//  1. flip the no-js CSS fallback off
+//  2. apply the persisted theme (light-first — only override when a choice exists)
+const bootstrapScript = `document.documentElement.classList.remove('no-js');try{var t=localStorage.getItem('enaryx-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}`;
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  url: site.url,
+  description: site.description,
+  slogan: "Build what comes next.",
+  sameAs: [
+    "https://linkedin.com/company/enaryxlabs",
+    "https://x.com/enaryxlabs",
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -91,11 +110,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="light"
       className={`no-js ${manrope.variable} ${inter.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: noJsScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootstrapScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
       </head>
       <body className="min-h-dvh bg-bg text-text antialiased">
         <div className="bg-grid" aria-hidden />

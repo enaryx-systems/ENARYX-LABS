@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/primitives";
-import { nav } from "@/lib/site";
+import { allRoutes } from "@/lib/site";
 
 export default function NotFound() {
   return (
@@ -20,7 +20,7 @@ export default function NotFound() {
           aria-label="Recovery"
           className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[0.8125rem]"
         >
-          {nav.map((item, i) => (
+          {allRoutes.map((item, i) => (
             <Link
               key={item.href}
               href={item.href}

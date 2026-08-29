@@ -83,7 +83,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
             transition={{ duration: 0.2 }}
           >
             <div
-              className="fixed inset-0 bg-[#0b0710]/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-ink/45 backdrop-blur-sm"
               onClick={close}
               aria-hidden
             />
@@ -92,7 +92,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
               role="dialog"
               aria-modal="true"
               aria-labelledby="contact-modal-title"
-              className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-line-strong bg-gradient-to-br from-bg via-bg to-brand-tint/50 shadow-2xl"
+              className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-line-strong bg-surface shadow-[0_40px_100px_-30px_rgba(30,20,60,0.5)]"
               initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.96 }}
               animate={reduced ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
               exit={reduced ? { opacity: 0 } : { opacity: 0, y: 14, scale: 0.98 }}

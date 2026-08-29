@@ -3,7 +3,7 @@
 // back to whatever was last cached — or the offline page — when there's no
 // connection. Static assets are cached as they're requested.
 
-const VERSION = "enaryx-v1";
+const VERSION = "enaryx-v2";
 const OFFLINE_URL = "/offline";
 
 const APP_SHELL = [
@@ -11,6 +11,7 @@ const APP_SHELL = [
   "/services",
   "/process",
   "/work",
+  "/rnd",
   "/about",
   "/careers",
   "/contact",

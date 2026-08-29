@@ -78,7 +78,7 @@ export function Timeline({ steps }: { steps: Step[] }) {
       <div className="relative hidden lg:block">
         <div className="absolute left-0 right-0 top-[15px] h-px bg-line" aria-hidden />
         <motion.div
-          className="absolute left-0 top-[15px] h-px origin-left bg-[linear-gradient(90deg,var(--brand-bright),var(--cyan))]"
+          className="absolute left-0 top-[15px] h-px origin-left bg-[linear-gradient(90deg,var(--brand-bright),var(--brand))]"
           style={{ scaleX: reduced ? 1 : progress, right: 0 }}
           aria-hidden
         />
@@ -111,7 +111,7 @@ export function Timeline({ steps }: { steps: Step[] }) {
       <div className="relative flex flex-col gap-10 pl-9 lg:hidden">
         <div className="absolute left-[9px] top-1 bottom-1 w-px bg-line" aria-hidden />
         <motion.div
-          className="absolute left-[9px] top-1 w-px origin-top bg-[linear-gradient(180deg,var(--brand-bright),var(--cyan))]"
+          className="absolute left-[9px] top-1 w-px origin-top bg-[linear-gradient(180deg,var(--brand-bright),var(--brand))]"
           style={{ scaleY: reduced ? 1 : progress, bottom: 4 }}
           aria-hidden
         />

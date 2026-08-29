@@ -30,7 +30,8 @@ export function GradientCard({
     <Comp
       onPointerMove={onMove}
       className={cn(
-        "glass group relative overflow-hidden rounded-[24px] p-7 transition-[transform,border-color,background-color] duration-300 hover:-translate-y-1.5 hover:border-line-strong hover:bg-glass-strong",
+        "glass group relative overflow-hidden rounded-[24px] p-7 transition-[transform,border-color,background-color,box-shadow] duration-300",
+        "hover:-translate-y-1 hover:border-brand/35 hover:bg-surface hover:shadow-[var(--card-shadow-hover)]",
         glow && "glow-follow",
         className
       )}

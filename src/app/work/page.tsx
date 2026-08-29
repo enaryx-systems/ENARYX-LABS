@@ -27,7 +27,13 @@ export default function WorkPage() {
 
       <section className="py-[var(--spacing-section)]">
         <Container>
-          <RevealGroup className="grid gap-5 md:grid-cols-2">
+          <RevealGroup
+            className={
+              studies.length === 1
+                ? "mx-auto grid max-w-2xl gap-5"
+                : "grid gap-5 md:grid-cols-2"
+            }
+          >
             {studies.map((c) => (
               <RevealItem key={c.slug}>
                 <GradientCard className="h-full">
@@ -44,7 +50,7 @@ export default function WorkPage() {
                     </h2>
                     <p className="mt-3 max-w-[60ch] text-muted">{c.summary}</p>
                     <div className="mt-5 flex flex-wrap gap-2">
-                      {c.stack.map((s) => (
+                      {(c.tags ?? c.stack).map((s) => (
                         <span
                           key={s}
                           className="rounded-full border border-line-strong bg-surface px-2.5 py-1 font-mono text-[0.7rem] tracking-[0.03em] text-muted"
@@ -63,6 +69,22 @@ export default function WorkPage() {
                 </GradientCard>
               </RevealItem>
             ))}
+
+            {/* More work is in progress — keep the grid from looking empty */}
+            {studies.length < 2 && (
+              <RevealItem>
+                <div className="flex h-full flex-col justify-center rounded-[24px] border border-dashed border-line-strong p-7 text-center">
+                  <p className="font-display text-lg">More case studies soon</p>
+                  <p className="mt-2 text-sm text-muted">
+                    We&apos;re writing up recent builds. Want the short version now?{" "}
+                    <Link href="/contact" className="text-brand underline underline-offset-2">
+                      Ask us
+                    </Link>
+                    .
+                  </p>
+                </div>
+              </RevealItem>
+            )}
           </RevealGroup>
         </Container>
       </section>

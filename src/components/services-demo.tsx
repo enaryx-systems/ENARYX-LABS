@@ -11,9 +11,8 @@ const SUGGESTED = [
 ];
 
 /**
- * Deliberately light-themed, even though the rest of the site is dark —
- * reads as a real embedded product surface rather than another dark panel.
- * Colors here are hardcoded (not the page's CSS tokens, which are dark-only).
+ * A self-contained product surface with its own fixed palette — it reads as a
+ * real embedded app on either theme rather than inheriting the page tokens.
  */
 export function ServicesDemo() {
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -54,8 +53,8 @@ export function ServicesDemo() {
   return (
     <div className="demo-panel overflow-hidden rounded-2xl border border-[#e5e1ee] bg-white shadow-[0_24px_60px_-24px_rgba(0,0,0,0.55)]">
       <div className="flex items-center gap-2 border-b border-[#e0d6f2] bg-[linear-gradient(120deg,#efe7fb,#eef4fb)] px-4 py-3">
-        <span className="h-2 w-2 rounded-full bg-[#5b2c87]" />
-        <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[#5b2c87]">
+        <span className="h-2 w-2 rounded-full bg-[#5b21b6]" />
+        <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[#5b21b6]">
           Ask what we do
         </span>
       </div>
@@ -95,7 +94,7 @@ export function ServicesDemo() {
                 key={s}
                 type="button"
                 onClick={() => ask(s)}
-                className="rounded-[10px] border border-[#e5e1ee] px-2.5 py-1.5 text-left font-mono text-[0.72rem] text-[#6b6579] transition-colors hover:border-[#5b2c87] hover:text-[#1b1424]"
+                className="rounded-[10px] border border-[#e5e1ee] px-2.5 py-1.5 text-left font-mono text-[0.72rem] text-[#6b6579] transition-colors hover:border-[#5b21b6] hover:text-[#1b1424]"
               >
                 {s}
               </button>
@@ -113,12 +112,12 @@ export function ServicesDemo() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type a question…"
-            className="w-full rounded-[10px] border border-[#e5e1ee] bg-white px-3 py-2 text-sm text-[#1b1424] placeholder:text-[#9c97ac] focus:border-[#5b2c87] focus:outline-none"
+            className="w-full rounded-[10px] border border-[#e5e1ee] bg-white px-3 py-2 text-sm text-[#1b1424] placeholder:text-[#9c97ac] focus:border-[#5b21b6] focus:outline-none"
           />
           <button
             type="submit"
             disabled={busy}
-            className="shrink-0 rounded-[10px] border border-[#5b2c87] bg-[#5b2c87] px-4 py-2 font-mono text-[0.75rem] text-white transition-colors hover:bg-[#3a1a5c] disabled:opacity-60"
+            className="shrink-0 rounded-[10px] border border-[#5b21b6] bg-[#5b21b6] px-4 py-2 font-mono text-[0.75rem] text-white transition-colors hover:bg-[#3b0f73] disabled:opacity-60"
           >
             Ask
           </button>

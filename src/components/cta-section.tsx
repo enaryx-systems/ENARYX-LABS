@@ -12,13 +12,17 @@ export function CtaSection({
   return (
     <section className="border-t border-line py-[clamp(3.5rem,7vw,6rem)]">
       <Container>
-        <div className="relative isolate overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,var(--brand),var(--brand-strong)_75%)] px-6 py-12 sm:px-12 sm:py-16 lg:px-16">
+        <div className="relative isolate overflow-hidden rounded-[32px] bg-[linear-gradient(135deg,var(--brand-strong),var(--ink)_85%)] px-6 py-12 shadow-[0_40px_90px_-40px_rgba(59,15,115,0.55)] sm:px-12 sm:py-16 lg:px-16">
           <div
-            className="pointer-events-none absolute -left-16 -top-20 h-56 w-56 rounded-full bg-brand-bright/30 blur-[90px]"
+            className="pointer-events-none absolute -left-16 -top-20 h-56 w-56 rounded-full bg-brand-bright/40 blur-[90px]"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute -bottom-24 -right-10 h-64 w-64 rounded-full bg-cyan/20 blur-[100px]"
+            className="pointer-events-none absolute -bottom-24 -right-10 h-64 w-64 rounded-full bg-brand/30 blur-[100px]"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:48px_48px]"
             aria-hidden
           />
 

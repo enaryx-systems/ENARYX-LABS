@@ -41,14 +41,14 @@ export function Cursor() {
         <defs>
           <linearGradient id="cursor-arrow-grad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
             <stop offset="0" stopColor="var(--brand-bright)" />
-            <stop offset="1" stopColor="var(--cyan)" />
+            <stop offset="1" stopColor="var(--brand)" />
           </linearGradient>
         </defs>
         <path
           d="M3 2 L21 12 L12.3 13.7 L9 21 Z"
           fill="url(#cursor-arrow-grad)"
-          stroke="#05060a"
-          strokeWidth="1"
+          stroke="var(--bg)"
+          strokeWidth="1.2"
           strokeLinejoin="round"
         />
       </svg>

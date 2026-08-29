@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 import { caseStudies } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/work", "/services", "/process", "/about", "/careers", "/contact", "/privacy", "/terms"];
+  const routes = ["", "/work", "/services", "/rnd", "/process", "/about", "/careers", "/contact", "/privacy", "/terms"];
   const now = new Date();
 
   return [

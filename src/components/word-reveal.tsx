@@ -12,15 +12,19 @@ export function WordReveal({
   as: Tag = "h2",
   className,
   gradientWord,
+  immediate = false,
 }: {
   text: string;
   as?: "h1" | "h2" | "h3";
   className?: string;
   /** Exact word (case-sensitive, punctuation included) to render with the gradient treatment. */
   gradientWord?: string;
+  /** Animate on mount instead of on scroll-into-view — use for above-the-fold headings. */
+  immediate?: boolean;
 }) {
   const reduced = useReducedMotion();
   const words = text.split(" ");
+  const target = { y: "0%", opacity: 1 } as const;
 
   return (
     <Tag className={cn("word-reveal", className)}>
@@ -29,8 +33,12 @@ export function WordReveal({
           <motion.span
             className={cn("inline-block", word === gradientWord && "text-gradient")}
             initial={reduced ? false : { y: "110%", opacity: 0 }}
-            whileInView={reduced ? undefined : { y: "0%", opacity: 1 }}
-            viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+            {...(immediate
+              ? { animate: reduced ? undefined : target }
+              : {
+                  whileInView: reduced ? undefined : target,
+                  viewport: { once: true, margin: "0px 0px -10% 0px" },
+                })}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.06 }}
           >
             {word}

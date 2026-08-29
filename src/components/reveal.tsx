@@ -6,17 +6,24 @@ import { cn } from "@/lib/utils";
 type RevealProps = HTMLMotionProps<"div"> & {
   delay?: number;
   as?: "div" | "section" | "li" | "span";
+  /** Animate on mount instead of on scroll-into-view — use for above-the-fold content. */
+  immediate?: boolean;
 };
 
-export function Reveal({ children, className, delay = 0, ...rest }: RevealProps) {
+export function Reveal({ children, className, delay = 0, immediate = false, ...rest }: RevealProps) {
   const reduced = useReducedMotion();
+  const target = { opacity: 1, y: 0 };
 
   return (
     <motion.div
       className={cn("reveal-item", className)}
       initial={reduced ? false : { opacity: 0, y: 20 }}
-      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+      {...(immediate
+        ? { animate: reduced ? undefined : target }
+        : {
+            whileInView: reduced ? undefined : target,
+            viewport: { once: true, margin: "0px 0px -12% 0px" },
+          })}
       transition={{ duration: 0.4, ease: "easeOut", delay }}
       {...rest}
     >

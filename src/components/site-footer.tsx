@@ -27,9 +27,9 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-surface">
+    <footer className="relative overflow-hidden border-t border-line bg-bg-2">
       <div
-        className="pointer-events-none absolute left-1/2 top-0 h-64 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-56 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
         style={{ background: "var(--glow-violet)" }}
         aria-hidden
       />
@@ -71,18 +71,11 @@ export function SiteFooter() {
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
                 Company
               </span>
-              <Link href="/" className="text-sm text-muted hover:text-text">
-                Home
-              </Link>
-              <Link href="/about" className="text-sm text-muted hover:text-text">
-                About
-              </Link>
-              <Link href="/careers" className="text-sm text-muted hover:text-text">
-                Careers
-              </Link>
-              <Link href="/contact" className="text-sm text-muted hover:text-text">
-                Contact
-              </Link>
+              <Link href="/about" className="text-sm text-muted hover:text-text">About</Link>
+              <Link href="/work" className="text-sm text-muted hover:text-text">Work</Link>
+              <Link href="/rnd" className="text-sm text-muted hover:text-text">R&amp;D</Link>
+              <Link href="/careers" className="text-sm text-muted hover:text-text">Careers</Link>
+              <Link href="/contact" className="text-sm text-muted hover:text-text">Contact</Link>
             </nav>
 
             <nav aria-label="Footer — solutions" className="flex flex-col gap-3">
@@ -104,15 +97,9 @@ export function SiteFooter() {
               <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
                 Explore
               </span>
-              <Link href="/work" className="text-sm text-muted hover:text-text">
-                Work
-              </Link>
-              <Link href="/services#innovation-rd" className="text-sm text-muted hover:text-text">
-                Innovation &amp; R&amp;D
-              </Link>
-              <Link href="/process" className="text-sm text-muted hover:text-text">
-                Our Approach
-              </Link>
+              <Link href="/process" className="text-sm text-muted hover:text-text">Our Approach</Link>
+              <Link href="/services#technology" className="text-sm text-muted hover:text-text">Technology</Link>
+              <Link href="/rnd" className="text-sm text-muted hover:text-text">Innovation &amp; R&amp;D</Link>
             </nav>
           </div>
         </div>
@@ -122,13 +109,9 @@ export function SiteFooter() {
             © {year} {site.name}. All rights reserved.
           </span>
           <span className="flex items-center gap-4">
-            <Link href="/privacy" className="hover:text-text">
-              Privacy
-            </Link>
+            <Link href="/privacy" className="hover:text-text">Privacy</Link>
             <span aria-hidden>·</span>
-            <Link href="/terms" className="hover:text-text">
-              Terms
-            </Link>
+            <Link href="/terms" className="hover:text-text">Terms</Link>
           </span>
         </div>
       </div>

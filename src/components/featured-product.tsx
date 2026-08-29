@@ -46,12 +46,12 @@ export function FeaturedProduct() {
           style={{ background: "var(--glow-violet)" }}
           aria-hidden
         />
-        <div className="relative flex items-center gap-1.5 pb-6">
-          <span className="h-2 w-2 rounded-full bg-silver/60" />
-          <span className="h-2 w-2 rounded-full bg-silver/60" />
-          <span className="h-2 w-2 rounded-full bg-silver/60" />
-          <span className="ml-auto font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted">
-            enaryx.dashboard
+        <div className="relative flex items-center gap-2 pb-6">
+          <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted">
+            ENARYX <span className="text-brand">{"//"}</span> SYSTEM 01
+          </span>
+          <span className="ml-auto rounded-full border border-line-strong px-2 py-0.5 font-mono text-[0.6rem] uppercase tracking-[0.1em] text-muted">
+            Simulated environment
           </span>
         </div>
 
@@ -93,7 +93,7 @@ export function FeaturedProduct() {
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-glass-strong">
               <motion.div
                 className="h-full rounded-full"
-                style={{ background: "linear-gradient(90deg, var(--brand-bright), var(--cyan))" }}
+                style={{ background: "linear-gradient(90deg, var(--brand-bright), var(--brand))" }}
                 initial={{ width: 0 }}
                 animate={inView ? { width: "92%" } : {}}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}

@@ -72,12 +72,19 @@ export type Pillar = { title: string; body: string };
 
 /** "Why Enaryx Labs?" — Technology With Purpose. */
 export const differentiators: Pillar[] = [
-  { title: "Innovation", body: "We continuously explore new technologies and unconventional approaches to solve difficult problems." },
-  { title: "Practical Thinking", body: "Technology should create measurable value. We focus on solutions that are useful — not technology for technology's sake." },
-  { title: "Scalability", body: "We build with the future in mind, creating systems that can evolve as your business grows." },
-  { title: "User-Centric Design", body: "Products succeed when people actually enjoy using them. We put usability and experience at the center of development." },
-  { title: "Speed", body: "We believe in moving from idea to execution quickly while maintaining quality." },
-  { title: "Long-Term Vision", body: "We don't think only about today's requirements. We build foundations that can support tomorrow's opportunities." },
+  { title: "Innovation", body: "We explore what's possible." },
+  { title: "Practical Thinking", body: "Technology must create value." },
+  { title: "Scalability", body: "Build today. Prepare for tomorrow." },
+  { title: "User-Centric Design", body: "Powerful technology should feel simple." },
+  { title: "Speed", body: "Move from idea to execution." },
+  { title: "Long-Term Vision", body: "Build beyond the first version." },
+];
+
+/** Home — "01 · The Lab" — how the lab works. */
+export const labTriad: Pillar[] = [
+  { title: "Explore", body: "Emerging technologies and new possibilities." },
+  { title: "Engineer", body: "Turning ideas into reliable systems." },
+  { title: "Launch", body: "Shipping products people can actually use." },
 ];
 
 /** "Our Values" — What We Believe. */
@@ -159,17 +166,35 @@ export const forBusinesses = {
     "Reducing manual processes",
     "Improving productivity",
   ],
+  capabilities: [
+    { index: "01", title: "Automate", body: "Remove the repetitive, manual steps." },
+    { index: "02", title: "Integrate", body: "Connect the systems you already run." },
+    { index: "03", title: "Modernize", body: "Replace what's slowing the business down." },
+    { index: "04", title: "Analyze", body: "Turn operational data into decisions." },
+    { index: "05", title: "Scale", body: "Build for the next order of magnitude." },
+  ],
+  flow: ["Existing systems", "Enaryx", "Intelligent automation", "Business outcome"],
   closing: "Technology should work for your business — not create more work.",
 };
+
+/** Home — "Engineered for the real world" — real capability areas, not a logo wall. */
+export const techGroups: { label: string; items: string[] }[] = [
+  { label: "Frontend", items: ["React", "Next.js", "React Native"] },
+  { label: "Backend", items: ["Node.js", "NestJS", "REST & typed APIs"] },
+  { label: "Data", items: ["PostgreSQL", "Prisma", "Vector databases"] },
+  { label: "AI", items: ["LLMs", "RAG", "AI agents", "Embeddings"] },
+  { label: "Infrastructure", items: ["Cloud", "Docker", "CI/CD"] },
+];
 
 export type RndArea = { title: string; body: string };
 
 /** "Innovation & R&D" — Exploring What Comes Next. */
 export const rndAreas: RndArea[] = [
-  { title: "Artificial Intelligence", body: "Intelligent systems, automation, agents, and AI-powered applications." },
-  { title: "Data & Analytics", body: "Turning information into insights and better decisions." },
-  { title: "Automation", body: "Building systems that reduce manual effort and improve efficiency." },
-  { title: "Emerging Technologies", body: "Exploring new technologies that could create future products and opportunities." },
+  { title: "AI Systems", body: "Intelligent systems and AI-powered applications, from retrieval to reasoning." },
+  { title: "Autonomous Agents", body: "Agents that plan, use tools, and carry out multi-step work reliably." },
+  { title: "Intelligent Automation", body: "Systems that reduce manual effort and make operations self-running." },
+  { title: "Emerging Technology", body: "New technologies we're testing for where they could create future products." },
+  { title: "New Product Concepts", body: "Our own early-stage ideas — prototyped, pressure-tested, and iterated." },
 ];
 
 /** "Our Technology" — capability areas (distinct from the specific-tool marquee below) */
@@ -211,6 +236,7 @@ export type CaseStudy = {
   architecture: { layer: string; detail: string }[];
   outcome: string[];
   stack: string[];
+  tags?: string[];
   published: boolean;
 };
 
@@ -251,6 +277,7 @@ export const caseStudies: CaseStudy[] = [
       "Every deliverable is now traceable to an approval and a payment",
     ],
     stack: ["Next.js", "NestJS", "PostgreSQL", "Prisma", "AI extraction", "RBAC"],
+    tags: ["AI", "Healthcare", "Legal", "Digital Platform"],
     published: true,
   },
   {
@@ -285,7 +312,8 @@ export const caseStudies: CaseStudy[] = [
       "PLACEHOLDER — a second result",
     ],
     stack: ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
-    published: true,
+    // Hidden until the real project details replace the PLACEHOLDER copy above.
+    published: false,
   },
 ];
 

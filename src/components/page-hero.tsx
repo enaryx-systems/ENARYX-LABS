@@ -21,16 +21,16 @@ export function PageHero({
         aria-hidden
       />
       <Container className="relative">
-        <Reveal>
+        <Reveal immediate>
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
-        <Reveal delay={0.05}>
+        <Reveal immediate delay={0.05}>
           <h1 className="mt-6 max-w-[18ch] text-[clamp(2.4rem,1.3rem+4.5vw,4.25rem)]">
             {title}
           </h1>
         </Reveal>
         {lede ? (
-          <Reveal delay={0.1}>
+          <Reveal immediate delay={0.1}>
             <p className="mt-6 max-w-[58ch] text-xl text-muted">{lede}</p>
           </Reveal>
         ) : null}

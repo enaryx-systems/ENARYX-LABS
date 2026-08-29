@@ -43,7 +43,7 @@ export function ServicesNavItem({ active }: { active: boolean }) {
         )}
       >
         <span className="nav-underline" data-active={active || open}>
-          Services
+          Solutions
         </span>
         <svg
           viewBox="0 0 16 16"

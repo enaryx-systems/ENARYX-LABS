@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { CtaButton } from "./cta-button";
 import { ServicesNavItem } from "./services-nav-item";
+import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -57,10 +58,10 @@ export function SiteHeader() {
     <header ref={headerRef} className="sticky top-3 z-50 px-4 sm:top-4">
       <div
         className={cn(
-          "relative z-50 mx-auto flex h-16 max-w-[1100px] items-center justify-between rounded-2xl border px-5 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 lg:px-7",
+          "relative z-50 mx-auto flex h-16 max-w-[1100px] items-center justify-between rounded-2xl border px-4 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 sm:px-5 lg:px-7",
           scrolled || open
-            ? "border-line-strong bg-surface/95 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.6)]"
-            : "border-line bg-glass"
+            ? "border-line-strong bg-bg/85 shadow-[0_18px_44px_-26px_rgba(30,20,60,0.28)]"
+            : "border-line bg-bg/55"
         )}
       >
         <Link href="/" aria-label="Enaryx Labs home" className="shrink-0">
@@ -73,8 +74,7 @@ export function SiteHeader() {
           className="nav-native-cursor hidden items-center gap-5 lg:flex"
         >
           {nav.map((item) => {
-            const active =
-              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+            const active = pathname.startsWith(item.href);
             if (item.href === "/services") {
               return <ServicesNavItem key={item.href} active={active} />;
             }
@@ -94,15 +94,16 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <CtaButton className="hidden sm:inline-flex" />
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          <ThemeToggle />
+          <CtaButton className="hidden sm:inline-flex">Start a Project</CtaButton>
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center rounded-[8px] border border-line-strong text-text lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-[10px] border border-line-strong text-text lg:hidden"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
               {open ? <path d="M5 5l14 14M19 5L5 19" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
@@ -114,14 +115,14 @@ export function SiteHeader() {
       {open && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-bg/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-sm lg:hidden"
             aria-hidden
             onClick={() => setOpen(false)}
           />
           <nav
             id="mobile-nav"
             aria-label="Mobile"
-            className="thin-scroll absolute inset-x-4 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-line-strong bg-surface shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] lg:hidden"
+            className="thin-scroll absolute inset-x-4 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-line-strong bg-bg shadow-[0_30px_70px_-28px_rgba(30,20,60,0.45)] lg:hidden"
           >
             {nav.map((item) => {
               if (item.href === "/services") {
@@ -133,7 +134,7 @@ export function SiteHeader() {
                       aria-expanded={servicesOpen}
                       className="flex w-full items-center justify-between px-6 py-4 font-mono text-[0.8125rem] text-muted hover:text-text"
                     >
-                      Services
+                      Solutions
                       <svg viewBox="0 0 16 16" className={cn("h-3.5 w-3.5 transition-transform", servicesOpen && "rotate-180")} fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
                         <path d="M4 6l4 4 4-4" />
                       </svg>
@@ -161,12 +162,15 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block border-b border-line px-6 py-4 font-mono text-[0.8125rem] text-muted last:border-b-0 hover:text-text"
+                  className="block border-b border-line px-6 py-4 font-mono text-[0.8125rem] text-muted hover:text-text"
                 >
                   {item.label}
                 </Link>
               );
             })}
+            <div className="p-4">
+              <CtaButton className="w-full">Start a Project</CtaButton>
+            </div>
             </nav>
           </>
         )}

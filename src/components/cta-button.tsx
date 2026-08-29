@@ -15,9 +15,9 @@ const base =
 
 const variants: Record<NonNullable<Props["variant"]>, string> = {
   solid:
-    "border border-transparent bg-[linear-gradient(120deg,var(--brand-bright),var(--brand)_55%,var(--cyan))] text-on-brand shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_10px_24px_-10px_var(--glow-violet)] hover:brightness-110",
+    "border border-transparent bg-[linear-gradient(120deg,var(--brand-bright),var(--brand))] text-on-brand shadow-[0_10px_26px_-10px_rgba(91,33,182,0.5)] hover:brightness-110",
   outline:
-    "glass text-text hover:border-line-strong hover:bg-glass-strong",
+    "border border-line-strong bg-surface text-text hover:border-brand hover:bg-brand-tint",
   onBrand:
     "border border-on-brand bg-on-brand text-brand-strong hover:bg-transparent hover:text-on-brand",
 };
