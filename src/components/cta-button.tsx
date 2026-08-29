@@ -11,7 +11,7 @@ type Props = {
 };
 
 const base =
-  "group relative inline-flex items-center gap-2 rounded-[12px] px-4.5 py-2.5 font-mono text-[0.75rem] tracking-[0.02em] transition-[filter,background-color,border-color] duration-200";
+  "group relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[8px] px-3.5 py-3 font-mono text-[0.7rem] leading-none tracking-[0.01em] transition-[filter,background-color,border-color] duration-200 sm:px-5 sm:tracking-[0.02em] sm:text-[0.8125rem]";
 
 const variants: Record<NonNullable<Props["variant"]>, string> = {
   solid:
@@ -36,7 +36,7 @@ export function CtaButton({
       className={cn(base, variants[variant], className)}
     >
       {children}
-      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <svg viewBox="0 0 16 16" className="hidden h-3.5 w-3.5 sm:block" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
         <path d="M3 8h9M8 4l4 4-4 4" />
       </svg>
     </button>

@@ -50,9 +50,15 @@ export default function HomePage() {
               </p>
             </Reveal>
             <Reveal delay={0.28}>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <CtaButton>Start a Conversation</CtaButton>
-                <MagneticLink href="/services" variant="outline">
+              <div className="mt-9 flex flex-nowrap items-stretch gap-2.5 sm:gap-3">
+                <CtaButton className="flex-1 sm:flex-initial">
+                  Start a Conversation
+                </CtaButton>
+                <MagneticLink
+                  href="/services"
+                  variant="outline"
+                  className="flex-1 sm:flex-initial"
+                >
                   Explore Enaryx
                 </MagneticLink>
               </div>

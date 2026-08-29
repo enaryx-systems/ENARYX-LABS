@@ -23,7 +23,7 @@ export function Marquee({
         {row.map((item, i) => (
           <span
             key={i}
-            className="whitespace-nowrap rounded-full border border-line bg-surface px-4 py-2 font-mono text-[0.8125rem] text-muted"
+            className="whitespace-nowrap rounded-[8px] border border-line bg-surface px-4 py-2 font-mono text-[0.8125rem] text-muted"
           >
             {item}
           </span>
@@ -36,7 +36,7 @@ export function Marquee({
         {row.map((item, i) => (
           <span
             key={i}
-            className="whitespace-nowrap rounded-full border border-line bg-surface px-4 py-2 font-mono text-[0.8125rem] text-muted"
+            className="whitespace-nowrap rounded-[8px] border border-line bg-surface px-4 py-2 font-mono text-[0.8125rem] text-muted"
           >
             {item}
           </span>

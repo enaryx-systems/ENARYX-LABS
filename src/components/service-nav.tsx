@@ -11,7 +11,7 @@ export function ServiceNav({ services }: { services: Service[] }) {
     <a
       key={`${s.slug}-${copy}`}
       href={`#${s.slug}`}
-      className="flex shrink-0 items-center gap-2 rounded-full border border-line-strong px-4 py-2 font-mono text-[0.75rem] tracking-[0.02em] text-muted transition-colors hover:border-brand hover:text-text"
+      className="flex shrink-0 items-center gap-2 rounded-[8px] border border-line-strong px-4 py-2 font-mono text-[0.75rem] tracking-[0.02em] text-muted transition-colors hover:border-brand hover:text-text"
     >
       <span className="text-brand">{s.index}</span>
       {s.title}

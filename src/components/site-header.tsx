@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { nav } from "@/lib/site";
 import { services } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,30 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Close the mobile menu on navigation.
+  useEffect(() => {
+    setOpen(false);
+    setServicesOpen(false);
+  }, [pathname]);
+
+  // Close the mobile menu on outside click or Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   useEffect(() => {
     let frame = 0;
@@ -30,12 +54,12 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-3 z-50 px-4 sm:top-4">
+    <header ref={headerRef} className="sticky top-3 z-50 px-4 sm:top-4">
       <div
         className={cn(
-          "relative mx-auto flex h-16 max-w-[1100px] items-center justify-between rounded-2xl border px-5 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 lg:px-7",
-          scrolled
-            ? "border-line-strong bg-surface/85 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.6)]"
+          "relative z-50 mx-auto flex h-16 max-w-[1100px] items-center justify-between rounded-2xl border px-5 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 lg:px-7",
+          scrolled || open
+            ? "border-line-strong bg-surface/95 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.6)]"
             : "border-line bg-glass"
         )}
       >
@@ -78,19 +102,26 @@ export function SiteHeader() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
-            className="grid h-9 w-9 place-items-center rounded-full border border-line-strong text-text lg:hidden"
+            className="grid h-9 w-9 place-items-center rounded-[8px] border border-line-strong text-text lg:hidden"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
               {open ? <path d="M5 5l14 14M19 5L5 19" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
             </svg>
           </button>
         </div>
+      </div>
 
-        {open && (
+      {open && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-bg/60 backdrop-blur-sm lg:hidden"
+            aria-hidden
+            onClick={() => setOpen(false)}
+          />
           <nav
             id="mobile-nav"
             aria-label="Mobile"
-            className="thin-scroll glass absolute inset-x-0 top-[calc(100%+0.5rem)] max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl lg:hidden"
+            className="thin-scroll absolute inset-x-4 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-line-strong bg-surface shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)] lg:hidden"
           >
             {nav.map((item) => {
               if (item.href === "/services") {
@@ -136,9 +167,9 @@ export function SiteHeader() {
                 </Link>
               );
             })}
-          </nav>
+            </nav>
+          </>
         )}
-      </div>
     </header>
   );
 }

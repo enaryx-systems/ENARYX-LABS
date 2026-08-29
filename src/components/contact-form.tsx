@@ -7,7 +7,7 @@ import { contactSchema, budgetOptions, type ContactInput } from "@/lib/contact-s
 import { cn } from "@/lib/utils";
 
 const field =
-  "w-full rounded-full border border-line-strong bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/70 focus:border-brand focus:outline-none";
+  "w-full rounded-[8px] border border-line-strong bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/70 focus:border-brand focus:outline-none";
 const label = "font-mono text-[0.75rem] uppercase tracking-[0.1em] text-muted";
 const errorText = "text-[0.8125rem] text-brand";
 
@@ -64,7 +64,7 @@ export function ContactForm({
           <button
             type="button"
             onClick={onSuccess}
-            className="mt-5 inline-flex items-center gap-2 rounded-full border border-line-strong px-4 py-2 font-mono text-[0.8125rem] text-muted transition-colors hover:border-brand hover:text-text"
+            className="mt-5 inline-flex items-center gap-2 rounded-[8px] border border-line-strong px-4 py-2 font-mono text-[0.8125rem] text-muted transition-colors hover:border-brand hover:text-text"
           >
             Close
           </button>
@@ -136,7 +136,7 @@ export function ContactForm({
       <button
         type="submit"
         disabled={status === "sending"}
-        className="inline-flex w-fit items-center gap-2 rounded-full border border-brand bg-brand px-5 py-3 font-mono text-[0.8125rem] tracking-[0.02em] text-on-brand transition-colors hover:bg-brand-strong disabled:opacity-60"
+        className="inline-flex w-fit items-center gap-2 rounded-[8px] border border-brand bg-brand px-5 py-3 font-mono text-[0.8125rem] tracking-[0.02em] text-on-brand transition-colors hover:bg-brand-strong disabled:opacity-60"
       >
         {status === "sending" ? "Sending…" : "Send Message"}
       </button>
