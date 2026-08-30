@@ -66,7 +66,7 @@ export function SiteHeader() {
     >
       <div
         className={cn(
-          "relative z-50 mx-auto flex max-w-[1200px] items-center justify-between px-6 transition-[height] duration-300 lg:px-10",
+          "relative z-50 mx-auto flex w-full max-w-[1720px] items-center justify-between px-5 transition-[height] duration-300 sm:px-8 lg:px-14 xl:px-20",
           scrolled ? "h-14" : "h-16"
         )}
       >

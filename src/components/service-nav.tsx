@@ -19,8 +19,8 @@ export function ServiceNav({ services }: { services: Service[] }) {
   );
 
   return (
-    <div className="sticky top-[68px] z-30 -mx-6 border-b border-line bg-bg/85 py-4 backdrop-blur-md lg:mx-0">
-      <div className="group overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)] px-6 lg:px-0">
+    <div className="sticky top-[64px] z-30 -mx-5 border-b border-line bg-bg/85 py-4 backdrop-blur-md sm:-mx-8 lg:mx-0">
+      <div className="group overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)] px-5 sm:px-8 lg:px-0">
         <div className="flex w-max animate-service-roll gap-2 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none">
           {services.map((s) => pill(s, "a"))}
           {services.map((s) => pill(s, "b"))}

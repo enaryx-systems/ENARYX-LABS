@@ -11,6 +11,7 @@ import { FeaturedProduct } from "@/components/featured-product";
 import { Constellation } from "@/components/constellation";
 import { Faq } from "@/components/faq";
 import { CtaSection } from "@/components/cta-section";
+import { TechMarquee } from "@/components/tech-marquee";
 import {
   services,
   differentiators,
@@ -18,7 +19,6 @@ import {
   audiences,
   forStartups,
   forBusinesses,
-  techGroups,
   rndAreas,
   caseStudies,
 } from "@/lib/content";
@@ -184,7 +184,7 @@ export default function HomePage() {
           <RevealGroup className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {differentiators.map((d, i) => (
               <RevealItem key={d.title}>
-                <div className="flex h-full flex-col bg-bg p-7">
+                <div className="flex h-full flex-col bg-surface p-7">
                   <span className="font-mono text-[0.8125rem] text-brand">{num(i)}</span>
                   <h3 className="mt-3 font-display text-lg uppercase tracking-tight">
                     {d.title}
@@ -232,7 +232,7 @@ export default function HomePage() {
               {forStartups.path.map((p, i) => (
                 <li
                   key={p}
-                  className="relative flex flex-col gap-2 rounded-xl border border-line bg-bg p-5"
+                  className="relative flex flex-col gap-2 rounded-xl border border-line bg-surface p-5"
                 >
                   <span className="font-mono text-[0.72rem] text-brand">{num(i)}</span>
                   <span className="font-display text-base uppercase tracking-tight">
@@ -298,28 +298,17 @@ export default function HomePage() {
 
       {/* ============ 10 · Technology — what we engineer with ============ */}
       <Section>
-        <Container>
-          <SectionHead
-            eyebrow="09 — Technology"
-            title="Engineered for the real world."
-            lede="We choose technology according to the problem, constraints and product — not because it is fashionable."
-          />
-          <RevealGroup className="mt-14 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {techGroups.map((g) => (
-              <RevealItem key={g.label}>
-                <div className="border-t border-line-strong pt-4">
-                  <h3 className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-brand">
-                    {g.label}
-                  </h3>
-                  <ul className="mt-4 flex flex-col gap-2 text-sm text-muted">
-                    {g.items.map((it) => (
-                      <li key={it}>{it}</li>
-                    ))}
-                  </ul>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+        <Container className="grid items-center gap-10 lg:grid-cols-[1fr_0.7fr] lg:gap-20">
+          <Reveal>
+            <SectionHead
+              eyebrow="09 — Technology"
+              title="Engineered for the real world."
+              lede="We choose technology according to the problem, constraints and product — not because it is fashionable."
+            />
+          </Reveal>
+          <Reveal delay={0.05} className="lg:border-l lg:border-line lg:pl-16">
+            <TechMarquee />
+          </Reveal>
         </Container>
       </Section>
 
@@ -375,7 +364,7 @@ export default function HomePage() {
                         </svg>
                       </span>
                     </div>
-                    <div className="relative overflow-hidden rounded-xl border border-line bg-bg p-5">
+                    <div className="relative overflow-hidden rounded-xl border border-line bg-surface p-5">
                       <div
                         className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full blur-[80px]"
                         style={{ background: "var(--glow-violet)" }}
@@ -416,7 +405,7 @@ export default function HomePage() {
           <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2">
             {rndAreas.map((r, i) => (
               <RevealItem key={r.title}>
-                <div className="h-full rounded-2xl border border-line bg-bg p-6">
+                <div className="h-full rounded-2xl border border-line bg-surface p-6">
                   <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand">
                     Lab note / {num(i)}
                   </span>
