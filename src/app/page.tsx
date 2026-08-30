@@ -25,7 +25,6 @@ import {
 } from "@/lib/content";
 
 const trustWords = ["AI", "Software", "Automation", "Digital Products", "R&D"];
-const whatsNext = ["AI", "Data", "Automation", "Emerging Technology"];
 
 export default function HomePage() {
   const featured = caseStudies.filter((c) => c.published).slice(0, 2);
@@ -186,49 +185,28 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* ===================== What's Next (dark) =================== */}
-      <section className="section-dark relative overflow-hidden border-y border-line py-[var(--spacing-section)]">
-        <div className="bg-grid absolute inset-0 -z-0" aria-hidden />
-        <div
-          className="pointer-events-none absolute left-1/2 top-0 h-64 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[130px]"
-          style={{ background: "var(--glow-violet)" }}
-          aria-hidden
-        />
-        <Container className="relative">
-          <Reveal className="text-center">
-            <Eyebrow className="justify-center">What&apos;s Next</Eyebrow>
-          </Reveal>
-          <WordReveal
-            as="h2"
-            text="WE DON'T JUST FOLLOW TECHNOLOGY. WE EXPERIMENT WITH WHAT'S NEXT."
-            className="mx-auto mt-6 max-w-[22ch] text-center text-[clamp(1.9rem,1.1rem+3vw,3.2rem)]"
-          />
-          <RevealGroup className="mx-auto mt-12 flex max-w-2xl flex-wrap justify-center gap-3">
-            {whatsNext.map((w) => (
-              <RevealItem key={w}>
-                <span className="rounded-full border border-line-strong bg-glass px-5 py-2.5 font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-text">
-                  {w}
-                </span>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-          <Reveal delay={0.1} className="mt-10 text-center">
-            <MagneticLink href="/rnd" variant="outline">
-              Inside the Lab
-            </MagneticLink>
-          </Reveal>
-        </Container>
-      </section>
 
       {/* ======================== Ecosystem ======================== */}
       <Section tint>
-        <Container>
-          <SectionHead
-            eyebrow="Ecosystem"
-            title="A technology ecosystem, not a stack list"
-            className="mx-auto text-center"
-          />
-          <Reveal delay={0.05} className="mt-10">
+        <Container className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <Reveal>
+            <SectionHead
+              eyebrow="Ecosystem"
+              title="A technology ecosystem, not a stack list"
+            />
+            <p className="mt-6 max-w-[44ch] text-muted">
+              The pieces don&apos;t work in isolation. AI leans on data, products
+              need automation, everything runs on cloud infrastructure — we build
+              across the whole system, not one slice of it.
+            </p>
+            <Link
+              href="/services"
+              className="mt-6 inline-block font-mono text-[0.8125rem] text-brand underline-offset-4 hover:underline"
+            >
+              Explore what we build →
+            </Link>
+          </Reveal>
+          <Reveal delay={0.05}>
             <Constellation />
           </Reveal>
         </Container>

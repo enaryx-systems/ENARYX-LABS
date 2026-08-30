@@ -120,7 +120,7 @@ export function Constellation() {
               <span
                 className={cn(
                   "pointer-events-none absolute left-1/2 w-24 -translate-x-1/2 text-center font-mono text-[0.55rem] uppercase leading-none tracking-[0.11em] transition-colors duration-200",
-                  above ? "bottom-full mb-1.5" : "top-full mt-1.5",
+                  above ? "bottom-full mb-3" : "top-full mt-3",
                   isActive ? "text-brand" : "text-muted"
                 )}
               >
