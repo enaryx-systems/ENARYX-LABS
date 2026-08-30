@@ -92,13 +92,15 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          <RevealGroup className="flex flex-col divide-y divide-line border-y border-line">
+          <RevealGroup className="flex flex-col gap-3">
             {labTriad.map((item, i) => (
               <RevealItem key={item.title}>
-                <div className="flex items-baseline gap-5 py-6">
-                  <span className="font-mono text-[0.8125rem] text-brand">{num(i)}</span>
+                <div className="card-grad group flex items-start gap-4 rounded-2xl p-5 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow-hover)]">
+                  <span className="mt-0.5 font-mono text-[0.8125rem] text-brand">
+                    {num(i)}
+                  </span>
                   <div>
-                    <h3 className="font-display text-lg uppercase tracking-tight">
+                    <h3 className="font-display text-base uppercase tracking-tight">
                       {item.title}
                     </h3>
                     <p className="mt-1 text-sm text-muted">{item.body}</p>
@@ -181,15 +183,21 @@ export default function HomePage() {
       <Section tint>
         <Container>
           <SectionHead eyebrow="05 — Principles" title="Technology with purpose." />
-          <RevealGroup className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {differentiators.map((d, i) => (
               <RevealItem key={d.title}>
-                <div className="flex h-full flex-col bg-surface p-7">
-                  <span className="font-mono text-[0.8125rem] text-brand">{num(i)}</span>
-                  <h3 className="mt-3 font-display text-lg uppercase tracking-tight">
+                <div className="card-grad group relative h-full overflow-hidden rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
+                  <span
+                    className="pointer-events-none absolute -right-3 -top-5 select-none font-display text-[5.5rem] leading-none text-transparent [-webkit-background-clip:text] [background-clip:text] [background-image:var(--grad-brand)] opacity-[0.14]"
+                    aria-hidden
+                  >
+                    {num(i)}
+                  </span>
+                  <span className="relative font-mono text-[0.8125rem] text-brand">{num(i)}</span>
+                  <h3 className="relative mt-3 font-display text-lg uppercase tracking-tight">
                     {d.title}
                   </h3>
-                  <p className="mt-2 text-sm text-muted">{d.body}</p>
+                  <p className="relative mt-2 text-sm text-muted">{d.body}</p>
                 </div>
               </RevealItem>
             ))}
@@ -201,12 +209,12 @@ export default function HomePage() {
       <Section>
         <Container>
           <SectionHead eyebrow="06 — Built for Ambition" title="Built for ambition." />
-          <RevealGroup className="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {audiences.map((a, i) => (
               <RevealItem key={a.title}>
-                <div className="border-t border-line-strong pt-4">
+                <div className="card-grad group h-full rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
                   <span className="font-mono text-[0.72rem] text-brand">{num(i)}</span>
-                  <h3 className="mt-2 font-display text-lg uppercase tracking-tight">
+                  <h3 className="mt-2 font-display text-base uppercase tracking-tight">
                     {a.title}
                   </h3>
                   <p className="mt-1.5 text-sm text-muted">{a.body}</p>
@@ -232,12 +240,22 @@ export default function HomePage() {
               {forStartups.path.map((p, i) => (
                 <li
                   key={p}
-                  className="relative flex flex-col gap-2 rounded-xl border border-line bg-surface p-5"
+                  className="card-grad relative flex items-center gap-3 rounded-xl p-5 shadow-[var(--card-shadow)] sm:flex-col sm:items-start sm:gap-3"
                 >
-                  <span className="font-mono text-[0.72rem] text-brand">{num(i)}</span>
+                  <span className="grad-chip grid h-7 w-7 shrink-0 place-items-center font-mono text-[0.7rem]">
+                    {num(i)}
+                  </span>
                   <span className="font-display text-base uppercase tracking-tight">
                     {p}
                   </span>
+                  {i < forStartups.path.length - 1 && (
+                    <span
+                      className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 text-brand/40 sm:block lg:right-[-1.1rem] lg:top-1/2"
+                      aria-hidden
+                    >
+                      →
+                    </span>
+                  )}
                 </li>
               ))}
             </ol>
@@ -405,14 +423,19 @@ export default function HomePage() {
           <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2">
             {rndAreas.map((r, i) => (
               <RevealItem key={r.title}>
-                <div className="h-full rounded-2xl border border-line bg-surface p-6">
-                  <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand">
+                <div className="card-grad group relative h-full overflow-hidden rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
+                  <div
+                    className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full blur-[60px]"
+                    style={{ background: "var(--glow-violet)" }}
+                    aria-hidden
+                  />
+                  <span className="relative font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand">
                     Lab note / {num(i)}
                   </span>
-                  <h3 className="mt-3 font-display text-lg uppercase tracking-tight">
+                  <h3 className="relative mt-3 font-display text-lg uppercase tracking-tight">
                     {r.title}
                   </h3>
-                  <p className="mt-2 text-sm text-muted">{r.body}</p>
+                  <p className="relative mt-2 text-sm text-muted">{r.body}</p>
                 </div>
               </RevealItem>
             ))}

@@ -36,7 +36,7 @@ export function Section({
       id={id}
       className={cn(
         "border-t border-line py-[var(--spacing-section)]",
-        tint && "bg-bg-2/70",
+        tint && "section-tint bg-bg-2/70",
         className
       )}
     >
