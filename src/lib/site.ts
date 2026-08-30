@@ -7,8 +7,8 @@ export const site = {
   calLink: "https://cal.com/enaryx/intro",
   tagline: "Technology & Innovation",
   description:
-    "Enaryx Labs builds intelligent software, AI systems, digital products and automation for ambitious ideas and businesses.",
-  taglineKeywords: "Technology • Innovation • AI • Software • Automation",
+    "Enaryx Labs builds intelligent software, digital products and technology systems for ambitious ideas, startups and businesses.",
+  taglineKeywords: "Technology & Innovation",
 } as const;
 
 export const nav = [
@@ -16,7 +16,7 @@ export const nav = [
   { label: "Solutions", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "R&D", href: "/rnd" },
-  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
 /** Full route list — used by the 404 recovery nav and the footer. */

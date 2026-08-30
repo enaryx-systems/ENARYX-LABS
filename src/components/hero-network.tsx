@@ -1,175 +1,92 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
-
-type Particle = { x: number; y: number; vx: number; vy: number };
-
-function subscribeToResize(onChange: () => void) {
-  window.addEventListener("resize", onChange);
-  return () => window.removeEventListener("resize", onChange);
-}
-
-function getEnabledSnapshot() {
-  return (
-    window.matchMedia("(pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
-    window.innerWidth >= 768
-  );
-}
+import { useSyncExternalStore } from "react";
 
 /**
- * Abstract particle network — nodes drifting slowly, connected by faint
- * lines when close, with a subtle mouse influence. Canvas is skipped
- * entirely on touch/small screens and under reduced-motion: the glow orb
- * (plain CSS) still renders so the hero never looks empty.
+ * The Enaryx system core — a central intelligent system with orbiting
+ * capability nodes. Always renders; the slow ambient rotation is disabled
+ * under prefers-reduced-motion. Purple / silver, restrained.
  */
-function subscribeToTheme(onChange: () => void) {
-  const obs = new MutationObserver(onChange);
-  obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  return () => obs.disconnect();
+
+const NODES = ["AI", "DATA", "SOFTWARE", "AUTOMATION", "CLOUD", "PRODUCT"];
+const R_NODE = 68; // svg units (viewBox 200)
+const R_LABEL = 46; // percent of container
+
+function subscribeMotion(cb: () => void) {
+  const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+  m.addEventListener("change", cb);
+  return () => m.removeEventListener("change", cb);
 }
-function getThemeSnapshot() {
-  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+function motionOk() {
+  return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 export function HeroNetwork() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const enabled = useSyncExternalStore(subscribeToResize, getEnabledSnapshot, () => false);
-  const theme = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, () => "light");
-
-  useEffect(() => {
-    if (!enabled) return;
-    const canvas = canvasRef.current;
-    const wrap = wrapRef.current;
-    if (!canvas || !wrap) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let width = 0;
-    let height = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    let particles: Particle[] = [];
-    let raf = 0;
-    const mouse = { x: -9999, y: -9999 };
-
-    const styles = getComputedStyle(document.documentElement);
-    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-    // Connecting lines: light ink on the light theme, light on dark.
-    const lineColor = isDark ? "244,245,249" : "60,45,110";
-    const nodeColor = styles.getPropertyValue("--brand-bright").trim() || "#7c3aed";
-
-    function resize() {
-      if (!canvas || !wrap) return;
-      width = wrap.clientWidth;
-      height = wrap.clientHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const count = Math.round((width * height) / 9000);
-      particles = Array.from({ length: Math.min(Math.max(count, 40), 130) }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.18,
-        vy: (Math.random() - 0.5) * 0.18,
-      }));
-    }
-
-    function onMove(e: PointerEvent) {
-      const r = wrap!.getBoundingClientRect();
-      mouse.x = e.clientX - r.left;
-      mouse.y = e.clientY - r.top;
-    }
-    function onLeave() {
-      mouse.x = -9999;
-      mouse.y = -9999;
-    }
-
-    function tick() {
-      ctx!.clearRect(0, 0, width, height);
-
-      for (const p of particles) {
-        // gentle drift
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // subtle mouse influence — nudge, don't chase
-        const dx = p.x - mouse.x;
-        const dy = p.y - mouse.y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < 14000) {
-          const f = (14000 - d2) / 14000;
-          p.x += (dx / (Math.sqrt(d2) || 1)) * f * 0.6;
-          p.y += (dy / (Math.sqrt(d2) || 1)) * f * 0.6;
-        }
-
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-      }
-
-      // connecting lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i];
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx!.strokeStyle = `rgba(${lineColor},${(1 - dist / 120) * (isDark ? 0.12 : 0.16)})`;
-            ctx!.lineWidth = 1;
-            ctx!.beginPath();
-            ctx!.moveTo(a.x, a.y);
-            ctx!.lineTo(b.x, b.y);
-            ctx!.stroke();
-          }
-        }
-      }
-
-      // nodes
-      ctx!.fillStyle = nodeColor;
-      for (const p of particles) {
-        ctx!.globalAlpha = 0.55;
-        ctx!.beginPath();
-        ctx!.arc(p.x, p.y, 1.4, 0, Math.PI * 2);
-        ctx!.fill();
-      }
-      ctx!.globalAlpha = 1;
-
-      raf = requestAnimationFrame(tick);
-    }
-
-    resize();
-    tick();
-    const ro = new ResizeObserver(resize);
-    ro.observe(wrap);
-    window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerleave", onLeave, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(raf);
-      ro.disconnect();
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerleave", onLeave);
-    };
-  }, [enabled, theme]);
+  const animate = useSyncExternalStore(subscribeMotion, motionOk, () => true);
 
   return (
-    <div ref={wrapRef} className="relative aspect-square w-full max-w-[480px]">
+    <div className="relative mx-auto aspect-square w-full max-w-[420px]">
       <div
-        className="absolute left-1/2 top-1/2 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px]"
-        style={{
-          background:
-            "radial-gradient(circle, var(--glow-violet), transparent 70%)",
-        }}
+        className="absolute left-1/2 top-1/2 h-[58%] w-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
+        style={{ background: "radial-gradient(circle, var(--glow-violet), transparent 72%)" }}
         aria-hidden
       />
-      {enabled && <canvas ref={canvasRef} className="absolute inset-0" aria-hidden />}
+
+      <svg viewBox="0 0 200 200" className="absolute inset-0 h-full w-full" aria-hidden>
+        <defs>
+          <radialGradient id="hero-core" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stopColor="var(--brand-bright)" stopOpacity="0.5" />
+            <stop offset="1" stopColor="var(--brand)" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {[34, 51, 68].map((r) => (
+          <circle key={r} cx="100" cy="100" r={r} fill="none" stroke="var(--line-strong)" strokeWidth="0.5" />
+        ))}
+
+        <circle cx="100" cy="100" r="51" fill="none" stroke="var(--brand)" strokeWidth="0.6" strokeDasharray="1.5 5" opacity="0.55">
+          {animate && (
+            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="90s" repeatCount="indefinite" />
+          )}
+        </circle>
+
+        {NODES.map((_, i) => {
+          const a = (i / NODES.length) * Math.PI * 2 - Math.PI / 2;
+          const x = 100 + Math.cos(a) * R_NODE;
+          const y = 100 + Math.sin(a) * R_NODE;
+          return (
+            <g key={i}>
+              <line x1="100" y1="100" x2={x} y2={y} stroke="var(--line-strong)" strokeWidth="0.5" />
+              <circle cx={x} cy={y} r="2.6" fill="var(--bg)" stroke="var(--brand)" strokeWidth="1.1" />
+            </g>
+          );
+        })}
+
+        <circle cx="100" cy="100" r="26" fill="url(#hero-core)" />
+        <circle cx="100" cy="100" r="4.5" fill="var(--brand)">
+          {animate && <animate attributeName="r" values="4.5;6;4.5" dur="3.4s" repeatCount="indefinite" />}
+        </circle>
+      </svg>
+
+      <div className="absolute inset-0" aria-hidden>
+        {NODES.map((label, i) => {
+          const a = (i / NODES.length) * Math.PI * 2 - Math.PI / 2;
+          const x = 50 + Math.cos(a) * R_LABEL;
+          const y = 50 + Math.sin(a) * (R_LABEL - 2);
+          return (
+            <span
+              key={label}
+              className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-mono text-[0.54rem] uppercase tracking-[0.1em] text-muted"
+              style={{ left: `${x}%`, top: `${y}%` }}
+            >
+              {label}
+            </span>
+          );
+        })}
+        <span className="absolute left-1/2 top-[calc(50%+2.6rem)] -translate-x-1/2 font-mono text-[0.56rem] uppercase tracking-[0.16em] text-muted">
+          Enaryx core
+        </span>
+      </div>
     </div>
   );
 }

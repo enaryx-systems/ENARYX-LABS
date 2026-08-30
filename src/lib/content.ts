@@ -7,52 +7,61 @@ export type Service = {
   slug: string;
   index: string;
   title: string;
+  /** One-line label copy for the home Capabilities cards. */
+  short: string;
+  /** Fuller copy for the /services detail page. */
   summary: string;
 };
 
-/** "What We Do" */
+/** "02 — Capabilities" */
 export const services: Service[] = [
   {
     slug: "software-product-development",
     index: "01",
-    title: "Software & Product Development",
+    title: "Software & Products",
+    short: "Web, mobile and custom digital products.",
     summary:
-      "We design and develop modern digital products — from web platforms and mobile applications to custom business systems.",
+      "We design and engineer modern digital products — web platforms, mobile applications and custom business systems built around real requirements.",
   },
   {
     slug: "ai-intelligent-solutions",
     index: "02",
-    title: "AI & Intelligent Solutions",
+    title: "AI & Intelligent Systems",
+    short: "AI applications, agents and intelligent workflows.",
     summary:
-      "We explore and build AI-powered solutions that automate processes, improve decision-making, and create smarter user experiences.",
+      "We build AI applications, agents and intelligent workflows where they create real value — grounded in the product, the data and the problem.",
   },
   {
     slug: "business-automation",
     index: "03",
-    title: "Business Automation",
+    title: "Automation",
+    short: "Connected workflows that reduce manual work.",
     summary:
-      "We help businesses reduce repetitive work and improve efficiency through workflow automation, integrations, and intelligent systems.",
+      "We connect systems and remove repetitive steps so operations run with less manual effort and fewer handoffs.",
   },
   {
     slug: "digital-platforms",
     index: "04",
     title: "Digital Platforms",
+    short: "Scalable platforms for customers, teams and services.",
     summary:
-      "We create scalable platforms that connect customers, businesses, teams, and services through seamless digital experiences.",
+      "We create platforms that connect customers, teams and services — designed to scale as the business grows.",
   },
   {
     slug: "technology-consulting",
     index: "05",
-    title: "Technology Consulting",
+    title: "Technology Strategy",
+    short: "From technical direction to practical execution.",
     summary:
-      "Have an idea but don't know where to start? We help turn concepts into practical technology roadmaps and execution plans.",
+      "We help turn a concept into a clear technical direction and a plan that can actually be executed.",
   },
   {
     slug: "innovation-rd",
     index: "06",
-    title: "Innovation & R&D",
+    title: "R&D",
+    short: "Experiments and new technology with product potential.",
     summary:
-      "We experiment with emerging technologies and develop new products that have the potential to solve meaningful problems.",
+      "We test emerging technologies and product concepts to find the ones worth building into real products.",
   },
 ];
 
@@ -70,21 +79,19 @@ export const steps: Step[] = [
 
 export type Pillar = { title: string; body: string };
 
-/** "Why Enaryx Labs?" — Technology With Purpose. */
+/** "06 — Principles" — Technology With Purpose. Four, not six. */
 export const differentiators: Pillar[] = [
-  { title: "Innovation", body: "We explore what's possible." },
-  { title: "Practical Thinking", body: "Technology must create value." },
-  { title: "Scalability", body: "Build today. Prepare for tomorrow." },
-  { title: "User-Centric Design", body: "Powerful technology should feel simple." },
-  { title: "Speed", body: "Move from idea to execution." },
-  { title: "Long-Term Vision", body: "Build beyond the first version." },
+  { title: "Clarity", body: "Start with the problem." },
+  { title: "Engineering", body: "Build systems that work." },
+  { title: "Experience", body: "Make complexity feel simple." },
+  { title: "Long-Term Thinking", body: "Build for what comes next." },
 ];
 
-/** Home — "01 · The Lab" — how the lab works. */
+/** Home — "01 — The Lab" — how the lab works. */
 export const labTriad: Pillar[] = [
-  { title: "Explore", body: "Emerging technologies and new possibilities." },
-  { title: "Engineer", body: "Turning ideas into reliable systems." },
-  { title: "Launch", body: "Shipping products people can actually use." },
+  { title: "Explore", body: "Find new possibilities." },
+  { title: "Engineer", body: "Turn possibilities into reliable systems." },
+  { title: "Launch", body: "Put useful technology into the real world." },
 ];
 
 /** "Our Values" — What We Believe. */
@@ -144,28 +151,18 @@ export const productsAndSolutions: string[] = [
 ];
 
 export const forStartups = {
-  eyebrow: "For Startups",
-  title: "Have an Idea? Let's Build It.",
-  lede: "You don't always need a large team to build a great product.",
-  body: "Enaryx Labs can help founders move from idea to prototype to MVP to product to growth. We can support you with product strategy, UX/UI, technology selection, development, testing, deployment, and ongoing improvements.",
-  path: ["Idea", "Prototype", "MVP", "Product", "Growth"],
+  eyebrow: "For Founders",
+  title: "From Idea to Product.",
+  lede: "For founders who need a technical partner to move from concept to something real.",
+  body: "Product strategy, design, technology selection and engineering — from the first prototype through launch.",
+  path: ["Idea", "Prototype", "MVP", "Product", "Scale"],
   closing: "Your idea deserves more than a concept. Let's turn it into something people can use.",
 };
 
 export const forBusinesses = {
   eyebrow: "For Businesses",
-  title: "Make Your Business Smarter.",
-  lede: "Every business has processes that can be improved.",
-  list: [
-    "Automating repetitive tasks",
-    "Improving operational efficiency",
-    "Connecting existing systems",
-    "Creating digital customer experiences",
-    "Managing business data",
-    "Building internal applications",
-    "Reducing manual processes",
-    "Improving productivity",
-  ],
+  title: "Make Your Operations Work Better.",
+  lede: "We help businesses connect systems, remove repetitive work and create more efficient digital operations.",
   capabilities: [
     { index: "01", title: "Automate", body: "Remove the repetitive, manual steps." },
     { index: "02", title: "Integrate", body: "Connect the systems you already run." },
@@ -173,28 +170,27 @@ export const forBusinesses = {
     { index: "04", title: "Analyze", body: "Turn operational data into decisions." },
     { index: "05", title: "Scale", body: "Build for the next order of magnitude." },
   ],
-  flow: ["Existing systems", "Enaryx", "Intelligent automation", "Business outcome"],
+  flow: ["Existing systems", "Enaryx", "Connected workflows", "Business outcome"],
   closing: "Technology should work for your business — not create more work.",
 };
 
-/** Home — "Engineered for the real world" — real capability areas, not a logo wall. */
+/** "10 — Technology" — chosen for the problem, not the trend. */
 export const techGroups: { label: string; items: string[] }[] = [
-  { label: "Frontend", items: ["React", "Next.js", "React Native"] },
-  { label: "Backend", items: ["Node.js", "NestJS", "REST & typed APIs"] },
+  { label: "Product", items: ["React", "Next.js", "React Native"] },
+  { label: "Backend", items: ["Node.js", "NestJS", "REST APIs"] },
   { label: "Data", items: ["PostgreSQL", "Prisma", "Vector databases"] },
-  { label: "AI", items: ["LLMs", "RAG", "AI agents", "Embeddings"] },
+  { label: "Intelligence", items: ["LLMs", "RAG", "AI agents", "Embeddings"] },
   { label: "Infrastructure", items: ["Cloud", "Docker", "CI/CD"] },
 ];
 
 export type RndArea = { title: string; body: string };
 
-/** "Innovation & R&D" — Exploring What Comes Next. */
+/** "12 — R&D" — what we're exploring, before it becomes a product. */
 export const rndAreas: RndArea[] = [
-  { title: "AI Systems", body: "Intelligent systems and AI-powered applications, from retrieval to reasoning." },
-  { title: "Autonomous Agents", body: "Agents that plan, use tools, and carry out multi-step work reliably." },
-  { title: "Intelligent Automation", body: "Systems that reduce manual effort and make operations self-running." },
-  { title: "Emerging Technology", body: "New technologies we're testing for where they could create future products." },
-  { title: "New Product Concepts", body: "Our own early-stage ideas — prototyped, pressure-tested, and iterated." },
+  { title: "Intelligent Systems", body: "Systems that reason over context and act, not just respond." },
+  { title: "Autonomous Workflows", body: "Multi-step work that plans, executes and self-corrects." },
+  { title: "Emerging Interfaces", body: "New ways people and software work together." },
+  { title: "New Product Concepts", body: "Our own early-stage ideas — prototyped and pressure-tested." },
 ];
 
 /** "Our Technology" — capability areas (distinct from the specific-tool marquee below) */
@@ -213,13 +209,12 @@ export const technologyCapabilities: string[] = [
 
 export type Audience = { title: string; body: string };
 
-/** "Who We Work With" */
+/** "07 — Built for Ambition" — four, kept short. */
 export const audiences: Audience[] = [
-  { title: "Founders", body: "Transform your idea into a working product." },
-  { title: "Startups", body: "Build, launch, validate, and scale your MVP." },
-  { title: "Small & Medium Businesses", body: "Modernize operations and automate processes." },
-  { title: "Enterprises", body: "Develop custom technology solutions and integrations." },
-  { title: "Organizations", body: "Use technology to improve services, operations, and customer experiences." },
+  { title: "Founders", body: "Turning ideas into products." },
+  { title: "Startups", body: "Building and scaling digital products." },
+  { title: "Businesses", body: "Modernizing operations." },
+  { title: "Teams & Organizations", body: "Creating better digital experiences." },
 ];
 
 export type CaseStudy = {
@@ -245,10 +240,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "smart-med-records",
     index: "01",
     client: "Smart Med Records",
-    sector: "Legal / healthcare",
+    sector: "Healthcare / Legal Technology",
     title: "A records-review platform with an AI extraction pipeline",
     summary:
-      "Multi-tenant portals for law firms and reviewers, a guided case workflow, payment-gated deliverables, and AI that reads structured data out of uploaded medical records.",
+      "A multi-tenant platform designed to streamline medical-record workflows, case review and secure deliverables for legal teams.",
     year: "2025",
     problem:
       "A medical-legal records review firm was running its entire operation — intake, review, QC, invoicing — over email and shared drives. Nothing was traceable to a case, clients had no visibility, and staff re-keyed data from PDFs by hand.",
@@ -277,7 +272,7 @@ export const caseStudies: CaseStudy[] = [
       "Every deliverable is now traceable to an approval and a payment",
     ],
     stack: ["Next.js", "NestJS", "PostgreSQL", "Prisma", "AI extraction", "RBAC"],
-    tags: ["AI", "Healthcare", "Legal", "Digital Platform"],
+    tags: ["AI", "Healthcare", "Legal", "Platform"],
     published: true,
   },
   {
@@ -343,26 +338,26 @@ export const techLogos: string[] = [
 export const faqs: { q: string; a: string }[] = [
   {
     q: "What is Enaryx Labs?",
-    a: "Enaryx Labs is a technology and innovation company focused on developing digital products, software solutions, AI-powered applications, automation systems, and emerging technology.",
+    a: "Enaryx Labs is a technology and innovation company building software, intelligent systems, digital products and emerging technology.",
   },
   {
     q: "Do you work with startups?",
-    a: "Yes. We can work with founders and startups from the early idea stage through MVP development and product growth.",
+    a: "Yes. We work with founders and early-stage teams from product concept through MVP and beyond.",
   },
   {
-    q: "Can Enaryx Labs build a custom software solution?",
-    a: "Yes. We develop customized technology solutions based on specific business requirements.",
+    q: "Can you build a custom product?",
+    a: "Yes. We design and engineer custom web, mobile, platform and business systems around specific requirements.",
   },
   {
-    q: "Do you provide AI solutions?",
-    a: "Yes. AI can be incorporated into applications, automation workflows, analytics systems, and other products where it provides meaningful value.",
+    q: "Do you build AI systems?",
+    a: "Yes. Depending on the problem, we work with AI applications, LLMs, RAG, agents, automation and intelligent workflows.",
   },
   {
-    q: "Do you work with businesses outside India?",
-    a: "Yes. Our technology services can be delivered to clients and partners globally.",
+    q: "Do you work internationally?",
+    a: "We can work with teams and businesses across regions through remote collaboration.",
   },
   {
-    q: "I have only an idea. Can you help?",
-    a: "Absolutely. You don't need to have everything figured out. We can help evaluate the idea, define the product, identify the technology requirements, and create a development roadmap.",
+    q: "I only have an idea. Can you help?",
+    a: "Yes. We can help evaluate the idea, define the product, plan the technology and build an initial version.",
   },
 ];

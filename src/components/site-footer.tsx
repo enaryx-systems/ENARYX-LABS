@@ -71,9 +71,9 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-10 sm:gap-16">
             <nav aria-label="Footer — company" className="flex flex-col gap-3">
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                 Company
               </span>
               <Link href="/about" className="text-sm text-muted hover:text-text">About</Link>
@@ -84,7 +84,7 @@ export function SiteFooter() {
             </nav>
 
             <nav aria-label="Footer — solutions" className="flex flex-col gap-3">
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-muted">
                 Solutions
               </span>
               {services.map((s) => (
@@ -96,15 +96,6 @@ export function SiteFooter() {
                   {s.title}
                 </Link>
               ))}
-            </nav>
-
-            <nav aria-label="Footer — explore" className="flex flex-col gap-3">
-              <span className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted">
-                Explore
-              </span>
-              <Link href="/process" className="text-sm text-muted hover:text-text">Our Approach</Link>
-              <Link href="/services#technology" className="text-sm text-muted hover:text-text">Technology</Link>
-              <Link href="/rnd" className="text-sm text-muted hover:text-text">Innovation &amp; R&amp;D</Link>
             </nav>
           </div>
         </div>

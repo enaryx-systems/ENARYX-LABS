@@ -64,7 +64,12 @@ export function SiteHeader() {
           : "border-transparent bg-bg/45"
       )}
     >
-      <div className="relative z-50 mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 lg:px-10">
+      <div
+        className={cn(
+          "relative z-50 mx-auto flex max-w-[1200px] items-center justify-between px-6 transition-[height] duration-300 lg:px-10",
+          scrolled ? "h-14" : "h-16"
+        )}
+      >
         <Link href="/" aria-label="Enaryx Labs home" className="shrink-0">
           <Logo />
         </Link>

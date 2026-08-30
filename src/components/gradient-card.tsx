@@ -3,14 +3,15 @@
 import { cn } from "@/lib/utils";
 
 /**
- * The one card primitive used across the site: a lightly tinted surface with
- * a masked gradient border (electric → deep purple) that intensifies on
- * hover, a cursor-following radial glow (desktop only), and a soft lift.
+ * The one card primitive: a clean surface with a hairline gradient border
+ * (electric → deep purple) that lifts subtly on hover. Restrained — no
+ * always-on glow. Opt into the cursor-following glow with `glow` where a
+ * section genuinely benefits from it.
  */
 export function GradientCard({
   children,
   className,
-  glow = true,
+  glow = false,
   as: Comp = "div",
 }: {
   children: React.ReactNode;
@@ -29,7 +30,7 @@ export function GradientCard({
     <Comp
       onPointerMove={onMove}
       className={cn(
-        "card-grad group relative overflow-hidden rounded-[24px] p-7 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300",
+        "card-grad group relative overflow-hidden rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300",
         "hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]",
         glow && "glow-follow",
         className
