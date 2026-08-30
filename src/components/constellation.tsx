@@ -34,21 +34,48 @@ export function Constellation() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[560px]">
       <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
-        {positions.map((p, i) => (
-          <motion.line
-            key={i}
-            x1="50"
-            y1="50"
-            x2={p.x}
-            y2={p.y}
-            stroke={active === i ? "var(--brand-bright)" : "var(--line-strong)"}
-            strokeWidth={active === i ? 0.4 : 0.2}
-            initial={reduced ? false : { pathLength: 0, opacity: 0 }}
-            whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: i * 0.05, ease: "easeOut" }}
-          />
-        ))}
+        <defs>
+          <radialGradient id="constellation-core" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stopColor="var(--glow-violet)" />
+            <stop offset="1" stopColor="transparent" />
+          </radialGradient>
+        </defs>
+        <circle cx="50" cy="50" r="30" fill="url(#constellation-core)" opacity={active === null ? 0.6 : 1} style={{ pointerEvents: "none" }} />
+
+        {positions.map((p, i) => {
+          const isActive = active === i;
+          return (
+            <g key={i}>
+              {/* visible spoke */}
+              <motion.line
+                x1="50"
+                y1="50"
+                x2={p.x}
+                y2={p.y}
+                stroke={isActive ? "var(--brand-bright)" : "var(--line-strong)"}
+                strokeWidth={isActive ? 0.5 : 0.22}
+                style={{ pointerEvents: "none" }}
+                initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+                whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.05, ease: "easeOut" }}
+              />
+              {/* invisible hit area — hovering the line reveals the node */}
+              <line
+                x1="50"
+                y1="50"
+                x2={p.x}
+                y2={p.y}
+                stroke="transparent"
+                strokeWidth="5"
+                strokeLinecap="round"
+                style={{ pointerEvents: "stroke", cursor: "pointer" }}
+                onMouseEnter={() => setActive(i)}
+                onMouseLeave={() => setActive(null)}
+              />
+            </g>
+          );
+        })}
       </svg>
 
       {/* Center node */}
@@ -60,6 +87,7 @@ export function Constellation() {
       {NODES.map((node, i) => {
         const p = positions[i];
         const isActive = active === i;
+        const below = p.y < 50;
         return (
           <button
             key={node.label}
@@ -69,25 +97,41 @@ export function Constellation() {
             onFocus={() => setActive(i)}
             onBlur={() => setActive(null)}
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
+            className="group absolute -translate-x-1/2 -translate-y-1/2"
+            aria-label={`${node.label} — ${node.detail}`}
           >
             <span
               className={cn(
-                "block h-2.5 w-2.5 rounded-full border transition-all duration-300",
+                "block h-3 w-3 rounded-full border transition-all duration-300",
                 isActive
-                  ? "scale-150 border-brand-bright bg-brand-bright shadow-[0_0_16px_var(--glow-violet)]"
-                  : "border-line-strong bg-surface"
+                  ? "scale-[1.7] border-brand-bright bg-brand-bright shadow-[0_0_16px_var(--glow-violet)]"
+                  : "border-line-strong bg-surface group-hover:border-brand"
               )}
               aria-hidden
             />
+            {/* label + detail — stacked, away from centre */}
             <span
               className={cn(
-                "pointer-events-none absolute left-1/2 top-[calc(100%+0.5rem)] w-max -translate-x-1/2 rounded-lg border border-line-strong bg-bg px-2.5 py-1.5 text-center font-mono text-[0.68rem] transition-opacity duration-200",
-                isActive ? "opacity-100" : "opacity-0"
+                "pointer-events-none absolute left-1/2 w-max max-w-[10rem] -translate-x-1/2 text-center transition-opacity duration-200",
+                below ? "bottom-[calc(100%+0.5rem)]" : "top-[calc(100%+0.5rem)]"
               )}
             >
-              <span className="block text-text">{node.label}</span>
-              <span className="mt-0.5 block max-w-[9rem] text-muted">{node.detail}</span>
+              <span
+                className={cn(
+                  "block font-mono text-[0.62rem] uppercase tracking-[0.12em] transition-colors",
+                  isActive ? "text-text" : "text-muted"
+                )}
+              >
+                {node.label}
+              </span>
+              <span
+                className={cn(
+                  "mt-1 block font-mono text-[0.64rem] leading-snug text-muted transition-opacity duration-200",
+                  isActive ? "opacity-100" : "opacity-0"
+                )}
+              >
+                {node.detail}
+              </span>
             </span>
           </button>
         );

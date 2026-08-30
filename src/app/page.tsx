@@ -34,6 +34,11 @@ export default function HomePage() {
     <>
       {/* ============================ Hero ============================ */}
       <section className="section-wash relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute -left-40 top-[-10%] h-[34rem] w-[34rem] rounded-full blur-[150px]"
+          style={{ background: "var(--glow-violet)" }}
+          aria-hidden
+        />
         <Container className="relative grid items-center gap-12 pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           <div>
             <Reveal immediate>

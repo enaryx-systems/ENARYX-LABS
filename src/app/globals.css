@@ -52,7 +52,13 @@
              linear-gradient(180deg, #f6f3fd, #efeaf9);
 
   --card-shadow: 0 1px 2px rgba(20, 14, 40, 0.04), 0 18px 44px -22px rgba(60, 30, 120, 0.20);
-  --card-shadow-hover: 0 2px 8px rgba(20, 14, 40, 0.07), 0 30px 70px -24px rgba(88, 40, 170, 0.32);
+  --card-shadow-hover:
+    0 0 0 1px rgba(124, 58, 237, 0.16),
+    0 8px 28px -6px rgba(124, 58, 237, 0.34),
+    0 34px 74px -26px rgba(88, 40, 170, 0.36);
+  --glow-sm: 0 4px 16px -2px rgba(124, 58, 237, 0.45);
+  --glow-md: 0 0 30px -4px rgba(124, 58, 237, 0.5);
+  --accent-glow: 0 0 10px -1px rgba(124, 58, 237, 0.6);
 
   color-scheme: light;
 }
@@ -94,8 +100,12 @@
              radial-gradient(90% 50% at 50% 100%, rgba(139, 123, 255, 0.07), transparent 60%),
              linear-gradient(180deg, #070510, #05040c);
 
+  /* Dark theme keeps glow minimal — like the original site. */
   --card-shadow: none;
-  --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.3);
+  --card-shadow-hover: 0 26px 60px -30px rgba(139, 123, 255, 0.22);
+  --glow-sm: 0 2px 12px -3px rgba(167, 139, 250, 0.28);
+  --glow-md: 0 0 22px -8px rgba(167, 139, 250, 0.3);
+  --accent-glow: 0 0 8px -2px rgba(167, 139, 250, 0.35);
 
   color-scheme: dark;
 }
@@ -282,6 +292,7 @@ a { color: inherit; text-decoration: none; }
   height: 2px;
   border-radius: 999px;
   background: var(--grad-brand-90);
+  box-shadow: var(--accent-glow);
 }
 
 /* Soft brand wash behind a section (very subtle) */
@@ -300,7 +311,13 @@ a { color: inherit; text-decoration: none; }
   background: var(--grad-brand);
   color: #fff;
   border-radius: 8px;
+  box-shadow: var(--glow-sm);
 }
+
+/* Opt-in soft brand glow for any element */
+.glow-ring { box-shadow: var(--glow-md); }
+.glow-hover { transition: box-shadow 0.3s ease; }
+.glow-hover:hover { box-shadow: var(--glow-md); }
 
 /* Mouse-tracking radial glow on glass cards (desktop only, set via JS) */
 .glow-follow {
@@ -312,11 +329,11 @@ a { color: inherit; text-decoration: none; }
   inset: 0;
   border-radius: inherit;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
   background: radial-gradient(
     circle at var(--mx, 50%) var(--my, 50%),
     var(--glow-violet),
-    transparent 45%
+    transparent 48%
   );
   pointer-events: none;
 }
@@ -420,7 +437,10 @@ a { color: inherit; text-decoration: none; }
   --grad-wash: radial-gradient(60% 60% at 12% 0%, rgba(139, 123, 255, 0.16), transparent 70%),
                radial-gradient(50% 50% at 100% 10%, rgba(167, 139, 250, 0.12), transparent 70%);
   --card-shadow: none;
-  --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.3);
+  --card-shadow-hover: 0 26px 60px -30px rgba(139, 123, 255, 0.22);
+  --glow-sm: 0 2px 12px -3px rgba(167, 139, 250, 0.28);
+  --glow-md: 0 0 22px -8px rgba(167, 139, 250, 0.3);
+  --accent-glow: 0 0 8px -2px rgba(167, 139, 250, 0.35);
   background: var(--bg);
   color: var(--text);
 }

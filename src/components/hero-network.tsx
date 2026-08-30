@@ -162,10 +162,10 @@ export function HeroNetwork() {
   return (
     <div ref={wrapRef} className="relative aspect-square w-full max-w-[480px]">
       <div
-        className="absolute left-1/2 top-1/2 h-[55%] w-[55%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[70px]"
+        className="absolute left-1/2 top-1/2 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px]"
         style={{
           background:
-            "radial-gradient(circle, var(--glow-violet), transparent 72%)",
+            "radial-gradient(circle, var(--glow-violet), transparent 70%)",
         }}
         aria-hidden
       />
