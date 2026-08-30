@@ -18,15 +18,22 @@ export function Section({
   children,
   className,
   id,
+  tint = false,
 }: {
   children: React.ReactNode;
   className?: string;
   id?: string;
+  /** Sit the section on the lavender-white ground with a soft brand wash. */
+  tint?: boolean;
 }) {
   return (
     <section
       id={id}
-      className={cn("border-t border-line py-[var(--spacing-section)]", className)}
+      className={cn(
+        "border-t border-line py-[var(--spacing-section)]",
+        tint && "bg-bg-2/70",
+        className
+      )}
     >
       {children}
     </section>
@@ -47,7 +54,7 @@ export function Eyebrow({
         className
       )}
     >
-      <span className="h-px w-6 bg-brand" aria-hidden />
+      <span className="accent-rule w-7" aria-hidden />
       {children}
     </span>
   );

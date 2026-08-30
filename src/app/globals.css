@@ -13,15 +13,15 @@
    white + metallic silver. No cyan, no other hues.
    --------------------------------------------------------------- */
 :root {
-  --bg: #ffffff;
-  --bg-2: #f7f6fb;               /* very subtle lavender-white */
-  --surface: #ffffff;
-  --surface-2: #f4f2fb;
+  --bg: #f4f1fc;                 /* soft lavender page ground (see body gradient) */
+  --bg-2: #ebe6f8;               /* deeper lavender — footer / base bands */
+  --surface: #ffffff;           /* cards — crisp white, float above the ground */
+  --surface-2: #faf9ff;
   --ink: #0b0812;                /* near-black + purple undertone — dark contrast sections */
   --ink-2: #120c20;
 
-  --line: rgba(18, 10, 40, 0.10);
-  --line-strong: rgba(18, 10, 40, 0.17);
+  --line: rgba(76, 40, 150, 0.14);
+  --line-strong: rgba(76, 40, 150, 0.24);
 
   --text: #14101f;              /* near-black on light */
   --muted: #57516b;             /* ~7:1 on white */
@@ -29,17 +29,30 @@
   --brand: #5b21b6;            /* deep Enaryx purple — primary */
   --brand-strong: #3b0f73;
   --brand-bright: #7c3aed;     /* electric / lighter purple — secondary */
-  --brand-tint: rgba(124, 58, 237, 0.08);
+  --brand-tint: rgba(124, 58, 237, 0.09);
   --silver: #8b8497;           /* metallic accent */
   --on-brand: #ffffff;
 
-  --glass: rgba(255, 255, 255, 0.55);
-  --glass-strong: rgba(255, 255, 255, 0.8);
-  --glow-violet: rgba(124, 58, 237, 0.20);
-  --grid-line: rgba(18, 10, 40, 0.045);
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --glow-violet: rgba(124, 58, 237, 0.22);
+  --grid-line: rgba(76, 40, 150, 0.05);
 
-  --card-shadow: 0 1px 2px rgba(20, 14, 40, 0.04), 0 16px 40px -20px rgba(30, 20, 60, 0.16);
-  --card-shadow-hover: 0 2px 6px rgba(20, 14, 40, 0.06), 0 26px 60px -22px rgba(60, 30, 110, 0.24);
+  /* shared gradient language */
+  --grad-brand: linear-gradient(135deg, #8b5cf6, #5b21b6);
+  --grad-brand-90: linear-gradient(90deg, #7c3aed, #5b21b6);
+  --grad-border: linear-gradient(135deg, rgba(124, 58, 237, 0.55), rgba(124, 58, 237, 0.10) 48%, rgba(124, 58, 237, 0.04));
+  --grad-border-hover: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(91, 33, 182, 0.35) 55%, rgba(124, 58, 237, 0.12));
+  --grad-wash: radial-gradient(60% 60% at 12% 0%, rgba(124, 58, 237, 0.10), transparent 70%),
+               radial-gradient(50% 50% at 100% 10%, rgba(139, 92, 246, 0.08), transparent 70%);
+  /* page-wide ambient ground (applied to body) */
+  --page-bg: radial-gradient(120% 60% at 0% 0%, rgba(124, 58, 237, 0.10), transparent 60%),
+             radial-gradient(100% 55% at 100% 8%, rgba(139, 92, 246, 0.09), transparent 55%),
+             radial-gradient(90% 50% at 50% 100%, rgba(124, 58, 237, 0.07), transparent 60%),
+             linear-gradient(180deg, #f6f3fd, #efeaf9);
+
+  --card-shadow: 0 1px 2px rgba(20, 14, 40, 0.04), 0 18px 44px -22px rgba(60, 30, 120, 0.20);
+  --card-shadow-hover: 0 2px 8px rgba(20, 14, 40, 0.07), 0 30px 70px -24px rgba(88, 40, 170, 0.32);
 
   color-scheme: light;
 }
@@ -70,8 +83,19 @@
   --glow-violet: rgba(139, 123, 255, 0.35);
   --grid-line: rgba(255, 255, 255, 0.035);
 
+  --grad-brand: linear-gradient(135deg, #a78bfa, #7c5cff);
+  --grad-brand-90: linear-gradient(90deg, #a78bfa, #8b7bff);
+  --grad-border: linear-gradient(135deg, rgba(167, 139, 250, 0.45), rgba(139, 123, 255, 0.08) 50%, rgba(255, 255, 255, 0.03));
+  --grad-border-hover: linear-gradient(135deg, rgba(167, 139, 250, 0.9), rgba(139, 123, 255, 0.25) 55%, rgba(255, 255, 255, 0.05));
+  --grad-wash: radial-gradient(60% 60% at 12% 0%, rgba(139, 123, 255, 0.14), transparent 70%),
+               radial-gradient(50% 50% at 100% 10%, rgba(167, 139, 250, 0.10), transparent 70%);
+  --page-bg: radial-gradient(120% 60% at 0% 0%, rgba(139, 123, 255, 0.12), transparent 60%),
+             radial-gradient(100% 55% at 100% 8%, rgba(124, 92, 255, 0.10), transparent 55%),
+             radial-gradient(90% 50% at 50% 100%, rgba(139, 123, 255, 0.07), transparent 60%),
+             linear-gradient(180deg, #070510, #05040c);
+
   --card-shadow: none;
-  --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.25);
+  --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.3);
 
   color-scheme: dark;
 }
@@ -122,7 +146,10 @@ html {
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--page-bg);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.6;
@@ -224,6 +251,56 @@ a { color: inherit; text-decoration: none; }
   box-shadow: var(--card-shadow);
 }
 :root[data-theme="dark"] .glass { box-shadow: none; }
+
+/* ---------------------------------------------------------------
+   Gradient-border card. A masked 1px ring in the brand gradient,
+   sitting on a lightly tinted surface. Intensifies on hover.
+   --------------------------------------------------------------- */
+.card-grad {
+  position: relative;
+  background: var(--surface) padding-box;
+  border: 1px solid transparent;
+}
+.card-grad::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad-border);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  transition: background 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+.card-grad:hover::after { background: var(--grad-border-hover); }
+
+/* A short gradient rule — used by the section eyebrow */
+.accent-rule {
+  height: 2px;
+  border-radius: 999px;
+  background: var(--grad-brand-90);
+}
+
+/* Soft brand wash behind a section (very subtle) */
+.section-wash { position: relative; isolation: isolate; }
+.section-wash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--grad-wash);
+  pointer-events: none;
+}
+
+/* Small gradient number/label chip */
+.grad-chip {
+  background: var(--grad-brand);
+  color: #fff;
+  border-radius: 8px;
+}
 
 /* Mouse-tracking radial glow on glass cards (desktop only, set via JS) */
 .glow-follow {
@@ -338,6 +415,10 @@ a { color: inherit; text-decoration: none; }
   --glass-strong: rgba(255, 255, 255, 0.07);
   --glow-violet: rgba(139, 123, 255, 0.32);
   --grid-line: rgba(255, 255, 255, 0.04);
+  --grad-border: linear-gradient(135deg, rgba(167, 139, 250, 0.5), rgba(139, 123, 255, 0.08) 50%, rgba(255, 255, 255, 0.03));
+  --grad-border-hover: linear-gradient(135deg, rgba(167, 139, 250, 0.95), rgba(139, 123, 255, 0.25) 55%, rgba(255, 255, 255, 0.05));
+  --grad-wash: radial-gradient(60% 60% at 12% 0%, rgba(139, 123, 255, 0.16), transparent 70%),
+               radial-gradient(50% 50% at 100% 10%, rgba(167, 139, 250, 0.12), transparent 70%);
   --card-shadow: none;
   --card-shadow-hover: 0 30px 60px -30px rgba(139, 123, 255, 0.3);
   background: var(--bg);

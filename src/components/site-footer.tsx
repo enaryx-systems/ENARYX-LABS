@@ -27,10 +27,15 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-bg-2">
+    <footer className="section-dark relative overflow-hidden border-t border-line">
       <div
-        className="pointer-events-none absolute left-1/2 top-0 h-56 w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[120px]"
+        className="pointer-events-none absolute left-1/2 top-0 h-56 w-[38rem] -translate-x-1/2 -translate-y-1/3 rounded-full blur-[130px]"
         style={{ background: "var(--glow-violet)" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.5] [mask-image:linear-gradient(180deg,#000,transparent_45%)]"
+        style={{ backgroundImage: "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)", backgroundSize: "56px 56px" }}
         aria-hidden
       />
       <div className="relative mx-auto max-w-[1200px] px-6 py-16 lg:px-10">

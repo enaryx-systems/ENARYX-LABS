@@ -33,7 +33,7 @@ export default function HomePage() {
   return (
     <>
       {/* ============================ Hero ============================ */}
-      <section className="relative overflow-hidden">
+      <section className="section-wash relative overflow-hidden">
         <Container className="relative grid items-center gap-12 pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           <div>
             <Reveal immediate>
@@ -109,8 +109,8 @@ export default function HomePage() {
           <RevealGroup className="flex flex-col gap-3">
             {labTriad.map((item, i) => (
               <RevealItem key={item.title}>
-                <div className="group flex items-start gap-4 rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-brand/35">
-                  <span className="mt-0.5 font-mono text-[0.8125rem] text-brand">
+                <div className="card-grad group flex items-start gap-4 rounded-2xl p-5 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow-hover)]">
+                  <span className="grad-chip mt-0.5 grid h-7 w-7 shrink-0 place-items-center font-mono text-[0.75rem]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
@@ -127,7 +127,7 @@ export default function HomePage() {
       </Section>
 
       {/* ====================== What We Build ======================== */}
-      <Section>
+      <Section tint>
         <Container>
           <SectionHead eyebrow="What We Build" title="From Idea to Impact" />
           <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -135,7 +135,9 @@ export default function HomePage() {
               <RevealItem key={s.slug}>
                 <GradientCard className="h-full">
                   <Link href={`/services#${s.slug}`} className="flex h-full flex-col gap-4">
-                    <span className="font-mono text-[0.8125rem] text-brand">{s.index}</span>
+                    <span className="grad-chip grid h-8 w-8 place-items-center font-mono text-[0.8125rem]">
+                      {s.index}
+                    </span>
                     <h3 className="text-xl">{s.title}</h3>
                     <p className="text-sm text-muted">{s.summary}</p>
                     <span className="mt-auto flex items-center gap-1.5 pt-2 font-mono text-[0.78125rem] text-muted transition-colors group-hover:text-text">
@@ -214,7 +216,7 @@ export default function HomePage() {
       </section>
 
       {/* ======================== Ecosystem ======================== */}
-      <Section>
+      <Section tint>
         <Container>
           <SectionHead
             eyebrow="Ecosystem"
@@ -238,8 +240,8 @@ export default function HomePage() {
           <RevealGroup className="mt-14 grid gap-px overflow-hidden rounded-[24px] border border-line-strong bg-line-strong sm:grid-cols-2 lg:grid-cols-3">
             {differentiators.map((d, i) => (
               <RevealItem key={d.title}>
-                <div className="flex h-full flex-col bg-surface p-7">
-                  <span className="font-mono text-[0.8125rem] text-brand">
+                <div className="group flex h-full flex-col bg-surface p-7 transition-colors hover:bg-surface-2">
+                  <span className="font-display text-3xl leading-none text-transparent [-webkit-background-clip:text] [background-clip:text] [background-image:var(--grad-brand)]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-3 font-display text-xl">{d.title}</h3>
@@ -269,7 +271,7 @@ export default function HomePage() {
       </Section>
 
       {/* ================= For Startups / Businesses ============== */}
-      <Section>
+      <Section tint>
         <Container>
           <div className="grid gap-5 lg:grid-cols-2">
             {/* Startups — the idea journey */}
@@ -348,7 +350,7 @@ export default function HomePage() {
           <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {techGroups.map((g) => (
               <RevealItem key={g.label}>
-                <div className="h-full rounded-2xl border border-line bg-surface p-6">
+                <div className="card-grad h-full rounded-2xl p-6 transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5">
                   <h3 className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-brand">
                     {g.label}
                   </h3>

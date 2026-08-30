@@ -55,10 +55,10 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header ref={headerRef} className="sticky top-3 z-50 px-4 sm:top-4">
+    <header ref={headerRef} className="sticky top-3 z-50 px-6 sm:top-4 lg:px-10">
       <div
         className={cn(
-          "relative z-50 mx-auto flex h-16 max-w-[1100px] items-center justify-between rounded-2xl border px-4 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 sm:px-5 lg:px-7",
+          "relative z-50 mx-auto flex h-16 max-w-[1200px] items-center justify-between rounded-2xl border px-4 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 sm:px-5 lg:px-6",
           scrolled || open
             ? "border-line-strong bg-bg/85 shadow-[0_18px_44px_-26px_rgba(30,20,60,0.28)]"
             : "border-line bg-bg/55"
@@ -122,7 +122,7 @@ export function SiteHeader() {
           <nav
             id="mobile-nav"
             aria-label="Mobile"
-            className="thin-scroll absolute inset-x-4 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-line-strong bg-bg shadow-[0_30px_70px_-28px_rgba(30,20,60,0.45)] lg:hidden"
+            className="thin-scroll absolute inset-x-6 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-line-strong bg-bg shadow-[0_30px_70px_-28px_rgba(30,20,60,0.45)] lg:hidden"
           >
             {nav.map((item) => {
               if (item.href === "/services") {

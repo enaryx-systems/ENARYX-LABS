@@ -3,10 +3,9 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Glass card — translucent surface, hairline border, a radial glow that
- * follows the cursor on hover (desktop only, CSS custom properties updated
- * on pointer move), and a soft lift. This is the one card primitive used
- * across the site.
+ * The one card primitive used across the site: a lightly tinted surface with
+ * a masked gradient border (electric → deep purple) that intensifies on
+ * hover, a cursor-following radial glow (desktop only), and a soft lift.
  */
 export function GradientCard({
   children,
@@ -30,8 +29,8 @@ export function GradientCard({
     <Comp
       onPointerMove={onMove}
       className={cn(
-        "glass group relative overflow-hidden rounded-[24px] p-7 transition-[transform,border-color,background-color,box-shadow] duration-300",
-        "hover:-translate-y-1 hover:border-brand/35 hover:bg-surface hover:shadow-[var(--card-shadow-hover)]",
+        "card-grad group relative overflow-hidden rounded-[24px] p-7 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300",
+        "hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]",
         glow && "glow-follow",
         className
       )}
