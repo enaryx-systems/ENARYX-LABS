@@ -228,7 +228,7 @@ export default function HomePage() {
             title="A technology ecosystem, not a stack list"
             className="mx-auto text-center"
           />
-          <Reveal delay={0.05} className="mt-14">
+          <Reveal delay={0.05} className="mt-10">
             <Constellation />
           </Reveal>
         </Container>

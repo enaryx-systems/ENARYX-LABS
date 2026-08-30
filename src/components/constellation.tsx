@@ -32,8 +32,8 @@ export function Constellation() {
   );
 
   return (
-    <div className="mx-auto w-full max-w-[600px] px-6">
-      <div className="relative mx-auto aspect-square w-full max-w-[440px]">
+    <div className="mx-auto w-full max-w-[460px] px-6">
+      <div className="relative mx-auto aspect-square w-full max-w-[340px]">
         <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
           <defs>
             <radialGradient id="constellation-core" cx="50%" cy="50%" r="50%">
@@ -86,9 +86,9 @@ export function Constellation() {
         </svg>
 
         {/* Center node */}
-        <div className="glass absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full text-center">
-          <span className="font-mono text-[0.6rem] leading-tight text-muted">ENARYX</span>
-          <span className="font-mono text-[0.6rem] leading-tight text-text">LABS</span>
+        <div className="glass absolute left-1/2 top-1/2 flex h-[4.5rem] w-[4.5rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full text-center">
+          <span className="font-mono text-[0.55rem] leading-tight text-muted">ENARYX</span>
+          <span className="font-mono text-[0.55rem] leading-tight text-text">LABS</span>
         </div>
 
         {NODES.map((node, i) => {
@@ -104,14 +104,14 @@ export function Constellation() {
               onFocus={() => setActive(i)}
               onBlur={() => setActive(null)}
               style={{ left: `${p.x}%`, top: `${p.y}%` }}
-              className="group absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2"
+              className="group absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2"
               aria-label={`${node.label} — ${node.detail}`}
             >
               <span
                 className={cn(
-                  "block h-3 w-3 rounded-full border transition-all duration-300",
+                  "block h-2.5 w-2.5 rounded-full border transition-all duration-300",
                   isActive
-                    ? "scale-[1.7] border-brand-bright bg-brand-bright shadow-[0_0_16px_var(--glow-violet)]"
+                    ? "scale-[1.7] border-brand-bright bg-brand-bright shadow-[0_0_14px_var(--glow-violet)]"
                     : "border-line-strong bg-surface group-hover:border-brand"
                 )}
                 aria-hidden
@@ -119,8 +119,8 @@ export function Constellation() {
               {/* label word only — absolutely placed so it never shifts */}
               <span
                 className={cn(
-                  "pointer-events-none absolute left-1/2 w-24 -translate-x-1/2 text-center font-mono text-[0.6rem] uppercase leading-none tracking-[0.12em] transition-colors duration-200",
-                  above ? "bottom-full mb-2" : "top-full mt-2",
+                  "pointer-events-none absolute left-1/2 w-24 -translate-x-1/2 text-center font-mono text-[0.55rem] uppercase leading-none tracking-[0.11em] transition-colors duration-200",
+                  above ? "bottom-full mb-1.5" : "top-full mt-1.5",
                   isActive ? "text-brand" : "text-muted"
                 )}
               >
@@ -135,7 +135,7 @@ export function Constellation() {
           nudges the layout */}
       <p
         className={cn(
-          "mx-auto mt-6 min-h-[2.5rem] max-w-[34ch] text-center font-mono text-[0.8125rem] transition-colors duration-200",
+          "mx-auto mt-5 min-h-[2.5rem] max-w-[34ch] text-center font-mono text-[0.78125rem] transition-colors duration-200",
           active === null ? "text-muted" : "text-text"
         )}
         aria-live="polite"
