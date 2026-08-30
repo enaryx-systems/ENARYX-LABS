@@ -298,7 +298,7 @@ export default function HomePage() {
 
       {/* ============ 10 · Technology — what we engineer with ============ */}
       <Section>
-        <Container className="grid items-center gap-10 lg:grid-cols-[1fr_0.7fr] lg:gap-20">
+        <Container className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
           <Reveal>
             <SectionHead
               eyebrow="09 — Technology"
@@ -306,7 +306,7 @@ export default function HomePage() {
               lede="We choose technology according to the problem, constraints and product — not because it is fashionable."
             />
           </Reveal>
-          <Reveal delay={0.05} className="lg:border-l lg:border-line lg:pl-16">
+          <Reveal delay={0.05} className="lg:border-l lg:border-line lg:pl-12">
             <TechMarquee />
           </Reveal>
         </Container>
