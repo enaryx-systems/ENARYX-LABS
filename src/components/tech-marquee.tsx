@@ -36,18 +36,21 @@ const STACK: { icon: Icon; label: string; adapt?: boolean }[] = [
 
 function Row() {
   return (
-    <div className="flex w-max shrink-0 animate-marquee items-center gap-9 pr-9 group-hover:[animation-play-state:paused] motion-reduce:animate-none sm:gap-12 sm:pr-12">
+    <div className="flex w-max shrink-0 animate-marquee items-center gap-3 pr-3 group-hover:[animation-play-state:paused] motion-reduce:animate-none">
       {STACK.map(({ icon, label, adapt }, i) => (
-        <span key={i} className="flex shrink-0 items-center gap-2.5">
+        <span
+          key={i}
+          className="flex shrink-0 items-center gap-2.5 rounded-full border border-line bg-surface px-4 py-2.5 shadow-[var(--card-shadow)]"
+        >
           <svg
             viewBox="0 0 24 24"
-            className={adapt ? "h-5 w-5 shrink-0 text-text/80" : "h-5 w-5 shrink-0"}
+            className={adapt ? "h-[18px] w-[18px] shrink-0 text-text" : "h-[18px] w-[18px] shrink-0"}
             fill={adapt ? "currentColor" : `#${icon.hex}`}
             aria-hidden="true"
           >
             <path d={icon.path} />
           </svg>
-          <span className="whitespace-nowrap font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
+          <span className="whitespace-nowrap font-mono text-[0.8125rem] tracking-[0.02em] text-text">
             {label}
           </span>
         </span>
@@ -58,13 +61,13 @@ function Row() {
 
 /**
  * Horizontal infinite tech strip — the tools we build with, in brand
- * colour, scrolling and fading out at both ends. Pure CSS, pauses on
- * hover, off under prefers-reduced-motion. Sits beside the section heading.
+ * colour. The chips scroll and dissolve into the page background at both
+ * ends. Pure CSS, pauses on hover, off under prefers-reduced-motion.
  */
 export function TechMarquee() {
   return (
     <div
-      className="group relative flex overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]"
+      className="group flex overflow-hidden py-4 [mask-image:linear-gradient(90deg,transparent,#000_18%,#000_82%,transparent)]"
       aria-label="Technology stack"
     >
       <Row />
