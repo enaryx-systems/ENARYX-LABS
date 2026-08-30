@@ -55,15 +55,16 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header ref={headerRef} className="sticky top-3 z-50 px-6 sm:top-4 lg:px-10">
-      <div
-        className={cn(
-          "relative z-50 mx-auto flex h-16 max-w-[1200px] items-center justify-between rounded-2xl border px-4 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 sm:px-5 lg:px-6",
-          scrolled || open
-            ? "border-line-strong bg-bg/85 shadow-[0_18px_44px_-26px_rgba(30,20,60,0.28)]"
-            : "border-line bg-bg/55"
-        )}
-      >
+    <header
+      ref={headerRef}
+      className={cn(
+        "sticky top-0 z-50 border-b backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300",
+        scrolled || open
+          ? "border-line bg-bg/80 shadow-[0_10px_30px_-20px_rgba(30,20,60,0.35)]"
+          : "border-transparent bg-bg/45"
+      )}
+    >
+      <div className="relative z-50 mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 lg:px-10">
         <Link href="/" aria-label="Enaryx Labs home" className="shrink-0">
           <Logo />
         </Link>
@@ -71,7 +72,7 @@ export function SiteHeader() {
         <nav
           aria-label="Primary"
           data-cursor-skip
-          className="nav-native-cursor hidden items-center gap-5 lg:flex"
+          className="nav-native-cursor hidden items-center gap-6 lg:flex"
         >
           {nav.map((item) => {
             const active = pathname.startsWith(item.href);
@@ -122,12 +123,12 @@ export function SiteHeader() {
           <nav
             id="mobile-nav"
             aria-label="Mobile"
-            className="thin-scroll absolute inset-x-6 top-[calc(100%+0.5rem)] z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-2xl border border-line-strong bg-bg shadow-[0_30px_70px_-28px_rgba(30,20,60,0.45)] lg:hidden"
+            className="thin-scroll absolute inset-x-0 top-full z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-line bg-bg shadow-[0_30px_70px_-28px_rgba(30,20,60,0.45)] lg:hidden"
           >
             {nav.map((item) => {
               if (item.href === "/services") {
                 return (
-                  <div key={item.href} className="border-b border-line first:rounded-t-2xl last:rounded-b-2xl">
+                  <div key={item.href} className="border-b border-line">
                     <button
                       type="button"
                       onClick={() => setServicesOpen((v) => !v)}

@@ -450,6 +450,9 @@ a { color: inherit; text-decoration: none; }
    Theme-aware logo asset swap (no JS, no flash).
    <Logo> renders both variants; CSS shows the right one.
    --------------------------------------------------------------- */
+.logo-light { display: inline-flex; }
 .logo-dark { display: none; }
-:root[data-theme="dark"] .logo-light { display: none; }
-:root[data-theme="dark"] .logo-dark { display: inline-flex; }
+:root[data-theme="dark"] .logo-light,
+.section-dark .logo-light { display: none; }
+:root[data-theme="dark"] .logo-dark,
+.section-dark .logo-dark { display: inline-flex; }
