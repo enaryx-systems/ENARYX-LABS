@@ -32,110 +32,124 @@ export function Constellation() {
   );
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[560px]">
-      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
-        <defs>
-          <radialGradient id="constellation-core" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stopColor="var(--glow-violet)" />
-            <stop offset="1" stopColor="transparent" />
-          </radialGradient>
-        </defs>
-        <circle cx="50" cy="50" r="30" fill="url(#constellation-core)" opacity={active === null ? 0.6 : 1} style={{ pointerEvents: "none" }} />
+    <div className="mx-auto w-full max-w-[600px] px-6">
+      <div className="relative mx-auto aspect-square w-full max-w-[440px]">
+        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
+          <defs>
+            <radialGradient id="constellation-core" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stopColor="var(--glow-violet)" />
+              <stop offset="1" stopColor="transparent" />
+            </radialGradient>
+          </defs>
+          <circle
+            cx="50"
+            cy="50"
+            r="30"
+            fill="url(#constellation-core)"
+            opacity={active === null ? 0.55 : 1}
+            style={{ pointerEvents: "none" }}
+          />
 
-        {positions.map((p, i) => {
+          {positions.map((p, i) => {
+            const isActive = active === i;
+            return (
+              <g key={i}>
+                <motion.line
+                  x1="50"
+                  y1="50"
+                  x2={p.x}
+                  y2={p.y}
+                  stroke={isActive ? "var(--brand-bright)" : "var(--line-strong)"}
+                  strokeWidth={isActive ? 0.5 : 0.22}
+                  style={{ pointerEvents: "none" }}
+                  initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+                  whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: i * 0.05, ease: "easeOut" }}
+                />
+                {/* invisible hit area — hovering the line itself reveals the node */}
+                <line
+                  x1="50"
+                  y1="50"
+                  x2={p.x}
+                  y2={p.y}
+                  stroke="transparent"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                  style={{ pointerEvents: "stroke", cursor: "pointer" }}
+                  onMouseEnter={() => setActive(i)}
+                  onMouseLeave={() => setActive(null)}
+                />
+              </g>
+            );
+          })}
+        </svg>
+
+        {/* Center node */}
+        <div className="glass absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full text-center">
+          <span className="font-mono text-[0.6rem] leading-tight text-muted">ENARYX</span>
+          <span className="font-mono text-[0.6rem] leading-tight text-text">LABS</span>
+        </div>
+
+        {NODES.map((node, i) => {
+          const p = positions[i];
           const isActive = active === i;
+          const above = p.y < 45; // top row labels sit above; every other label sits below
           return (
-            <g key={i}>
-              {/* visible spoke */}
-              <motion.line
-                x1="50"
-                y1="50"
-                x2={p.x}
-                y2={p.y}
-                stroke={isActive ? "var(--brand-bright)" : "var(--line-strong)"}
-                strokeWidth={isActive ? 0.5 : 0.22}
-                style={{ pointerEvents: "none" }}
-                initial={reduced ? false : { pathLength: 0, opacity: 0 }}
-                whileInView={reduced ? undefined : { pathLength: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: i * 0.05, ease: "easeOut" }}
-              />
-              {/* invisible hit area — hovering the line reveals the node */}
-              <line
-                x1="50"
-                y1="50"
-                x2={p.x}
-                y2={p.y}
-                stroke="transparent"
-                strokeWidth="5"
-                strokeLinecap="round"
-                style={{ pointerEvents: "stroke", cursor: "pointer" }}
-                onMouseEnter={() => setActive(i)}
-                onMouseLeave={() => setActive(null)}
-              />
-            </g>
-          );
-        })}
-      </svg>
-
-      {/* Center node */}
-      <div className="glass absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full text-center">
-        <span className="font-mono text-[0.6rem] leading-tight text-muted">ENARYX</span>
-        <span className="font-mono text-[0.6rem] leading-tight text-text">LABS</span>
-      </div>
-
-      {NODES.map((node, i) => {
-        const p = positions[i];
-        const isActive = active === i;
-        const below = p.y < 50;
-        return (
-          <button
-            key={node.label}
-            type="button"
-            onMouseEnter={() => setActive(i)}
-            onMouseLeave={() => setActive(null)}
-            onFocus={() => setActive(i)}
-            onBlur={() => setActive(null)}
-            style={{ left: `${p.x}%`, top: `${p.y}%` }}
-            className="group absolute -translate-x-1/2 -translate-y-1/2"
-            aria-label={`${node.label} — ${node.detail}`}
-          >
-            <span
-              className={cn(
-                "block h-3 w-3 rounded-full border transition-all duration-300",
-                isActive
-                  ? "scale-[1.7] border-brand-bright bg-brand-bright shadow-[0_0_16px_var(--glow-violet)]"
-                  : "border-line-strong bg-surface group-hover:border-brand"
-              )}
-              aria-hidden
-            />
-            {/* label + detail — stacked, away from centre */}
-            <span
-              className={cn(
-                "pointer-events-none absolute left-1/2 w-max max-w-[10rem] -translate-x-1/2 text-center transition-opacity duration-200",
-                below ? "bottom-[calc(100%+0.5rem)]" : "top-[calc(100%+0.5rem)]"
-              )}
+            <button
+              key={node.label}
+              type="button"
+              onMouseEnter={() => setActive(i)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(i)}
+              onBlur={() => setActive(null)}
+              style={{ left: `${p.x}%`, top: `${p.y}%` }}
+              className="group absolute h-3 w-3 -translate-x-1/2 -translate-y-1/2"
+              aria-label={`${node.label} — ${node.detail}`}
             >
               <span
                 className={cn(
-                  "block font-mono text-[0.62rem] uppercase tracking-[0.12em] transition-colors",
-                  isActive ? "text-text" : "text-muted"
+                  "block h-3 w-3 rounded-full border transition-all duration-300",
+                  isActive
+                    ? "scale-[1.7] border-brand-bright bg-brand-bright shadow-[0_0_16px_var(--glow-violet)]"
+                    : "border-line-strong bg-surface group-hover:border-brand"
+                )}
+                aria-hidden
+              />
+              {/* label word only — absolutely placed so it never shifts */}
+              <span
+                className={cn(
+                  "pointer-events-none absolute left-1/2 w-24 -translate-x-1/2 text-center font-mono text-[0.6rem] uppercase leading-none tracking-[0.12em] transition-colors duration-200",
+                  above ? "bottom-full mb-2" : "top-full mt-2",
+                  isActive ? "text-brand" : "text-muted"
                 )}
               >
                 {node.label}
               </span>
-              <span
-                className={cn(
-                  "mt-1 block font-mono text-[0.64rem] leading-snug text-muted transition-opacity duration-200",
-                  isActive ? "opacity-100" : "opacity-0"
-                )}
-              >
-                {node.detail}
-              </span>
-            </span>
-          </button>
-        );
-      })}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Shared caption — fixed position, so hovering any node/spoke never
+          nudges the layout */}
+      <p
+        className={cn(
+          "mx-auto mt-6 min-h-[2.5rem] max-w-[34ch] text-center font-mono text-[0.8125rem] transition-colors duration-200",
+          active === null ? "text-muted" : "text-text"
+        )}
+        aria-live="polite"
+      >
+        {active === null ? (
+          "Hover a node or connection to see how it fits."
+        ) : (
+          <>
+            <span className="text-brand">{NODES[active].label}</span>
+            {" — "}
+            {NODES[active].detail}
+          </>
+        )}
+      </p>
     </div>
   );
 }
