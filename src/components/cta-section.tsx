@@ -12,9 +12,9 @@ export function CtaSection({
   return (
     <section className="border-t border-line py-[clamp(3.5rem,7vw,6rem)]">
       <Container>
-        <div className="relative isolate overflow-hidden rounded-3xl bg-[linear-gradient(140deg,var(--brand-strong),var(--ink)_88%)] px-6 py-14 shadow-[0_40px_90px_-44px_rgba(59,15,115,0.5)] sm:px-14 sm:py-20">
+        <div className="relative isolate mx-auto max-w-[920px] overflow-hidden rounded-3xl bg-[linear-gradient(140deg,var(--brand-strong),var(--ink)_92%)] px-6 py-12 shadow-[0_40px_90px_-46px_rgba(59,15,115,0.5)] sm:px-12 sm:py-14">
           <div
-            className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full bg-brand-bright/30 blur-[110px]"
+            className="pointer-events-none absolute -left-12 -top-20 h-56 w-56 rounded-full bg-brand-bright/25 blur-[110px]"
             aria-hidden
           />
           <div
@@ -22,15 +22,15 @@ export function CtaSection({
             aria-hidden
           />
 
-          <div className="relative max-w-[24ch]">
-            <span className="font-mono text-[0.72rem] uppercase tracking-[0.16em] text-on-brand/60">
+          <div className="relative max-w-[34ch]">
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-on-brand/55">
               Contact
             </span>
-            <h2 className="mt-5 text-[clamp(2rem,1.1rem+3.4vw,3.6rem)] uppercase leading-[1.02] tracking-tight text-on-brand">
+            <h2 className="mt-4 text-[clamp(1.8rem,1.1rem+2.4vw,2.75rem)] leading-[1.08] tracking-tight text-on-brand">
               {title}
             </h2>
-            <p className="mt-5 max-w-[44ch] text-on-brand/75">{body}</p>
-            <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <p className="mt-4 max-w-[46ch] text-on-brand/75">{body}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
               <CtaButton variant="onBrand">Start a Conversation</CtaButton>
               <a
                 href={`mailto:${site.email}`}

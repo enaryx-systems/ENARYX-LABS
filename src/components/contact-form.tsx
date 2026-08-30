@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema, budgetOptions, type ContactInput } from "@/lib/contact-schema";
 import { cn } from "@/lib/utils";
 
+// White fields on any background — crisp, readable, premium.
 const field =
-  "w-full rounded-[8px] border border-line-strong bg-bg px-3.5 py-2.5 text-sm text-text placeholder:text-muted/70 focus:border-brand focus:outline-none";
+  "w-full rounded-[10px] border border-[#d9d3e8] bg-white px-3.5 py-2.5 text-sm text-[#14101f] shadow-[0_1px_2px_rgba(20,14,40,0.04)] placeholder:text-[#8a8397] focus:border-[#5b21b6] focus:outline-none focus:ring-2 focus:ring-[#5b21b6]/15";
 const label = "font-mono text-[0.75rem] uppercase tracking-[0.1em] text-muted";
 const errorText = "text-[0.8125rem] text-brand";
 
@@ -109,16 +110,33 @@ export function ContactForm({
           <label htmlFor="budget" className={label}>
             Budget range
           </label>
-          <select id="budget" className={cn(field, "appearance-none")} defaultValue="" {...register("budget")}>
-            <option value="" disabled>
-              Select a range
-            </option>
-            {budgetOptions.map((b) => (
-              <option key={b} value={b}>
-                {b}
+          <div className="relative">
+            <select
+              id="budget"
+              className={cn(field, "appearance-none pr-10 [color-scheme:light]")}
+              defaultValue=""
+              {...register("budget")}
+            >
+              <option value="" disabled>
+                Select a range
               </option>
-            ))}
-          </select>
+              {budgetOptions.map((b) => (
+                <option key={b} value={b}>
+                  {b}
+                </option>
+              ))}
+            </select>
+            <svg
+              viewBox="0 0 16 16"
+              className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8a8397]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              aria-hidden="true"
+            >
+              <path d="M4 6l4 4 4-4" />
+            </svg>
+          </div>
           {errors.budget && <p className={errorText}>{errors.budget.message}</p>}
         </div>
       </div>

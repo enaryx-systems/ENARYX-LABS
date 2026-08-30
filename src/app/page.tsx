@@ -3,7 +3,7 @@ import { Container, Eyebrow, Section, SectionHead } from "@/components/primitive
 import { Reveal, RevealGroup, RevealItem } from "@/components/reveal";
 import { MagneticLink } from "@/components/magnetic";
 import { CtaButton } from "@/components/cta-button";
-import { HeroNetwork } from "@/components/hero-network";
+import { HeroBackdrop } from "@/components/hero-backdrop";
 import { ScrollIndicator } from "@/components/scroll-indicator";
 import { GradientCard } from "@/components/gradient-card";
 import { WordReveal } from "@/components/word-reveal";
@@ -32,47 +32,44 @@ export default function HomePage() {
     <>
       {/* ===================== 01 · Hero — who we are ==================== */}
       <section className="section-wash relative overflow-hidden">
+        <HeroBackdrop />
         <div
-          className="pointer-events-none absolute -left-40 top-[-10%] h-[34rem] w-[34rem] rounded-full blur-[160px]"
+          className="pointer-events-none absolute left-1/2 top-[8%] h-[30rem] w-[46rem] -translate-x-1/2 rounded-full blur-[170px]"
           style={{ background: "var(--glow-violet)" }}
           aria-hidden
         />
-        <Container className="relative grid items-center gap-12 pt-[clamp(2.5rem,6vw,4.5rem)] pb-[clamp(2.5rem,6vw,4.5rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-          <div>
-            <Reveal immediate>
-              <Eyebrow>Enaryx Labs · Technology &amp; Innovation</Eyebrow>
-            </Reveal>
-            <WordReveal
-              immediate
-              as="h1"
-              text="BUILD WHAT COMES NEXT."
-              gradientWord="NEXT."
-              className="mt-6 max-w-[13ch] text-[clamp(2.6rem,1rem+7vw,5.5rem)] uppercase"
-            />
-            <Reveal immediate delay={0.2}>
-              <p className="mt-6 max-w-[48ch] text-lg text-muted sm:text-xl">
-                We build intelligent software, digital products and systems that
-                turn ambitious ideas into real-world technology.
-              </p>
-            </Reveal>
-            <Reveal immediate delay={0.28}>
-              <div className="mt-9 flex flex-nowrap items-stretch gap-2.5 sm:gap-3">
-                <CtaButton className="flex-1 sm:flex-initial">
-                  Start a Conversation
-                </CtaButton>
-                <MagneticLink
-                  href="/work"
-                  variant="outline"
-                  className="flex-1 sm:flex-initial"
-                >
-                  Explore Our Work
-                </MagneticLink>
-              </div>
-            </Reveal>
-          </div>
-
-          <Reveal immediate delay={0.15} className="w-full">
-            <HeroNetwork />
+        <Container className="relative flex flex-col items-center pt-[clamp(4rem,11vw,8rem)] pb-[clamp(4rem,10vw,7rem)] text-center">
+          <Reveal immediate>
+            <Eyebrow className="justify-center">
+              Enaryx Labs · Technology &amp; Innovation
+            </Eyebrow>
+          </Reveal>
+          <WordReveal
+            immediate
+            as="h1"
+            text="BUILD WHAT COMES NEXT."
+            gradientWord="NEXT."
+            className="mt-7 max-w-[15ch] text-[clamp(2.8rem,1rem+8vw,6.5rem)] uppercase"
+          />
+          <Reveal immediate delay={0.2}>
+            <p className="mx-auto mt-7 max-w-[52ch] text-lg text-muted sm:text-xl">
+              We build intelligent software, digital products and systems that
+              turn ambitious ideas into real-world technology.
+            </p>
+          </Reveal>
+          <Reveal immediate delay={0.28}>
+            <div className="mt-10 flex flex-nowrap items-stretch justify-center gap-2.5 sm:gap-3">
+              <CtaButton className="flex-1 sm:flex-initial">
+                Start a Conversation
+              </CtaButton>
+              <MagneticLink
+                href="/work"
+                variant="outline"
+                className="flex-1 sm:flex-initial"
+              >
+                Explore Our Work
+              </MagneticLink>
+            </div>
           </Reveal>
         </Container>
         <ScrollIndicator />
