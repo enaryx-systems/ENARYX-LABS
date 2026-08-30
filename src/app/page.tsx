@@ -298,7 +298,7 @@ export default function HomePage() {
 
       {/* ============ 10 · Technology — what we engineer with ============ */}
       <Section>
-        <Container className="grid gap-10 lg:grid-cols-[28rem_minmax(0,1fr)] lg:items-center lg:gap-12">
+        <Container className="grid gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-center lg:gap-8">
           <Reveal>
             <SectionHead
               eyebrow="09 — Technology"

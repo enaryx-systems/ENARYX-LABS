@@ -67,7 +67,7 @@ function Row() {
 export function TechMarquee() {
   return (
     <div
-      className="group flex overflow-hidden py-4 [mask-image:linear-gradient(90deg,transparent,#000_18%,#000_82%,transparent)]"
+      className="group flex overflow-hidden py-4 [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_88%,transparent)]"
       aria-label="Technology stack"
     >
       <Row />
