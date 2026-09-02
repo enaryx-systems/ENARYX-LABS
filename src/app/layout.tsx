@@ -82,18 +82,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#070510" },
-  ],
+  themeColor: "#06040d",
   width: "device-width",
   initialScale: 1,
 };
 
 // Runs synchronously during HTML parse, before first paint:
 //  1. flip the no-js CSS fallback off
-//  2. apply the persisted theme (light-first — only override when a choice exists)
-const bootstrapScript = `document.documentElement.classList.remove('no-js');try{var t=localStorage.getItem('enaryx-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);}catch(e){}`;
+//  2. apply the persisted theme (dark-first — every visitor gets dark unless
+//     they have explicitly chosen light)
+const bootstrapScript = `document.documentElement.classList.remove('no-js');try{var t=localStorage.getItem('enaryx-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){}`;
 
 const orgJsonLd = {
   "@context": "https://schema.org",
@@ -114,7 +112,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="light"
+      data-theme="dark"
       className={`no-js ${manrope.variable} ${inter.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >

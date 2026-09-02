@@ -15,20 +15,20 @@ function subscribe(onChange: () => void) {
   return () => obs.disconnect();
 }
 function getSnapshot(): Theme {
-  return document.documentElement.getAttribute("data-theme") === "dark"
-    ? "dark"
-    : "light";
+  return document.documentElement.getAttribute("data-theme") === "light"
+    ? "light"
+    : "dark";
 }
 
 /**
- * Light-first theme switch. The no-flash work is done by the inline script in
+ * Dark-first theme switch. The no-flash work is done by the inline script in
  * the root layout; this reflects and updates that state via the `data-theme`
  * attribute (observed, so no setState-in-effect). The effect only re-applies
  * the stored choice after React's dev Strict remount clears <html> attributes —
  * a no-op in production.
  */
 export function ThemeToggle({ className }: { className?: string }) {
-  const theme = useSyncExternalStore(subscribe, getSnapshot, () => "light" as Theme);
+  const theme = useSyncExternalStore(subscribe, getSnapshot, () => "dark" as Theme);
   const isDark = theme === "dark";
 
   useEffect(() => {

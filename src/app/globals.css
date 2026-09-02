@@ -3,10 +3,11 @@
 /* ---------------------------------------------------------------
    Semantic tokens.
 
-   The site is LIGHT-FIRST: bare :root is the light theme and the
-   primary experience. :root[data-theme="dark"] is the opt-in dark
-   theme, applied by a no-flash inline script in the root layout
-   (localStorage key: "enaryx-theme"). There is no prefers-color-scheme
+   The site is DARK-FIRST: the layout renders <html data-theme="dark">
+   for every visitor, so :root[data-theme="dark"] is the primary
+   experience. Bare :root holds the light palette, applied only when a
+   visitor explicitly picks light (data-theme="light", persisted to
+   localStorage key "enaryx-theme"). There is no prefers-color-scheme
    auto-switch — the toggle is the single source of truth.
 
    Brand identity: deep Enaryx purple + electric purple + black +
