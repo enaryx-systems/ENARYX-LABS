@@ -498,6 +498,11 @@ a { color: inherit; text-decoration: none; }
 .cursor-spark.is-live {
   animation: enaryx-spark 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
+/* smaller + a touch quicker on phones so the trail doesn't crowd the screen */
+@media (max-width: 640px) {
+  .cursor-spark { font-size: 0.68rem; }
+  .cursor-spark.is-live { animation-duration: 0.95s; }
+}
 @keyframes enaryx-spark {
   0% {
     opacity: 0;
@@ -513,7 +518,9 @@ a { color: inherit; text-decoration: none; }
       rotate(var(--rot)) scale(0.72);
   }
 }
-@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+/* The glyph trail runs on every device (mouse, pen, finger) — only
+   reduced-motion opts out. The arrow above stays desktop-only. */
+@media (prefers-reduced-motion: reduce) {
   .cursor-spark { display: none; }
 }
 

@@ -3,11 +3,13 @@
 import { useEffect, useRef } from "react";
 
 /**
- * The custom cursor: one small gradient arrow that tracks the pointer 1:1,
- * trailing a faint stream of code glyphs (`<>`, `/`, `{ }`, `//`, `01`…) that
- * drift up and fade — a light nod to what the lab actually builds. Desktop
- * (pointer: fine) + motion-ok only; hidden inside the navbar
- * (`data-cursor-skip`), where the native cursor + underline hover take over.
+ * The custom cursor: on a fine pointer, one small gradient arrow tracks the
+ * pointer 1:1; on every device (mouse, pen or finger) a faint stream of code
+ * glyphs (`<>`, `/`, `{ }`, `//`, `01`…) trails the point of contact, drifting
+ * up and fading — a light nod to what the lab actually builds.
+ *
+ * Motion-ok only. The arrow is hidden inside the navbar (`data-cursor-skip`);
+ * on touch there's no arrow, just the glyph trail while a finger moves.
  */
 
 const GLYPHS = ["<>", "/", "{", "}", "//", "01", "*", "·", "()", ";", "[]", "=>"];
@@ -18,22 +20,26 @@ export function Cursor() {
   const sparkLayer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fine = window.matchMedia("(pointer: fine)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || reduced) return;
+    if (reduced) return;
 
+    const fine = window.matchMedia("(pointer: fine)").matches;
     const el = ref.current;
     const layer = sparkLayer.current;
-    if (!el || !layer) return;
+    if (!layer) return;
 
-    document.body.classList.add("custom-cursor-active");
+    if (fine) document.body.classList.add("custom-cursor-active");
 
     const sparks = Array.from(layer.children) as HTMLElement[];
     let cursor = 0;
     let lastSpawn = 0;
     let lastX = 0;
     let lastY = 0;
-    let skipping = false;
+
+    // Lighter cadence on touch — every spawn forces a reflow, and fingers
+    // generate a lot of move events while scrolling.
+    const minGap = fine ? 42 : 80;
+    const minDist = fine ? 5 : 10;
 
     const spawn = (x: number, y: number) => {
       const s = sparks[cursor];
@@ -49,27 +55,38 @@ export function Cursor() {
       s.classList.add("is-live");
     };
 
-    const onMove = (e: PointerEvent) => {
-      const t = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-      skipping = !!t?.closest("[data-cursor-skip]");
-      el.style.opacity = skipping ? "0" : "1";
-      el.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-
-      if (skipping) return;
+    const trail = (x: number, y: number) => {
       const now = performance.now();
-      const moved = Math.hypot(e.clientX - lastX, e.clientY - lastY);
-      if (now - lastSpawn > 45 && moved > 5) {
-        spawn(e.clientX, e.clientY);
+      if (now - lastSpawn > minGap && Math.hypot(x - lastX, y - lastY) > minDist) {
+        spawn(x, y);
         lastSpawn = now;
-        lastX = e.clientX;
-        lastY = e.clientY;
+        lastX = x;
+        lastY = y;
       }
     };
 
-    window.addEventListener("pointermove", onMove, { passive: true });
+    const onPointerMove = (e: PointerEvent) => {
+      if (fine && el) {
+        const t = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
+        const skipping = !!t?.closest("[data-cursor-skip]");
+        el.style.opacity = skipping ? "0" : "1";
+        el.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        if (skipping) return;
+      }
+      trail(e.clientX, e.clientY);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (t) trail(t.clientX, t.clientY);
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
 
     return () => {
-      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("touchmove", onTouchMove);
       document.body.classList.remove("custom-cursor-active");
     };
   }, []);
