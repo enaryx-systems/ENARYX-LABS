@@ -13,10 +13,13 @@ Env vars (`.env.local` locally, Vercel → Settings → Environment Variables in
 
 ```
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_mrfolos
-NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=7DMbPB7gb5Bzy4Qgh
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=<EmailJS → Account → General → Public Key>
 NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID=template_xranki7
 NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID=template_twbdso3
 ```
+
+> The public key is not a secret (it ships in the site's client JS), but keep
+> the live value in `.env.local` / Vercel env, not in the repo.
 
 ---
 
