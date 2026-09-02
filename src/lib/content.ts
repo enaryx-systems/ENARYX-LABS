@@ -232,6 +232,23 @@ export type CaseStudy = {
   outcome: string[];
   stack: string[];
   tags?: string[];
+  /** Optional rich showcase sections. */
+  pains?: string[];
+  approach?: string[];
+  capabilities?: { title: string; body: string }[];
+  howItWorks?: { label: string; body: string }[];
+  highlights?: { title: string; body: string }[];
+  targets?: { value: string; label: string }[];
+  targetsNote?: string;
+  /** Client logo — square. `logo` is the light-theme lockup, `logoDark` the dark. */
+  logo?: string;
+  logoDark?: string;
+  /** Wide screenshot / showcase image. */
+  shot?: string;
+  /** Public URL of the shipped product. */
+  liveUrl?: string;
+  /** Still being built — shows an "Under development" badge on the card. */
+  wip?: boolean;
   published: boolean;
 };
 
@@ -239,76 +256,147 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "smart-med-records",
     index: "01",
-    client: "Smart Med Records",
+    client: "Smart Med Record Inc.",
     sector: "Healthcare / Legal Technology",
     title: "A records-review platform with an AI extraction pipeline",
     summary:
-      "A multi-tenant platform designed to streamline medical-record workflows, case review and secure deliverables for legal teams.",
+      "An AI-assisted, physician-reviewed medico-legal record review platform — from secure record intake through automated analysis to a source-cited, verified deliverable.",
     year: "2025",
     problem:
-      "A medical-legal records review firm was running its entire operation — intake, review, QC, invoicing — over email and shared drives. Nothing was traceable to a case, clients had no visibility, and staff re-keyed data from PDFs by hand.",
+      "Personal-injury and malpractice firms work cases with thousands of pages of disorganized medical records — duplicate scans, missing date ranges, handwritten notes, mixed providers. Building a chronology by hand is slow, expensive and hard to defend once a conclusion loses its source page — but a raw LLM summary isn't defensible either.",
     constraints: [
       "Strict separation between client firms — no data could leak across tenants",
       "The review workflow had to mirror an existing written SOP exactly",
       "Deliverables could only be released after the invoice was paid",
-      "A fixed budget and a hard deadline tied to a client contract",
     ],
     built: [
-      "Four role-scoped portals: client, admin, reviewer, billing",
-      "A guided multi-step case workflow matching the review SOP, with draft-and-resume",
-      "Consolidated invoicing across multiple cases, with payment-gated document release",
-      "An AI pipeline that extracts providers, dates of service, and diagnoses from uploaded records",
-      "A full audit log — every approval, delivery, and payment tied to its case",
+      "Four role-scoped portals (client, admin, reviewer, billing) over a guided intake-to-delivery workflow, with server-side RBAC on every endpoint",
+      "An async AI pipeline: OCR and extraction into a strict schema, embeddings for source-cited semantic search across a firm's whole corpus, live status over WebSockets",
+      "Consolidated, payment-gated invoicing with generated PDFs, plus an immutable per-case audit trail",
     ],
     architecture: [
-      { layer: "Interface", detail: "Next.js App Router, role-scoped views, TanStack Query" },
-      { layer: "Services", detail: "NestJS REST API, RBAC guard, invoicing engine" },
-      { layer: "Processing", detail: "Background jobs for document + AI extraction, with retries" },
-      { layer: "Data", detail: "PostgreSQL via Prisma, document storage, append-only audit log" },
+      { layer: "Web", detail: "Next.js 15 App Router · React 19 · TanStack Query for server state · Redux Toolkit for UI state · Clerk auth" },
+      { layer: "API", detail: "NestJS 11 · Prisma 6 over PostgreSQL · BullMQ + Redis job queue · Socket.IO gateway" },
+      { layer: "AI", detail: "OpenAI for extraction · text-embedding-3-small for embeddings · Qdrant for semantic search" },
+      { layer: "Infra", detail: "S3-compatible storage · SendGrid · Puppeteer PDF · Sentry · Docker + Trivy scan · CI quality gate · Vercel" },
     ],
+    pains: [
+      "A case arrives as thousands of pages — duplicate scans, missing date ranges, handwritten notes, mixed providers",
+      "Building the chronology and finding the decisive fact is slow and expensive by hand",
+      "A conclusion that loses its source page is hard to defend in a deposition",
+      "A raw LLM summary is faster, but it has no citations and can invent facts",
+    ],
+    approach: [
+      "An async pipeline runs OCR and extraction into a strict schema — the model fills fields, it can't invent them",
+      "Every extracted value and every search result carries its source page",
+      "RBAC is enforced per-endpoint on the API; the front-end route guard is only a UX convenience",
+      "A physician reviews and signs off before any deliverable is released",
+    ],
+    capabilities: [
+      { title: "Secure intake wizard", body: "Multi-step case creation with client-side validation, draft-and-resume, and encrypted upload to object storage." },
+      { title: "Async AI document pipeline", body: "Digital PDFs are parsed directly; scanned pages fall back to a vision model for OCR and extraction in one pass, validated against a strict schema." },
+      { title: "Source-cited semantic search", body: "Natural-language questions across a firm's whole corpus, returning ranked snippets that link back to the exact case and file." },
+      { title: "Per-case AI summary", body: "A generated case narrative stored with the case, with the model name recorded for auditability." },
+      { title: "Reviewer workflow", body: "Physicians and reviewers see only their assigned cases, update status, and upload verified deliverables." },
+      { title: "Billing & audit trail", body: "Consolidated multi-case invoices, sequential numbering under a DB transaction, payment-gated downloads, and an immutable per-case event log." },
+    ],
+    howItWorks: [
+      { label: "Intake", body: "The firm creates a matter, selects services, and uploads records through the guided wizard." },
+      { label: "Extract", body: "Each file is queued to a worker: text or vision extraction into a validated schema, then chunk-and-embed for search." },
+      { label: "Review", body: "A physician checks the extraction and the generated summary, corrects anything, and signs off." },
+      { label: "Deliver", body: "The verified deliverable is released once the invoice is paid; every step lands on the case timeline." },
+    ],
+    highlights: [
+      { title: "Server-side RBAC by default", body: "A global auth + roles guard protects every route; endpoints opt out explicitly. Four roles — client (firm-scoped, team-seat visibility), admin, reviewer, billing." },
+      { title: "Defense-in-depth vector search", body: "Qdrant payload filters scope results for speed, but every hit is re-checked against the caller's real RBAC scope in application code before it's returned." },
+      { title: "Resilient job pipeline", body: "Embedding is best-effort — a search-index failure doesn't fail the user-visible extraction. Re-running extraction clears stale vectors first." },
+      { title: "CI quality gate", body: "Policy checks, lint, typecheck, build, dependency audit, and a Docker build + Trivy scan (HIGH/CRITICAL fails the build) for both apps." },
+    ],
+    targets: [
+      { value: "24–48h", label: "Target turnaround per matter" },
+      { value: "99%", label: "Accuracy goal, with mandatory human review" },
+      { value: "HIPAA-aligned", label: "Encryption in transit and at rest, least-privilege, audit logging" },
+    ],
+    targetsNote:
+      "The product's stated targets — mandatory human review before every delivery.",
     outcome: [
-      "Manual data entry from records dropped to near zero",
-      "Clients self-serve case status instead of emailing for updates",
-      "Every deliverable is now traceable to an approval and a payment",
+      "Manual re-keying from records dropped to near zero",
+      "Every search result and extraction carries its source page — defensible, not a black box",
+      "Clients track case status themselves; every deliverable ties back to an approval and a payment",
     ],
-    stack: ["Next.js", "NestJS", "PostgreSQL", "Prisma", "AI extraction", "RBAC"],
+    stack: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript",
+      "Tailwind",
+      "TanStack Query",
+      "Redux Toolkit",
+      "NestJS 11",
+      "Prisma",
+      "PostgreSQL",
+      "BullMQ",
+      "Redis",
+      "Socket.IO",
+      "OpenAI",
+      "Qdrant",
+      "Clerk",
+      "AWS S3",
+      "Puppeteer",
+      "Docker",
+      "Vercel",
+    ],
     tags: ["AI", "Healthcare", "Legal", "Platform"],
+    logo: "/white bg logo.jpeg",
+    logoDark: "/white bg logo.jpeg",
+    shot: "/work/smart-med-site.webp",
+    liveUrl: "https://smart-med-records.vercel.app",
+    wip: true,
     published: true,
   },
   {
-    slug: "furniture-bookings",
+    slug: "fb-infrastructure",
     index: "02",
-    client: "Bookings platform",
-    // TODO: replace placeholder copy below with the real project details.
-    sector: "E-commerce / scheduling",
-    title: "A furniture rental and bookings platform",
+    client: "FB Infrastructure",
+    sector: "Architecture / Construction",
+    title: "A premium build studio web presence with a cleaner conversion path",
     summary:
-      "A catalogue, availability calendar, and checkout for a furniture rental business — inventory that can’t be double-booked, and a dashboard the owner actually uses.",
-    year: "2024",
+      "A refined marketing site for an architecture, construction and interiors firm — designed to feel premium, load fast, and turn more project enquiries into real conversations.",
+    year: "2025",
     problem:
-      "PLACEHOLDER — describe the business, what they were using before, and why it was failing them.",
+      "FB Infrastructure was delivering high-quality design and build work, but the online presence did not reflect that level of craft. The company needed a sharper digital identity and a simpler way to convert interest into qualified enquiries.",
     constraints: [
-      "PLACEHOLDER — budget, timeline, or technical constraint",
-      "PLACEHOLDER — a second real constraint",
+      "The site needed to be easy for a non-technical team to manage",
+      "No heavy CMS or backend infrastructure was wanted",
+      "A large share of enquiries came from mobile devices, so performance mattered",
     ],
     built: [
-      "PLACEHOLDER — catalogue and search",
-      "PLACEHOLDER — availability + double-booking prevention",
-      "PLACEHOLDER — checkout and payments",
-      "PLACEHOLDER — owner dashboard",
+      "A premium single-page experience with services, portfolio, credibility and enquiry flow",
+      "A flat-file content structure that keeps updates simple and low-maintenance",
+      "A dual-channel enquiry system using EmailJS and WhatsApp for reliable lead capture",
     ],
     architecture: [
-      { layer: "Interface", detail: "PLACEHOLDER" },
-      { layer: "Services", detail: "PLACEHOLDER" },
-      { layer: "Data", detail: "PLACEHOLDER" },
+      { layer: "Pages", detail: "Next.js 16 · React 19 · Tailwind v4 — fully prerendered for performance and simplicity" },
+      { layer: "Content", detail: "Typed, maintainable content blocks that let the studio update the site without developer dependency" },
+      { layer: "Delivery", detail: "Static deployment on Vercel with no runtime complexity or unnecessary infrastructure" },
+    ],
+    approach: [
+      "Keep the visual language refined and minimal instead of crowded with unnecessary elements",
+      "Prioritise speed and clarity so the site feels premium on mobile as well as desktop",
+      "Create a direct path from interest to enquiry without friction",
     ],
     outcome: [
-      "PLACEHOLDER — a real, specific result",
-      "PLACEHOLDER — a second result",
+      "The brand now aligns with the quality of the work and the client experience",
+      "The studio can manage updates independently without a technical bottleneck",
+      "More project enquiries are captured through a cleaner, faster mobile-first experience",
     ],
-    stack: ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
-    // Hidden until the real project details replace the PLACEHOLDER copy above.
-    published: false,
+    stack: ["Next.js 16", "React 19", "TypeScript", "Tailwind v4", "EmailJS", "Vercel"],
+    tags: ["Web", "Architecture", "Construction", "Brand"],
+    logo: "/LOGO.png",
+    logoDark: "/LOGO.png",
+    shot: "/work/fb-infrastructure-preview.png",
+    liveUrl: "https://furniture-book.vercel.app/",
+    wip: true,
+    published: true,
   },
 ];
 

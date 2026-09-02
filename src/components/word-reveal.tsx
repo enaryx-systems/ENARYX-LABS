@@ -27,9 +27,9 @@ export function WordReveal({
   const target = { y: "0%", opacity: 1 } as const;
 
   return (
-    <Tag className={cn("word-reveal", className)}>
+    <Tag className={cn("word-reveal", className)} aria-label={text}>
       {words.map((word, i) => (
-        <span key={`${word}-${i}`} className="mr-[0.28em] inline-block overflow-hidden align-bottom">
+        <span key={`${word}-${i}`} aria-hidden className="mr-[0.28em] inline-block overflow-hidden align-bottom">
           <motion.span
             className={cn("inline-block", word === gradientWord && "text-gradient")}
             initial={reduced ? false : { y: "110%", opacity: 0 }}

@@ -356,6 +356,81 @@ a { color: inherit; text-decoration: none; }
   .glow-follow::before { display: none; }
 }
 
+/* Hero backdrop — slow-drifting ambient glow orbs */
+@keyframes enaryx-hero-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6%, 4%, 0) scale(1.12); }
+}
+@keyframes enaryx-hero-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50% { transform: translate3d(-5%, -6%, 0) scale(0.92); }
+}
+.animate-hero-drift-a { animation: enaryx-hero-drift-a 22s ease-in-out infinite; }
+.animate-hero-drift-b { animation: enaryx-hero-drift-b 27s ease-in-out infinite; }
+
+/* Oversized hero mark — slow breathe/drift */
+@keyframes enaryx-mark-breathe {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.06) rotate(3deg); }
+}
+.animate-mark-breathe { animation: enaryx-mark-breathe 16s ease-in-out infinite; }
+
+/* ---------------------------------------------------------------
+   Work card — animated conic gradient border ring.
+   Always rotating slowly; brighter + faster on hover. The @property
+   registration lets the angle animate; without it the ring is a
+   static gradient (still fine).
+   --------------------------------------------------------------- */
+@property --wc-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes enaryx-wc-spin {
+  to { --wc-angle: 360deg; }
+}
+.work-card {
+  position: relative;
+  isolation: isolate;
+}
+.work-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--wc-angle),
+    var(--brand) 0deg,
+    var(--brand-bright) 70deg,
+    var(--brand) 150deg,
+    var(--brand-strong) 240deg,
+    var(--brand-bright) 310deg,
+    var(--brand) 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  opacity: 0.55;
+  animation: enaryx-wc-spin 8s linear infinite;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.work-card:hover::before {
+  opacity: 1;
+  animation-duration: 2.8s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .work-card::before { animation: none; opacity: 0.6; }
+}
+
+/* Lab illustration — idea → system transformation */
+@keyframes enaryx-lab-flow { to { stroke-dashoffset: -60; } }
+@keyframes enaryx-lab-spin { to { transform: rotate(360deg); } }
+.lab-rail-flow { animation: enaryx-lab-flow 2.4s linear infinite; }
+.lab-spin { animation: enaryx-lab-spin 16s linear infinite; }
+
 /* Marquee */
 @keyframes enaryx-marquee {
   from { transform: translateX(0); }
@@ -401,6 +476,44 @@ a { color: inherit; text-decoration: none; }
 }
 @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
   .cursor-arrow { display: none; }
+}
+
+/* Code-glyph trail that streams off the cursor */
+.cursor-spark {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--brand-bright);
+  opacity: 0;
+  will-change: transform, opacity;
+  text-shadow: 0 0 10px var(--glow-violet);
+}
+.cursor-spark.is-live {
+  animation: enaryx-spark 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes enaryx-spark {
+  0% {
+    opacity: 0;
+    transform: translate(var(--sx), var(--sy)) rotate(0deg) scale(0.6);
+  }
+  18% {
+    opacity: 0.7;
+    transform: translate(var(--sx), var(--sy)) rotate(calc(var(--rot) * 0.3)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--sx) + var(--dx)), calc(var(--sy) + var(--dy) - 34px))
+      rotate(var(--rot)) scale(0.72);
+  }
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-spark { display: none; }
 }
 
 /* Primary nav: keep the native cursor (custom ring is opted out via

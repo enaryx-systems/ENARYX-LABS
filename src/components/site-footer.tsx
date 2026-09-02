@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "./logo";
+import { HeroMark } from "./hero-mark";
 import { site, social } from "@/lib/site";
 import { services } from "@/lib/content";
 
@@ -37,6 +38,10 @@ export function SiteFooter() {
         className="pointer-events-none absolute inset-0 opacity-[0.5] [mask-image:linear-gradient(180deg,#000,transparent_45%)]"
         style={{ backgroundImage: "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)", backgroundSize: "56px 56px" }}
         aria-hidden
+      />
+      <HeroMark
+        position="right-[-16%] top-1/2 -translate-y-1/2 sm:right-[-12%] lg:right-[-8%]"
+        size="w-[18rem] max-w-[28vw] opacity-[0.10] lg:w-[24rem]"
       />
       <div className="relative mx-auto max-w-[1200px] px-6 py-16 lg:px-10">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">

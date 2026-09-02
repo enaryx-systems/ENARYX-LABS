@@ -3,7 +3,7 @@
 // back to whatever was last cached — or the offline page — when there's no
 // connection. Static assets are cached as they're requested.
 
-const VERSION = "enaryx-v2";
+const VERSION = "enaryx-v3";
 const OFFLINE_URL = "/offline";
 
 const APP_SHELL = [
@@ -17,7 +17,7 @@ const APP_SHELL = [
   "/contact",
   OFFLINE_URL,
   "/manifest.json",
-  "/icon.svg",
+  "/icon.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -46,6 +46,21 @@ self.addEventListener("fetch", (event) => {
   // cross-origin fonts/scripts, POSTs) goes straight to the network.
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
   if (url.pathname.startsWith("/api/")) return;
+
+  // Next build output is content-hashed — always go to the network so a new
+  // deploy is never shadowed by a stale chunk; fall back to cache offline.
+  if (url.pathname.startsWith("/_next/")) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const copy = response.clone();
+          caches.open(VERSION).then((cache) => cache.put(request, copy));
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
 
   // Pages: network-first, cache as a fallback, offline page as a last resort.
   if (request.mode === "navigate") {

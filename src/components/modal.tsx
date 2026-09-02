@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useLenis } from "lenis/react";
 import { ContactForm } from "./contact-form";
 import { site } from "@/lib/site";
 
@@ -24,6 +25,7 @@ export function useContactModal(): ModalApi {
 export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const reduced = useReducedMotion();
+  const lenis = useLenis();
   const panelRef = useRef<HTMLDivElement>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
 
@@ -58,6 +60,9 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    // Lenis hijacks wheel/touch scroll on the root, so `overflow: hidden` alone
+    // won't stop the page behind the modal from moving — pause it explicitly.
+    lenis?.stop();
     const t = setTimeout(() => {
       panelRef.current
         ?.querySelector<HTMLElement>("input,textarea,button")
@@ -66,9 +71,10 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
+      lenis?.start();
       clearTimeout(t);
     };
-  }, [isOpen, close]);
+  }, [isOpen, close, lenis]);
 
   return (
     <ModalCtx.Provider value={{ open, close, isOpen }}>
@@ -76,6 +82,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            data-lenis-prevent
             className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 sm:items-center sm:p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -51,7 +51,7 @@ src/
     not-found.tsx
     sitemap.ts  robots.ts
     api/
-      contact/route.ts    contact form → Resend (or console log)
+      contact/route.ts    legacy: contact form → Resend (unused; form uses EmailJS client-side)
       demo/route.ts        "Ask what we do" assistant → Claude (or rule-based fallback)
   components/
     modal.tsx              ModalProvider + useContactModal() — the animated
@@ -112,8 +112,9 @@ one place pill/rounded shapes remain, kept deliberately minor.
 
 | Variable | Effect if unset |
 |---|---|
-| `RESEND_API_KEY` | Contact submissions are logged to the server console, not emailed |
-| `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` | Falls back to `hello@enaryxlabs.com` / Resend's onboarding sender |
+| `NEXT_PUBLIC_EMAILJS_SERVICE_ID` / `_PUBLIC_KEY` / `_CONTACT_TEMPLATE_ID` | The contact form shows "email us directly at enaryxlab@gmail.com" instead of sending |
+| `NEXT_PUBLIC_EMAILJS_AUTOREPLY_TEMPLATE_ID` | The submitter gets no auto-reply (the team notification still sends) |
+| `RESEND_API_KEY` / `CONTACT_TO_EMAIL` / `CONTACT_FROM_EMAIL` | Legacy `/api/contact` route only — the live form no longer uses it |
 | `ANTHROPIC_API_KEY` | The demo assistant answers from a deterministic fallback instead of Claude |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Analytics script is not loaded |
 

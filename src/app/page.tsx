@@ -1,29 +1,21 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container, Eyebrow, Section, SectionHead } from "@/components/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/reveal";
 import { MagneticLink } from "@/components/magnetic";
 import { CtaButton } from "@/components/cta-button";
 import { HeroBackdrop } from "@/components/hero-backdrop";
+import { HeroMark } from "@/components/hero-mark";
 import { ScrollIndicator } from "@/components/scroll-indicator";
 import { GradientCard } from "@/components/gradient-card";
 import { WordReveal } from "@/components/word-reveal";
 import { FeaturedProduct } from "@/components/featured-product";
-import { Constellation } from "@/components/constellation";
 import { Faq } from "@/components/faq";
 import { CtaSection } from "@/components/cta-section";
 import { TechMarquee } from "@/components/tech-marquee";
-import {
-  services,
-  differentiators,
-  labTriad,
-  audiences,
-  forStartups,
-  forBusinesses,
-  rndAreas,
-  caseStudies,
-} from "@/lib/content";
-
-const num = (i: number) => String(i + 1).padStart(2, "0");
+import { LabIllustration } from "@/components/lab-illustration";
+import { FounderJourney } from "@/components/founder-journey";
+import { services, forStartups, forBusinesses, caseStudies } from "@/lib/content";
 
 export default function HomePage() {
   const featured = caseStudies.filter((c) => c.published);
@@ -33,14 +25,15 @@ export default function HomePage() {
       {/* ===================== 01 · Hero — who we are ==================== */}
       <section className="section-wash relative overflow-hidden">
         <HeroBackdrop />
+        <HeroMark />
         <div
-          className="pointer-events-none absolute left-1/2 top-[8%] h-[30rem] w-[46rem] -translate-x-1/2 rounded-full blur-[170px]"
+          className="pointer-events-none absolute left-1/2 top-[8%] h-[30rem] w-[46rem] -translate-x-1/2 rounded-full opacity-70 blur-[170px]"
           style={{ background: "var(--glow-violet)" }}
           aria-hidden
         />
-        <Container className="relative flex flex-col items-center pt-[clamp(4rem,11vw,8rem)] pb-[clamp(4rem,10vw,7rem)] text-center">
+        <Container className="relative flex flex-col items-start pt-[clamp(4rem,11vw,8rem)] pb-[clamp(4rem,10vw,7rem)] text-left">
           <Reveal immediate>
-            <Eyebrow className="justify-center">
+            <Eyebrow>
               Enaryx Labs · Technology &amp; Innovation
             </Eyebrow>
           </Reveal>
@@ -52,13 +45,13 @@ export default function HomePage() {
             className="mt-7 max-w-[15ch] text-[clamp(2.8rem,1rem+8vw,6.5rem)] uppercase"
           />
           <Reveal immediate delay={0.2}>
-            <p className="mx-auto mt-7 max-w-[52ch] text-lg text-muted sm:text-xl">
+            <p className="mt-7 max-w-[46ch] text-lg text-muted sm:text-xl">
               We build intelligent software, digital products and systems that
               turn ambitious ideas into real-world technology.
             </p>
           </Reveal>
           <Reveal immediate delay={0.28}>
-            <div className="mt-10 flex flex-nowrap items-stretch justify-center gap-2.5 sm:gap-3">
+            <div className="mt-10 flex flex-nowrap items-stretch justify-start gap-2.5 sm:gap-3">
               <CtaButton className="flex-1 sm:flex-initial">
                 Start a Conversation
               </CtaButton>
@@ -77,38 +70,24 @@ export default function HomePage() {
 
       {/* =============== 02 · The Lab — why we exist =============== */}
       <Section>
-        <Container className="grid gap-12 lg:grid-cols-[1fr_0.95fr] lg:gap-16">
+        <Container className="grid gap-12 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-16 [&>*]:min-w-0">
           <Reveal>
             <Eyebrow>01 — The Lab</Eyebrow>
             <WordReveal
+              immediate
               as="h2"
               text="WE BUILD TECHNOLOGY FOR IDEAS THAT MATTER."
               className="mt-6 max-w-[18ch] text-[clamp(1.9rem,1.2rem+2.6vw,3rem)] uppercase"
             />
-            <p className="mt-6 max-w-[50ch] text-muted">
-              Enaryx Labs is a technology and innovation company building
-              intelligent software, digital products and emerging technology for
-              ambitious ideas and real-world problems.
+            <p className="mt-6 max-w-[46ch] text-muted">
+              A technology and innovation company building intelligent software,
+              digital products and emerging technology for ambitious ideas.
             </p>
           </Reveal>
 
-          <RevealGroup className="flex flex-col gap-3">
-            {labTriad.map((item, i) => (
-              <RevealItem key={item.title}>
-                <div className="card-grad group flex items-start gap-4 rounded-2xl p-5 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[var(--card-shadow-hover)]">
-                  <span className="mt-0.5 font-mono text-[0.8125rem] text-brand">
-                    {num(i)}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-base uppercase tracking-tight">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-muted">{item.body}</p>
-                  </div>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+          <Reveal delay={0.05}>
+            <LabIllustration />
+          </Reveal>
         </Container>
       </Section>
 
@@ -118,7 +97,7 @@ export default function HomePage() {
           <SectionHead
             eyebrow="02 — Capabilities"
             title="What we build."
-            lede="From intelligent systems to complete digital products, we build technology around the problem — not the trend."
+            lede="From intelligent systems to complete digital products — built around the problem in front of us."
           />
           <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s) => (
@@ -148,12 +127,11 @@ export default function HomePage() {
           <Reveal>
             <Eyebrow>03 — System</Eyebrow>
             <h2 className="mt-6 max-w-[18ch] text-[clamp(1.9rem,1.2rem+2vw,2.8rem)] tracking-tight">
-              From idea to a working system.
+              Built as real systems.
             </h2>
-            <p className="mt-5 max-w-[48ch] text-muted">
-              We design, build and instrument products as real systems — with the
-              architecture, workflows and observability needed to evolve beyond
-              the first release.
+            <p className="mt-5 max-w-[46ch] text-muted">
+              We design and build products as real systems — architecture,
+              workflows and observability included from the start.
             </p>
           </Reveal>
           <Reveal delay={0.05}>
@@ -162,103 +140,18 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ============ 05 · Ecosystem — how the pieces connect ============ */}
-      <Section>
-        <Container className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <Reveal>
-            <SectionHead eyebrow="04 — Ecosystem" title="A systems-level approach." />
-            <p className="mt-6 max-w-[46ch] text-muted">
-              Products rarely exist in isolation. We think across the systems
-              around them — data, infrastructure, workflows, interfaces and
-              intelligence.
-            </p>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <Constellation />
-          </Reveal>
-        </Container>
-      </Section>
-
-      {/* ============ 06 · Principles — how we think ============ */}
-      <Section tint>
-        <Container>
-          <SectionHead eyebrow="05 — Principles" title="Technology with purpose." />
-          <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {differentiators.map((d, i) => (
-              <RevealItem key={d.title}>
-                <div className="card-grad group relative h-full overflow-hidden rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
-                  <span
-                    className="pointer-events-none absolute -right-3 -top-5 select-none font-display text-[5.5rem] leading-none text-transparent [-webkit-background-clip:text] [background-clip:text] [background-image:var(--grad-brand)] opacity-[0.14]"
-                    aria-hidden
-                  >
-                    {num(i)}
-                  </span>
-                  <span className="relative font-mono text-[0.8125rem] text-brand">{num(i)}</span>
-                  <h3 className="relative mt-3 font-display text-lg uppercase tracking-tight">
-                    {d.title}
-                  </h3>
-                  <p className="relative mt-2 text-sm text-muted">{d.body}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </Container>
-      </Section>
-
-      {/* ============ 07 · Built for Ambition — who we serve ============ */}
-      <Section>
-        <Container>
-          <SectionHead eyebrow="06 — Built for Ambition" title="Built for ambition." />
-          <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {audiences.map((a, i) => (
-              <RevealItem key={a.title}>
-                <div className="card-grad group h-full rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
-                  <span className="font-mono text-[0.72rem] text-brand">{num(i)}</span>
-                  <h3 className="mt-2 font-display text-base uppercase tracking-tight">
-                    {a.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm text-muted">{a.body}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </Container>
-      </Section>
-
-      {/* ============ 08 · From Idea to Product — founders ============ */}
+      {/* ============ 04 · From Idea to Product — founders ============ */}
       <Section tint>
         <Container>
           <div className="max-w-[46ch]">
             <SectionHead
-              eyebrow="07 — For Founders"
+              eyebrow="04 — For Founders"
               title="From idea to product."
               lede={forStartups.lede}
             />
           </div>
           <Reveal delay={0.05} className="mt-14">
-            <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {forStartups.path.map((p, i) => (
-                <li
-                  key={p}
-                  className="card-grad relative flex items-center gap-3 rounded-xl p-5 shadow-[var(--card-shadow)] sm:flex-col sm:items-start sm:gap-3"
-                >
-                  <span className="grad-chip grid h-7 w-7 shrink-0 place-items-center font-mono text-[0.7rem]">
-                    {num(i)}
-                  </span>
-                  <span className="font-display text-base uppercase tracking-tight">
-                    {p}
-                  </span>
-                  {i < forStartups.path.length - 1 && (
-                    <span
-                      className="pointer-events-none absolute right-3 top-1/2 hidden -translate-y-1/2 text-brand/40 sm:block lg:right-[-1.1rem] lg:top-1/2"
-                      aria-hidden
-                    >
-                      →
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
+            <FounderJourney />
           </Reveal>
           <Reveal delay={0.1} className="mt-10">
             <CtaButton>Build Your Product</CtaButton>
@@ -266,12 +159,12 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* ============ 09 · Business Operations ============ */}
+      {/* ============ 05 · Business Operations ============ */}
       <section className="section-dark border-y border-line py-[var(--spacing-section)]">
         <Container>
           <div className="max-w-[48ch]">
             <SectionHead
-              eyebrow="08 — For Businesses"
+              eyebrow="05 — For Businesses"
               title="Make your operations work better."
               lede={forBusinesses.lede}
             />
@@ -314,14 +207,14 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ============ 10 · Technology — what we engineer with ============ */}
+      {/* ============ 06 · Technology — what we engineer with ============ */}
       <Section>
         <Container className="grid gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:items-center lg:gap-8">
           <Reveal>
             <SectionHead
-              eyebrow="09 — Technology"
+              eyebrow="06 — Technology"
               title="Engineered for the real world."
-              lede="We choose technology according to the problem, constraints and product — not because it is fashionable."
+              lede="We choose technology for the problem, the constraints and the product — not because it's fashionable."
             />
           </Reveal>
           <Reveal delay={0.05} className="min-w-0 -mr-5 sm:-mr-8 lg:-mr-14 xl:-mr-20">
@@ -330,14 +223,14 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* ============ 11 · Selected Work — proof ============ */}
+      {/* ============ 07 · Selected Work — proof ============ */}
       <Section tint>
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHead
-              eyebrow="10 — Selected Work"
-              title="Built. Shipped. Learning."
-              lede="A selection of products and systems we've designed and engineered."
+              eyebrow="07 — Our Work"
+              title="Products we've built for real businesses."
+              lede="A snapshot of the software, products and platforms we've designed, engineered and shipped for clients — from first prototype to production."
             />
             <Link
               href="/work"
@@ -347,111 +240,77 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-14 grid gap-5">
-            {featured.map((c) => (
-              <Reveal key={c.slug}>
-                <GradientCard className="h-full">
-                  <Link
-                    href={`/work/${c.slug}`}
-                    className="group grid gap-6 md:grid-cols-[1fr_1.1fr] md:items-center md:gap-10"
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((c) => {
+              const href = c.liveUrl ?? `/work/${c.slug}`;
+              const external = Boolean(c.liveUrl);
+              return (
+                <Reveal key={c.slug}>
+                  <a
+                    href={href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className="work-card group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1.5 hover:shadow-[var(--card-shadow-hover)]"
                   >
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2 font-mono text-[0.72rem] uppercase tracking-[0.08em] text-muted">
-                        <span className="text-brand">Case {c.index}</span>
-                        <span>·</span>
-                        <span>{c.sector}</span>
-                      </div>
-                      <h3 className="mt-3 text-2xl">{c.client}</h3>
-                      <p className="mt-2 max-w-[52ch] text-muted">{c.summary}</p>
-                      {c.tags && (
-                        <div className="mt-5 flex flex-wrap gap-2">
-                          {c.tags.map((t) => (
-                            <span
-                              key={t}
-                              className="rounded-full border border-line-strong px-2.5 py-1 font-mono text-[0.7rem] tracking-[0.03em] text-muted"
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
+                    {/* thumb */}
+                    <div className="relative aspect-[2/1] overflow-hidden border-b border-line bg-surface-2">
+                      {c.shot ? (
+                        <Image
+                          src={c.shot}
+                          alt={`${c.client} website`}
+                          fill
+                          className="object-contain object-center transition-transform duration-500 group-hover:scale-[1.03]"
+                          sizes="(min-width:1024px) 440px, (min-width:640px) 46vw, 92vw"
+                        />
+                      ) : (
+                        c.logo && (
+                          <>
+                            <div
+                              className="pointer-events-none absolute inset-0 bg-[var(--grad-wash)] opacity-80"
+                              aria-hidden
+                            />
+                            <Image
+                              src={c.logo}
+                              alt={`${c.client} logo`}
+                              fill
+                              className="object-contain p-10 transition-transform duration-500 group-hover:scale-[1.04]"
+                              sizes="(min-width:1024px) 440px, (min-width:640px) 46vw, 92vw"
+                            />
+                          </>
+                        )
                       )}
-                      <span className="mt-6 flex items-center gap-1.5 font-mono text-[0.8125rem] text-muted transition-colors group-hover:text-text">
-                        View case study
-                        <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-                          <path d="M3 8h9M8 4l4 4-4 4" />
-                        </svg>
+                      <span className="absolute left-3.5 top-3.5 rounded-full bg-surface/95 px-3 py-1.5 text-[0.72rem] font-semibold text-text shadow-[var(--card-shadow)] backdrop-blur">
+                        {c.sector.split(" / ")[0]}
                       </span>
+                      {c.wip && (
+                        <span className="absolute right-3.5 top-3.5 inline-flex items-center gap-1.5 rounded-full border border-[#e0a437]/45 bg-[#fdf5e6]/95 px-2.5 py-1 text-[0.68rem] font-semibold text-[#9a6a12] shadow-[var(--card-shadow)] backdrop-blur">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#e0a437]" />
+                          Under development
+                        </span>
+                      )}
                     </div>
-                    <div className="relative overflow-hidden rounded-xl border border-line bg-surface p-5">
-                      <div
-                        className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full blur-[80px]"
-                        style={{ background: "var(--glow-violet)" }}
-                        aria-hidden
-                      />
-                      <span className="relative font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted">
-                        System architecture
-                      </span>
-                      <div className="relative mt-3 flex flex-col gap-px overflow-hidden rounded-lg border border-line bg-line">
-                        {c.architecture.map((row) => (
-                          <div key={row.layer} className="flex flex-col gap-0.5 bg-surface px-3.5 py-2.5">
-                            <span className="font-mono text-[0.62rem] uppercase tracking-[0.1em] text-brand">
-                              {row.layer}
-                            </span>
-                            <span className="text-[0.78125rem] text-muted">{row.detail}</span>
-                          </div>
-                        ))}
-                      </div>
+
+                    {/* body */}
+                    <div className="p-5">
+                      <h3 className="flex items-center gap-1.5 text-lg font-medium leading-tight">
+                        {c.client}
+                        {external && (
+                          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                            <path d="M5 11 11 5M6 5h5v5" />
+                          </svg>
+                        )}
+                      </h3>
+                      <p className="mt-1 text-sm text-muted">{c.title}</p>
                     </div>
-                  </Link>
-                </GradientCard>
-              </Reveal>
-            ))}
+                  </a>
+                </Reveal>
+              );
+            })}
           </div>
         </Container>
       </Section>
 
-      {/* ============ 12 · R&D — what we're exploring ============ */}
-      <Section>
-        <Container>
-          <div className="max-w-[46ch]">
-            <SectionHead
-              eyebrow="11 — R&D"
-              title="What we're exploring."
-              lede="The lab is where we test emerging ideas, technologies and product concepts before they become products."
-            />
-          </div>
-          <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2">
-            {rndAreas.map((r, i) => (
-              <RevealItem key={r.title}>
-                <div className="card-grad group relative h-full overflow-hidden rounded-2xl p-6 shadow-[var(--card-shadow)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
-                  <div
-                    className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full blur-[60px]"
-                    style={{ background: "var(--glow-violet)" }}
-                    aria-hidden
-                  />
-                  <span className="relative font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand">
-                    Lab note / {num(i)}
-                  </span>
-                  <h3 className="relative mt-3 font-display text-lg uppercase tracking-tight">
-                    {r.title}
-                  </h3>
-                  <p className="relative mt-2 text-sm text-muted">{r.body}</p>
-                </div>
-              </RevealItem>
-            ))}
-          </RevealGroup>
-          <Reveal delay={0.05} className="mt-8">
-            <Link
-              href="/rnd"
-              className="font-mono text-[0.8125rem] text-brand underline-offset-4 hover:underline"
-            >
-              Inside the lab →
-            </Link>
-          </Reveal>
-        </Container>
-      </Section>
-
-      {/* ============ 13 · FAQ ============ */}
+      {/* ============ 08 · FAQ ============ */}
       <Section>
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
@@ -465,7 +324,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* ============ 14 · Final CTA ============ */}
+      {/* ============ 09 · Final CTA ============ */}
       <CtaSection
         title="Let's build what comes next."
         body="Have an idea, product or technology challenge? Let's talk about what we can build together."

@@ -2,7 +2,7 @@ export const site = {
   name: "Enaryx Labs",
   domain: "enaryxlabs.com",
   url: "https://enaryxlabs.com",
-  email: "hello@enaryxlabs.com",
+  email: "enaryxlab@gmail.com",
   // TODO: replace with your real Cal.com link
   calLink: "https://cal.com/enaryx/intro",
   tagline: "Technology & Innovation",

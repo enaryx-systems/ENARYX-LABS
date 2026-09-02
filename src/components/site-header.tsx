@@ -71,7 +71,7 @@ export function SiteHeader() {
         )}
       >
         <Link href="/" aria-label="Enaryx Labs home" className="shrink-0">
-          <Logo />
+          <Logo wordmarkOnly />
         </Link>
 
         <nav
